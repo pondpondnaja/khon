@@ -175,8 +175,8 @@ public class ARActivity extends AppCompatActivity {
     }*/
 
     private void placeModel(Anchor anchor) {
-        Log.d(TAG, "onCreate: Place Model "+ASSET_3D);
-        Toast.makeText(getApplicationContext(),"Fetching Model : "+ASSET_3D,Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onCreate: Place Model From "+ASSET_3D);
+        Toast.makeText(getApplicationContext(),"Fetching Model : "+foldername,Toast.LENGTH_SHORT).show();
         ModelRenderable
                 .builder()
                 .setSource(
@@ -195,7 +195,6 @@ public class ARActivity extends AppCompatActivity {
                     builder.setMessage(throwable.getMessage()).show();
                     return null;
                 });
-        Toast.makeText(getApplicationContext(),"Fetching Model Complete",Toast.LENGTH_SHORT).show();
     }
 
     private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor) {
