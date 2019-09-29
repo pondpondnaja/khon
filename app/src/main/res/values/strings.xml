@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">KHON APPLICATION</string>
+
+    <string name="sp_text1">KHON</string>
+    <string name="sp_text2">APPLICATION</string>
+    <string name="navigation_draw_open">Open navigation drawer</string>
+    <string name="navigation_draw_close">Close navigation drawer</string>
+
+    <string name="main_s1">NEWS</string>
+
+    <string name="demo_text">This is demo text waiting for Webpage.</string>
+</resources>

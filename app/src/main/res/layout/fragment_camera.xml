@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.wonderkiln.camerakit.CameraView
+        android:id="@+id/main_camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        app:ckFocus="continuous">
+
+    </com.wonderkiln.camerakit.CameraView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:paddingBottom="10dp">
+
+        <Button
+            android:id="@+id/detection"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:text="CAPTURE"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/switch_camera"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:text="SWITCH"
+            android:layout_toLeftOf="@id/detection"
+            android:layout_marginRight="10dp"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/gallerybtn"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:text="GALLERY"
+            android:layout_toRightOf="@id/detection"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="sp_screen">#000000</color>
+    <color name="sp_text">#FFFFFF</color>
+
+    <color name="Main_color_1">#B4A882</color>
+    <color name="Main_color_2">#8A7E57</color>
+    <color name="Main_color_3">#B482B3</color>
+    <color name="Main_color_4">#8382B4</color>
+
+    <color name="ar_background">#000000</color>
+    <color name="ar_text">#FFFFFF</color>
+    <color name="all_text_color">#000000</color>
+</resources>

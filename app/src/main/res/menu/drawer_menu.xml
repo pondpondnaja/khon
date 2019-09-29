@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_section"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/pic_detect"
+        android:icon="@drawable/ic_photo_camera"
+        android:title="Detect from camera" />
+
+    <item
+        android:id="@+id/gallery_detect"
+        android:icon="@drawable/ic_gallery"
+        android:title="Detect from gallery" />
+
+    <item
+        android:id="@+id/ar_model"
+        android:title="AR"/>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/message"
+                android:icon="@drawable/ic_message"
+                android:title="Contact us" />
+        </menu>
+    </item>
+
+</menu>

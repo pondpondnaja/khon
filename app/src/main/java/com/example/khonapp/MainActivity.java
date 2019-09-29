@@ -1,0 +1,207 @@
+package com.example.khonapp;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = "main";
+
+    private DrawerLayout drawer;
+    FragmentManager fragmentManager;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    RecyclerView recyclerView;
+    Runnable runtoLeft;
+    Handler handler;
+    MenuItem menuItem;
+
+    //Recycle vars.
+    private ArrayList<String> mName = new ArrayList<>();
+    private ArrayList<String> mImageURL = new ArrayList<>();
+    LinearLayoutManager layoutManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: MainScreen");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
+        toolbar = findViewById(R.id.toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, toolbar,
+                R.string.navigation_draw_open, R.string.navigation_draw_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        if (savedInstanceState == null){
+            navigationView.setCheckedItem(R.id.home_section);
+        }
+        //initImageBitmap();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d(TAG, "onStart: AutoScroll Enable");
+        initImageBitmap();
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume(){
+        if(fragmentManager.getBackStackEntryCount() == 0){
+            Log.d(TAG, "onResume: RecycleView AutoScroll Resume BackStack = "+fragmentManager.getBackStackEntryCount());
+            recyclerView.getFocusable();
+            layoutManager.scrollToPosition(0);
+            scrollable();
+            autoScrolltoLeft();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: RecycleView AutoScroll Pause and Remove Callback");
+        handler.removeCallbacks(runtoLeft);
+        recyclerView.clearFocus();
+        recyclerView.clearOnScrollListeners();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: recycle destroy");
+        handler.removeCallbacks(runtoLeft);
+        recyclerView.clearFocus();
+        recyclerView.stopScroll();
+        recyclerView.clearOnScrollListeners();
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+
+            case R.id.home_section:
+                toolbar.setTitle("KHON Application");
+                int backStackEntry = getSupportFragmentManager().getBackStackEntryCount();
+                if (backStackEntry > 0) {
+                    for (int i = 0; i < backStackEntry; i++) {
+                        fragmentManager.popBackStackImmediate();
+                        onResume();
+                    }
+                }
+                Log.d(TAG, "onNavigationItemSelected: call on resume : backstack "+fragmentManager.getBackStackEntryCount());
+                break;
+
+            case R.id.pic_detect:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CameraFragment()).addToBackStack(null).commit();
+                onPause();
+                getSupportActionBar().hide();
+                break;
+
+            case R.id.ar_model:
+                toolbar.setTitle(menuItem.getTitle().toString());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment()).addToBackStack(null).commit();
+                onPause();
+                break;
+
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+        if(fragmentManager.getBackStackEntryCount() == 0) {
+            Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
+            toolbar.setTitle("KHON Application");
+            getSupportActionBar().show();
+            onResume();
+        }
+    }
+
+    public void initImageBitmap() {
+        Log.d(TAG, "initImageBitmap: preparing Bitmap");
+
+        mImageURL.add("https://gamingroom.co/wp-content/uploads/2017/11/CyCYOArUoAA2T6d.jpg");
+        mName.add("Picture 1");
+
+        mImageURL.add("https://wallpaper-gallery.net/images/hd-anime-wallpaper/hd-anime-wallpaper-5.jpg");
+        mName.add("Picture 2");
+
+        mImageURL.add("https://i.imgur.com/mHqvxvC.png");
+        mName.add("Picture 3");
+
+        mImageURL.add("https://i.pinimg.com/originals/fb/84/33/fb8433864e7b30cbbf00770787270c5c.jpg");
+        mName.add("Picture 4");
+
+        initRecycleView();
+    }
+
+    private void initRecycleView() {
+        Log.d(TAG, "initRecycleView: init RecycleView");
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView = findViewById(R.id.recycleview);
+        recyclerView.setLayoutManager(layoutManager);
+        SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this, mName, mImageURL);
+        recyclerView.setAdapter(adapter);
+        scrollable();
+    }
+
+    public void scrollable() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int firstItemVisible = layoutManager.findFirstCompletelyVisibleItemPosition();
+                int last = layoutManager.findLastCompletelyVisibleItemPosition();
+                int finalSize = mImageURL.size() - 1;
+                Log.d(TAG, "onScrolled: firstitem : " + firstItemVisible + " Lastitem : " + last + " FinalSize : " + finalSize);
+                if (last == finalSize){
+                    layoutManager.scrollToPosition(0);
+                }
+            }
+        });
+    }
+
+    public void autoScrolltoLeft() {
+        handler = new Handler();
+        runtoLeft = new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollBy(2, 0);
+                handler.postDelayed(this, 0);
+            }
+        };
+        handler.postDelayed(runtoLeft, 0);
+    }
+}

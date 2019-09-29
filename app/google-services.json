@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "291749571614",
+    "firebase_url": "https://testkhon-56893.firebaseio.com",
+    "project_id": "testkhon-56893",
+    "storage_bucket": "testkhon-56893.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291749571614:android:0f921dcbd33b664f",
+        "android_client_info": {
+          "package_name": "com.example.khonapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291749571614-vuinn0222k69ia9id46m0nsio32d6o0n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khonapp",
+            "certificate_hash": "763c38f8395b75bf3a485398478990c13ce21e54"
+          }
+        },
+        {
+          "client_id": "291749571614-i824jr1bdj1isdpskqs3ulf86jfblj7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbdxqbhNM3hDuxpbAooR--PCqmE4dQy7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291749571614-i824jr1bdj1isdpskqs3ulf86jfblj7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
