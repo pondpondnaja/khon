@@ -140,6 +140,7 @@ public class ARActivity extends AppCompatActivity {
     }
 
     private void onUpdate(FrameTime frameTime) {
+
         if(isModelPlace){
             return;
         }
