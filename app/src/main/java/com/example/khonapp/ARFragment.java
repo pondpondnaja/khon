@@ -52,7 +52,7 @@ public class ARFragment extends Fragment {
 
         FolderName.add("Earth");
         FolderName.add("Elf");
-        FolderName.add("Earth");
+        FolderName.add("Megumin");
         FolderName.add("Elf");
         FolderName.add("Earth");
         FolderName.add("Elf");

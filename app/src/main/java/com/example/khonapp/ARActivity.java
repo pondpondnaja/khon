@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,8 +35,8 @@ public class ARActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private boolean isModelPlace;
     private Context context;
-    //private String path = "http://192.168.64.2/3D/";
-    private String path = "http://mungmee.ddns.net/3D/";
+    private String path = "http://192.168.64.2/3D/";
+    //private String path = "http://mungmee.ddns.net/3D/";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
@@ -46,9 +45,10 @@ public class ARActivity extends AppCompatActivity {
     private TextView mtextViewState;
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            Log.e(TAG, "Sceneform requires Android N or later");
-            Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "SceneForm Requires Android N (Android 8.0) or later");
+            Toast.makeText(activity, "SceneForm Requires Android N (Android 8.0) or later", Toast.LENGTH_LONG).show();
             activity.finish();
             return false;
         }
@@ -57,8 +57,8 @@ public class ARActivity extends AppCompatActivity {
                         .getDeviceConfigurationInfo()
                         .getGlEsVersion();
         if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
-            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
-            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
+            Log.e(TAG, "SceneForm requires OpenGL ES 3.0 later");
+            Toast.makeText(activity, "SceneForm requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
                     .show();
             activity.finish();
             return false;
@@ -77,6 +77,7 @@ public class ARActivity extends AppCompatActivity {
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
             Intent goback = new Intent(context,MainActivity.class);
+            Toast.makeText(context, "Failed to create AR session.", Toast.LENGTH_LONG).show();
             startActivity(goback);
         }else {
             if (savedInstanceState == null){
@@ -85,33 +86,34 @@ public class ARActivity extends AppCompatActivity {
                     foldername = null;
                 }else{
                     foldername = extras.getString("foldername");
-                    Log.d(TAG, "onCreate: extra : " + foldername);
+                    Log.d(TAG, "onCreate: FolderName : " + foldername);
                 }
             }else{
                 foldername = (String) savedInstanceState.getSerializable("foldername");
             }
+
             //Build Path
             ASSET_3D = path + foldername + "/" + foldername + extension;
-            Log.d(TAG, "onCreate: Final Path : " + ASSET_3D);
-
-            //download();
-
+            Log.d(TAG, "onCreate: Final Path is : " + ASSET_3D);
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
-            //Tap to place model.
+
+            //Tap to place model Method.
             /*arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
                 Log.d(TAG, "onCreate: placemodel init");
                 placeModel(hitResult.createAnchor());
             });*/
-            //Auto detection surface.
+
+            //Auto detection surface Method.
             arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
         }
 
         mbottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onStateChanged(View view, int newState) {
+            public void onStateChanged(View view, int newState){
+
                 switch (newState){
                     case BottomSheetBehavior.STATE_COLLAPSED:
-                        mtextViewState.setText(foldername);
+                        mtextViewState.setText("More info");
                         break;
 
                     case BottomSheetBehavior.STATE_DRAGGING:
@@ -133,7 +135,7 @@ public class ARActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSlide(@NonNull View view, float v) {
+            public void onSlide(View view, float v) {
                 mtextViewState.setText(foldername);
             }
         });
@@ -150,6 +152,7 @@ public class ARActivity extends AppCompatActivity {
         for(Plane plane : planes){
             if(plane.getTrackingState() == TrackingState.TRACKING){
                 Anchor anchor = plane.createAnchor(plane.getCenterPose());
+                Log.d(TAG, "onCreate: Surface Detected.");
                 Toast.makeText(getApplicationContext(),"Surface Detected",Toast.LENGTH_SHORT).show();
                 placeModel(anchor);
                 break;
@@ -157,8 +160,8 @@ public class ARActivity extends AppCompatActivity {
         }
     }
 
-
     private void placeModel(Anchor anchor) {
+
         isModelPlace = true;
 
         Log.d(TAG, "onCreate: Place Model From "+ASSET_3D);
@@ -170,7 +173,7 @@ public class ARActivity extends AppCompatActivity {
                         RenderableSource
                         .builder()
                         .setSource(this, Uri.parse(ASSET_3D), RenderableSource.SourceType.GLB)
-                        .setScale(0.03f)
+                        .setScale(0.025f)
                         .setRecenterMode(RenderableSource.RecenterMode.ROOT)
                         .build()
                 ).setRegistryId(ASSET_3D)

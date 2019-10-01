@@ -44,7 +44,7 @@ public class ARListRecycleViewAdapter extends RecyclerView.Adapter<ARListRecycle
             @Override
             public void onClick(View view){
                 Log.d(TAG, "onClick: clicked on "+ARName.get(position)+" in folder "+FolderName.get(position));
-                Toast.makeText(context,ARName.get(position)+" from folder "+FolderName.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,ARName.get(position)+" from folder : "+FolderName.get(position), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context,ARActivity.class);
                 intent.putExtra("foldername",FolderName.get(position));
                 context.startActivity(intent);
