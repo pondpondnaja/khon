@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ import com.google.ar.sceneform.ux.ArFragment;
 
 import java.util.Collection;
 
-public class ARActivity extends AppCompatActivity {
+public class ARActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "loadModel";
     private static final double MIN_OPENGL_VERSION = 3.0;
 
@@ -44,6 +45,11 @@ public class ARActivity extends AppCompatActivity {
     private BottomSheetBehavior mbottomSheetBehavior;
     private TextView mtextViewState;
 
+    AnchorNode anchorNode;
+
+    ImageView human_m,human_fm,giant,monkey;
+    View arrayView[];
+
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -58,8 +64,7 @@ public class ARActivity extends AppCompatActivity {
                         .getGlEsVersion();
         if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
             Log.e(TAG, "SceneForm requires OpenGL ES 3.0 later");
-            Toast.makeText(activity, "SceneForm requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(activity, "SceneForm requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG).show();
             activity.finish();
             return false;
         }
@@ -70,6 +75,11 @@ public class ARActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
+
+        human_m  = findViewById(R.id.human_m);
+        human_fm = findViewById(R.id.human_fm);
+        giant    = findViewById(R.id.giant);
+        monkey   = findViewById(R.id.monkey);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         mtextViewState = findViewById(R.id.bottom_text);
@@ -93,9 +103,12 @@ public class ARActivity extends AppCompatActivity {
             }
 
             //Build Path
-            ASSET_3D = path + foldername + "/" + foldername + extension;
+            ASSET_3D = path + foldername + "/" + "human_m" + extension;
             Log.d(TAG, "onCreate: Final Path is : " + ASSET_3D);
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
+
+            setArrayView();
+            setClickListener();
 
             //Tap to place model Method.
             /*arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
@@ -106,7 +119,6 @@ public class ARActivity extends AppCompatActivity {
             //Auto detection surface Method.
             arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
         }
-
         mbottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(View view, int newState){
@@ -141,6 +153,47 @@ public class ARActivity extends AppCompatActivity {
         });
     }
 
+    private void setClickListener() {
+        for(int i = 0; i < arrayView.length; i++){
+            arrayView[i].setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.human_m){
+
+            removeAnchorNode(anchorNode);
+            ASSET_3D = path + foldername + "/" + "human_m" + extension;
+            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+
+        }else if(view.getId() == R.id.human_fm){
+
+            removeAnchorNode(anchorNode);
+            ASSET_3D = path + foldername + "/" + "human_fm" + extension;
+            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+
+        }else if(view.getId() == R.id.giant){
+
+            removeAnchorNode(anchorNode);
+            ASSET_3D = path + foldername + "/" + "giant" + extension;
+            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+
+        }else if(view.getId() == R.id.monkey){
+
+            removeAnchorNode(anchorNode);
+            ASSET_3D = path + foldername + "/" + "monkey" + extension;
+            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+
+        }
+    }
+
+    private void setArrayView() {
+        arrayView = new View[]{
+                human_m,human_fm,giant,monkey
+        };
+    }
+
     private void onUpdate(FrameTime frameTime) {
 
         if(isModelPlace){
@@ -165,14 +218,14 @@ public class ARActivity extends AppCompatActivity {
         isModelPlace = true;
 
         Log.d(TAG, "onCreate: Place Model From "+ASSET_3D);
-        Toast.makeText(getApplicationContext(),"Fetching Model : "+foldername,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Fetching Model From : "+foldername,Toast.LENGTH_SHORT).show();
         ModelRenderable
                 .builder()
                 .setSource(
                         this,
                         RenderableSource
                         .builder()
-                        .setSource(this, Uri.parse(ASSET_3D), RenderableSource.SourceType.GLB)
+                        .setSource(this, Uri.parse(ASSET_3D),RenderableSource.SourceType.GLB)
                         .setScale(0.025f)
                         .setRecenterMode(RenderableSource.RecenterMode.ROOT)
                         .build()
@@ -187,8 +240,19 @@ public class ARActivity extends AppCompatActivity {
     }
 
     private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor) {
-        AnchorNode anchorNode = new AnchorNode(anchor);
+        anchorNode = new AnchorNode(anchor);
         anchorNode.setRenderable(modelRenderable);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
+    }
+
+    public void removeAnchorNode(AnchorNode nodeToremove) {
+        if (nodeToremove != null){
+            isModelPlace = false;
+            Log.d(TAG, "removeAnchorNode: Remove Model Complete.");
+            arFragment.getArSceneView().getScene().removeChild(nodeToremove);
+            nodeToremove.getAnchor().detach();
+            nodeToremove.setParent(null);
+            nodeToremove = null;
+        }
     }
 }

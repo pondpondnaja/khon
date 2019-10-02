@@ -13,6 +13,44 @@
         android:layout_height="match_parent"
         android:name="com.google.ar.sceneform.ux.ArFragment"/>
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/human_m"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/human_fm"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/giant"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/monkey"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
