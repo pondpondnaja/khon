@@ -20,4 +20,7 @@
     <string name="menu7">Setting</string>
     <string name="menu8">Exit</string>
 
+    <!-- Demo text -->
+    <string name="new_title">Title</string>
+    <string name="paragraph">Demo text</string>
 </resources>

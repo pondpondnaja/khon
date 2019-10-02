@@ -1,6 +1,7 @@
 package com.example.khonapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +25,7 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();
     private Context mcontext;
+    FragmentManager fragmentManager;
 
     public SlideRecycleViewAdapter(Context mcontext, ArrayList<String> mName, ArrayList<String> mImageURL){
         this.mName = mName;
@@ -38,7 +41,7 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position){
         Log.d(TAG, "onBindViewHolder: called");
         Glide.with(mcontext).asBitmap().load(mImageURL.get(position)).into(holder.img);
 
@@ -48,6 +51,12 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
             public void onClick(View view) {
                 Log.d(TAG, "onClick: click on image : " + mName.get(position));
                 Toast.makeText(mcontext, mName.get(position),Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(mcontext,NewsInfoActivity.class);
+                intent.putExtra("new_title",mName.get(position));
+                intent.putExtra("new_img",mImageURL.get(position));
+
+                mcontext.startActivity(intent);
             }
         });
     }

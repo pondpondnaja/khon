@@ -153,6 +153,12 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         });
     }
 
+    private void setArrayView() {
+        arrayView = new View[]{
+                human_m,human_fm,giant,monkey
+        };
+    }
+
     private void setClickListener() {
         for(int i = 0; i < arrayView.length; i++){
             arrayView[i].setOnClickListener(this);
@@ -161,6 +167,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+
         if(view.getId() == R.id.human_m){
 
             removeAnchorNode(anchorNode);
@@ -186,12 +193,6 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }
-    }
-
-    private void setArrayView() {
-        arrayView = new View[]{
-                human_m,human_fm,giant,monkey
-        };
     }
 
     private void onUpdate(FrameTime frameTime) {

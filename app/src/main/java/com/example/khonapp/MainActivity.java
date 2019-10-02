@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()) {
 
             case R.id.home_section:
@@ -117,14 +117,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.pic_detect:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CameraFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack(null).commit();
                 onPause();
                 getSupportActionBar().hide();
                 break;
 
             case R.id.ar_model:
                 toolbar.setTitle(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
                 onPause();
                 break;
 
@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().show();
             onResume();
         }
+        getSupportActionBar().show();
+
     }
 
     public void initImageBitmap() {
