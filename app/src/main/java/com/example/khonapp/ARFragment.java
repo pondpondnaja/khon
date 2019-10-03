@@ -39,27 +39,17 @@ public class ARFragment extends Fragment {
     }
 
     public void inidata(){
-        ARName.add("ท่าที่ 1");
-        ARName.add("ท่าที่ 2");
-        ARName.add("ท่าที่ 3");
-        ARName.add("ท่าที่ 4");
-        ARName.add("ท่าที่ 5");
-        ARName.add("ท่าที่ 6");
-        ARName.add("ท่าที่ 7");
-        ARName.add("ท่าที่ 8");
-        ARName.add("ท่าที่ 9");
-        ARName.add("ท่าที่ 10");
+        ARName.add("ท่าที่ 1 : ฉัน");
+        ARName.add("ท่าที่ 2 : โกรธ");
+        ARName.add("ท่าที่ 3 : ร้องไห้");
+        ARName.add("ท่าที่ 4 : อาย");
+        ARName.add("ท่าที่ 5 : ยิ้ม");
 
-        FolderName.add("Earth");
-        FolderName.add("Elf");
-        FolderName.add("Megumin");
-        FolderName.add("Elf");
-        FolderName.add("Earth");
-        FolderName.add("Elf");
-        FolderName.add("Earth");
-        FolderName.add("Elf");
-        FolderName.add("Earth");
-        FolderName.add("Elf");
+        FolderName.add("Am");
+        FolderName.add("Angry");
+        FolderName.add("Cry");
+        FolderName.add("Shy");
+        FolderName.add("Smile");
     }
 
 }
