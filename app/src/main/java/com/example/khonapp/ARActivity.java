@@ -26,6 +26,7 @@ import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.assets.RenderableSource;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
+import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.util.Collection;
 
@@ -160,7 +161,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setClickListener() {
-        for(int i = 0; i < arrayView.length; i++){
+        for(int i = 0; i < arrayView.length; i++) {
             arrayView[i].setOnClickListener(this);
         }
     }
@@ -240,13 +241,20 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                 });
     }
 
-    private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor) {
+    private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor){
+
         anchorNode = new AnchorNode(anchor);
-        anchorNode.setRenderable(modelRenderable);
-        arFragment.getArSceneView().getScene().addChild(anchorNode);
+        anchorNode.setParent(arFragment.getArSceneView().getScene());
+
+        TransformableNode transformNode = new TransformableNode(arFragment.getTransformationSystem());
+        transformNode.setParent(anchorNode);
+        transformNode.setRenderable(modelRenderable);
+        transformNode.select();
+
     }
 
     public void removeAnchorNode(AnchorNode nodeToremove) {
+
         if (nodeToremove != null){
             isModelPlace = false;
             Log.d(TAG, "removeAnchorNode: Remove Model Complete.");
