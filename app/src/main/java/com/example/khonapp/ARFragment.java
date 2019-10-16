@@ -2,6 +2,7 @@ package com.example.khonapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class ARFragment extends Fragment {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivityAR";
     private ArrayList<String> ARName = new ArrayList<>();
     private ArrayList<String> FolderName = new ArrayList<>();
     LinearLayoutManager layoutManager;
@@ -27,7 +28,7 @@ public class ARFragment extends Fragment {
         final View view =  inflater.inflate(R.layout.fragment_ar,container,false);
         context = view.getContext();
 
-        inidata();
+        //inidata();
 
         recyclerView = view.findViewById(R.id.ar_recycleview);
         layoutManager = new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
@@ -38,7 +39,24 @@ public class ARFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart(){
+        Log.d(TAG, "onStart: Initial data");
+        inidata();
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onPause: Clear data");
+        ARName.clear();
+        FolderName.clear();
+        super.onStop();
+    }
+
     public void inidata(){
+
+        Log.d(TAG, "inidata: addData");
         ARName.add("ท่าที่ 1 : ฉัน");
         ARName.add("ท่าที่ 2 : โกรธ");
         ARName.add("ท่าที่ 3 : ร้องไห้");

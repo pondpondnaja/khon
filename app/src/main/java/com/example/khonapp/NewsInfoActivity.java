@@ -48,6 +48,7 @@ public class NewsInfoActivity extends AppCompatActivity {
             new_img = (String) savedInstanceState.getSerializable("new_img");
             new_title = (String) savedInstanceState.getSerializable("new_title");
         }
+
         Glide.with(getBaseContext()).load(new_img).into(news_img);
         news_title.setText(new_title);
     }
