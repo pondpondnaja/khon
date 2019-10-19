@@ -40,8 +40,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private ArFragment arFragment;
     private boolean isModelPlace;
     private Context context;
-    private String path = "http://192.168.64.2/3D/";
-    //private String path = "http://mungmee.ddns.net/3D/";
+    //private String path = "http://192.168.64.2/3D/";
+    private String path = "http://mungmee.ddns.net/3D/";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
@@ -133,9 +133,25 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                 if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     if(foldername.equals("Am")){
+
                         mtextViewState.setText("ท่าฉัน");
+
                     }else if(foldername.equals("Angry")){
+
                         mtextViewState.setText("ท่าโกรธ");
+
+                    }else if(foldername.equals("Cry")){
+
+                        mtextViewState.setText("ท่าร้องไห้");
+
+                    }else if(foldername.equals("Shy")){
+
+                        mtextViewState.setText("ท่าเขิน");
+
+                    }else if(foldername.equals("Smile")){
+
+                        mtextViewState.setText("ท่ายิ้ม");
+
                     }
                 }else{
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

@@ -32,7 +32,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/monkey"
+                android:src="@drawable/human_m"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
 
@@ -42,7 +42,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/monkey"
+                android:src="@drawable/human_fm"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
 
@@ -52,7 +52,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/monkey"
+                android:src="@drawable/giant"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
 
