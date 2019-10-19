@@ -9,12 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.ar.core.Anchor;
@@ -30,6 +32,7 @@ import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.util.Collection;
 
+
 public class ARActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "loadModel";
     private static final double MIN_OPENGL_VERSION = 3.0;
@@ -37,8 +40,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private ArFragment arFragment;
     private boolean isModelPlace;
     private Context context;
-    //private String path = "http://192.168.64.2/3D/";
-    private String path = "http://mungmee.ddns.net/3D/";
+    private String path = "http://192.168.64.2/3D/";
+    //private String path = "http://mungmee.ddns.net/3D/";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
@@ -49,6 +52,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     AnchorNode anchorNode;
 
     ImageView human_m,human_fm,giant,monkey;
+    Button moreinfo;
+    CoordinatorLayout parentView;
     View arrayView[];
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
@@ -77,10 +82,12 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
 
+        parentView = findViewById(R.id.parentview);
         human_m  = findViewById(R.id.human_m);
         human_fm = findViewById(R.id.human_fm);
         giant    = findViewById(R.id.giant);
         monkey   = findViewById(R.id.monkey);
+        moreinfo = findViewById(R.id.more);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         mtextViewState = findViewById(R.id.bottom_text);
@@ -120,36 +127,19 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             //Auto detection surface Method.
             arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
         }
-        mbottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        moreinfo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStateChanged(View view, int newState){
-
-                switch (newState){
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-                        mtextViewState.setText("More info");
-                        break;
-
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        mtextViewState.setText(foldername);
-                        break;
-
-                    case BottomSheetBehavior.STATE_EXPANDED:
-                        mtextViewState.setText(foldername);
-                        break;
-
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        mtextViewState.setText(foldername);
-                        break;
-
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        mtextViewState.setText(foldername);
-                        break;
+            public void onClick(View view) {
+                if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    if(foldername.equals("Am")){
+                        mtextViewState.setText("ท่าฉัน");
+                    }else if(foldername.equals("Angry")){
+                        mtextViewState.setText("ท่าโกรธ");
+                    }
+                }else{
+                    mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
-            }
-
-            @Override
-            public void onSlide(View view, float v) {
-                mtextViewState.setText(foldername);
             }
         });
     }

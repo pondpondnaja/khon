@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parentview"
     tools:context=".ARActivity">
 
     <fragment
@@ -18,47 +19,82 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/races"
             android:paddingTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/human_m"
-                android:src="@mipmap/ic_launcher_round"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/monkey"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/human_fm"
-                android:src="@mipmap/ic_launcher_round"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/monkey"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/giant"
-                android:src="@mipmap/ic_launcher_round"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/monkey"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/monkey"
-                android:src="@mipmap/ic_launcher_round"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/monkey"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
 
         </LinearLayout>
 
     </HorizontalScrollView>
 
+    <Button
+        android:id="@+id/more"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/circle_btn"
+        android:text="\?"
+        android:textColor="@color/ar_text"
+        android:textSize="25sp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|center_horizontal"/>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/Main_color_1"
-        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:layout_height="600dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/round_dialog"
+        android:paddingEnd="0dp"
+        android:paddingBottom="0dp"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="55dp">
+        app:behavior_peekHeight="10dp"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:layout_behavior="@string/bottom_sheet_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,32 +105,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:textColor="@color/all_text_color"
+                android:text="This is buttom sheet"
                 android:textAlignment="center"
-                android:text="This is buttom sheet"/>
+                android:textColor="@color/all_text_color"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Detail"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"
-                android:textAlignment="center"
                 android:layout_below="@id/bottom_text"
-                android:textColor="@color/all_text_color"/>
+                android:layout_marginTop="10dp"
+                android:text="Detail"
+                android:textAlignment="center"
+                android:textColor="@color/all_text_color"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="demo"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp"
-                android:textAlignment="center"
                 android:layout_below="@id/text_info"
-                android:textColor="@color/all_text_color"/>
+                android:layout_marginTop="10dp"
+                android:text="demo"
+                android:textAlignment="center"
+                android:textColor="@color/all_text_color"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
