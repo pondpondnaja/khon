@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,8 +24,7 @@ public class CameraFragment extends Fragment{
     private static final String TAG = "camera";
     private static final int INPUT_SIZE = 224;
     private CameraView cameraView;
-    private Button cap_btn;
-    private Button gall_btn;
+    private ImageView cap_btn;
     private Bitmap bitmap;
 
     @Override
