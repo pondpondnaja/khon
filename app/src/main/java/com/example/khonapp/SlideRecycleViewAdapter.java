@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +42,7 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
         Log.d(TAG, "onBindViewHolder: called");
         Glide.with(mcontext).asBitmap().load(mImageURL.get(position)).into(holder.img);
 
-        holder.text.setText(mName.get(position));
+        //holder.text.setText(mName.get(position));
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,12 +66,12 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView img;
-        TextView text;
+        //TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.image_view);
-            text = itemView.findViewById(R.id.text_view);
+            //text = itemView.findViewById(R.id.text_view);
         }
     }
 }

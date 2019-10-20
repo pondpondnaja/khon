@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if(fragmentManager.getBackStackEntryCount() == 0) {
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
-            toolbar.setTitle("KHON Application");
+            toolbar.setTitle("KHON APPLICATION");
             getSupportActionBar().show();
             onResume();
         }
@@ -175,17 +175,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void initImageBitmap() {
         Log.d(TAG, "initImageBitmap: preparing Bitmap");
 
-        mImageURL.add("https://gamingroom.co/wp-content/uploads/2017/11/CyCYOArUoAA2T6d.jpg");
-        mName.add("Picture 1");
+        mImageURL.add("http://www.finearts.go.th/promotion/images/266/Kathin2562/XL1A7916.jpg");
+        mName.add("กรมศิลปากรกำหนดถวายผ้าพระกฐินพระราชทาน ประจำปี ๒๕๖๒ ณ วัดทรงศิลา จังหวัดชัยภูมิ");
 
-        mImageURL.add("https://wallpaper-gallery.net/images/hd-anime-wallpaper/hd-anime-wallpaper-5.jpg");
-        mName.add("Picture 2");
+        mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-08_65thNationalExhibition/XL1A8685.jpg");
+        mName.add("พิธีเปิดการแสดงศิลปกรรมแห่งชาติ ครั้งที่ ๖๕ ประจำปี ๒๕๖๒");
 
-        mImageURL.add("https://i.imgur.com/mHqvxvC.png");
-        mName.add("Picture 3");
+        mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-02/62-10-02_11.JPG");
+        mName.add("เตรียมความพร้อมต้อนรับภริยาผู้นำประเทศอาเซียน");
 
-        mImageURL.add("https://i.pinimg.com/originals/fb/84/33/fb8433864e7b30cbbf00770787270c5c.jpg");
-        mName.add("Picture 4");
+        mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-10/62-10-10_01.jpg");
+        mName.add("ศิลปินสำนักการสังคีต ฝึกซ้อมการแสดงนาฏศิลป์และดนตรีไทย");
 
         initRecycleView();
     }

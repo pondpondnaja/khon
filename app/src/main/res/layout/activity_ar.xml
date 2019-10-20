@@ -33,7 +33,7 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/human_m"
-                app:civ_border_width="2dp"
+                app:civ_border_width="0dp"
                 app:civ_border_color="#FF000000"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -43,7 +43,7 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/human_fm"
-                app:civ_border_width="2dp"
+                app:civ_border_width="0dp"
                 app:civ_border_color="#FF000000"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -53,7 +53,7 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/giant"
-                app:civ_border_width="2dp"
+                app:civ_border_width="0dp"
                 app:civ_border_color="#FF000000"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -64,7 +64,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/monkey"
-                app:civ_border_width="2dp"
+                app:civ_border_width="0dp"
                 app:civ_border_color="#FF000000"/>
 
         </LinearLayout>
@@ -107,6 +107,7 @@
                 android:layout_marginTop="10dp"
                 android:text="This is buttom sheet"
                 android:textAlignment="center"
+                android:textStyle="bold"
                 android:textColor="@color/all_text_color"
                 android:textSize="20sp" />
 
