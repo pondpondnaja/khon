@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if(fragmentManager.getBackStackEntryCount() == 0) {
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
-            toolbar.setTitle("KHON APPLICATION");
+            toolbar.setTitle("KHON Application");
             getSupportActionBar().show();
             onResume();
         }
