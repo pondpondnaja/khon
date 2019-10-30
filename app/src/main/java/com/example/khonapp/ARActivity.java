@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +31,8 @@ import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.util.Collection;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ARActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "loadModel";
@@ -40,18 +41,17 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private ArFragment arFragment;
     private boolean isModelPlace;
     private Context context;
-    //private String path = "http://192.168.64.2/3D/";
-    private String path = "http://mungmee.ddns.net/3D/";
+    private String path = "http://192.168.64.2/3D/";
+    //private String path = "http://mungmee.ddns.net/3D/";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
 
     private BottomSheetBehavior mbottomSheetBehavior;
     private TextView mtextViewState;
-
     AnchorNode anchorNode;
 
-    ImageView human_m,human_fm,giant,monkey;
+    CircleImageView human_m,human_fm,giant,monkey;
     Button moreinfo;
     CoordinatorLayout parentView;
     View arrayView[];
@@ -94,7 +94,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         mbottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
-            Intent goback = new Intent(context,MainActivity.class);
+            Intent goback = new Intent(ARActivity.this,MainActivity.class);
             Toast.makeText(context, "Failed to create AR session.", Toast.LENGTH_LONG).show();
             startActivity(goback);
         }else{
@@ -115,6 +115,10 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             Log.d(TAG, "onCreate: Final Path is : " + ASSET_3D);
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
 
+            //init model border
+            human_m.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+            human_m.setBorderWidth(15);
+
             setArrayView();
             setClickListener();
 
@@ -131,7 +135,9 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
                     if(foldername.equals("Am")){
 
                         mtextViewState.setText("ท่าฉัน");
@@ -178,24 +184,48 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         if(view.getId() == R.id.human_m){
 
             removeAnchorNode(anchorNode);
+            human_m.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+
+            human_m.setBorderWidth(15);
+            human_fm.setBorderWidth(0);
+            giant.setBorderWidth(0);
+            monkey.setBorderWidth(0);
             ASSET_3D = path + foldername + "/" + "human_m" + extension;
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }else if(view.getId() == R.id.human_fm){
 
             removeAnchorNode(anchorNode);
+            human_fm.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+
+            human_m.setBorderWidth(0);
+            human_fm.setBorderWidth(15);
+            giant.setBorderWidth(0);
+            monkey.setBorderWidth(0);
             ASSET_3D = path + foldername + "/" + "human_fm" + extension;
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }else if(view.getId() == R.id.giant){
 
             removeAnchorNode(anchorNode);
+            giant.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+
+            human_m.setBorderWidth(0);
+            human_fm.setBorderWidth(0);
+            giant.setBorderWidth(15);
+            monkey.setBorderWidth(0);
             ASSET_3D = path + foldername + "/" + "giant" + extension;
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }else if(view.getId() == R.id.monkey){
 
             removeAnchorNode(anchorNode);
+            monkey.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+
+            human_m.setBorderWidth(0);
+            human_fm.setBorderWidth(0);
+            giant.setBorderWidth(0);
+            monkey.setBorderWidth(15);
             ASSET_3D = path + foldername + "/" + "monkey" + extension;
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 

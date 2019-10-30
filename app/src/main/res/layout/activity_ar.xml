@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parentview"
-    tools:context=".ARActivity">
+    tools:context=".ARActivity"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <fragment
         android:id="@+id/arfragment_model"
@@ -22,7 +23,7 @@
             android:id="@+id/races"
             android:paddingTop="10dp"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content">
 
@@ -75,7 +76,7 @@
         android:id="@+id/more"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/circle_btn"
+        android:background="@drawable/circle_btn_before"
         android:text="\?"
         android:textColor="@color/ar_text"
         android:textSize="25sp"

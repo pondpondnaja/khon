@@ -15,4 +15,6 @@
     <color name="ar_background">#000000</color>
     <color name="ar_text">#FFFFFF</color>
     <color name="all_text_color">#000000</color>
+
+    <color name="select_ar">#B482B3</color>
 </resources>
