@@ -1,16 +1,17 @@
 package com.example.khonapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.wonderkiln.camerakit.CameraKitError;
@@ -20,21 +21,26 @@ import com.wonderkiln.camerakit.CameraKitImage;
 import com.wonderkiln.camerakit.CameraKitVideo;
 import com.wonderkiln.camerakit.CameraView;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CameraFragment extends Fragment{
-    private static final String TAG = "camera";
+    private static final String TAG = "cameraActivity";
     private static final int INPUT_SIZE = 224;
     private CameraView cameraView;
-    private ImageView cap_btn;
+    private ImageButton cap_btn,gall_btn;
     private Bitmap bitmap;
+    private int RESULT_LOAD_IMG = 10;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_camera,container,false);
 
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         cap_btn = rootView.findViewById(R.id.detection);
+        gall_btn = rootView.findViewById(R.id.gallery_btn);
+
         cameraView = rootView.findViewById(R.id.main_camera);
         cameraView.addCameraKitListener(new CameraKitEventListener() {
 
@@ -69,6 +75,14 @@ public class CameraFragment extends Fragment{
             }
         });
 
+        gall_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i,RESULT_LOAD_IMG);
+            }
+        });
+
         return rootView;
     }
 
@@ -98,5 +112,15 @@ public class CameraFragment extends Fragment{
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Log.d(TAG, "onDestroy: Camera has been destroyed.");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data){
+            onResume();
+            Log.d(TAG, "onActivityResult: ImageSelected");
+            Toast.makeText(getActivity().getApplicationContext(), "ImageSelected", Toast.LENGTH_LONG).show();
+        }
     }
 }

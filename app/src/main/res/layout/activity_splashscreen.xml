@@ -11,6 +11,7 @@
         android:background="@color/sp_screen"/>
 
     <RelativeLayout
+        android:id="@+id/splash_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">

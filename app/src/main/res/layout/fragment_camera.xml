@@ -17,9 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:paddingBottom="20dp">
+        android:layout_marginBottom="20dp">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/detection"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -29,7 +29,21 @@
             android:background="@drawable/circle_btn_camera"
             android:backgroundTint="@color/Main_color_1"
             android:backgroundTintMode="src_over"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:id="@+id/gallery_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_gallery"
+            android:scaleType="center"
+            android:layout_toEndOf="@id/detection"
+            android:layout_marginStart="25dp"
+            android:backgroundTintMode="screen"
+            android:backgroundTint="@color/Main_color_1"
+            android:background="@drawable/circle_btn_camera"
+            android:layout_centerVertical="true"/>
 
     </RelativeLayout>
 
