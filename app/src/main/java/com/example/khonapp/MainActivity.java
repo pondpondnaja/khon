@@ -1,6 +1,8 @@
 package com.example.khonapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -131,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                            .replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
                 //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
                 onPause();
+                break;
+
+            case R.id.message:
+                Intent emailIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                Uri data = Uri.parse("mailto:giggabome@gmail.com?subject=" + "Provide support");
+                emailIntent.setData(data);
+                startActivity(emailIntent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 break;
 
             case R.id.exit_btn:
