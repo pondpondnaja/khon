@@ -118,9 +118,11 @@ public class CameraFragment extends Fragment{
     public void onActivityResult(int requestCode, int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data){
-            onResume();
             Log.d(TAG, "onActivityResult: ImageSelected");
             Toast.makeText(getActivity().getApplicationContext(), "ImageSelected", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getActivity(),ResultActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         }
     }
 }

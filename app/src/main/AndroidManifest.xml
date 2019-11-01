@@ -3,6 +3,16 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.example.khonapp">
 
+    <uses-feature
+        android:name="android.hardware.Camera.ar"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <dist:module dist:instant="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,13 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ResultActivity"></activity>
         <activity
             android:name=".NewsInfoActivity"
-            android:parentActivityName=".MainActivity"/>
-
-        <activity android:name=".ARActivity"></activity>
-
-        <activity android:name=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ARActivity" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".Splashscreen"
             android:theme="@style/AppTheme.noActionbar">
@@ -27,20 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.ar.core"
             android:value="required" />
     </application>
-    <uses-feature
-        android:name="android.hardware.Camera.ar"
-        android:required="true" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <dist:module dist:instant="true" />
 
 </manifest>

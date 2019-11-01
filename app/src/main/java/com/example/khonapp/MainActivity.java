@@ -117,14 +117,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.pic_detect:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction()
+                                           .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
+                                           .replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack(null).commit();
                 onPause();
                 getSupportActionBar().hide();
                 break;
 
             case R.id.ar_model:
                 toolbar.setTitle(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction()
+                                           .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
+                                           .replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
                 onPause();
                 break;
 
