@@ -1,15 +1,14 @@
 package com.example.khonapp;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -23,16 +22,19 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "main";
+    private static final String TAG = "mainAc";
 
     private DrawerLayout drawer;
+    private Toast backToast;
+    boolean doubleBackToExitPressedOnce = false;
+    boolean isRunning = false;
+
     FragmentManager fragmentManager;
     NavigationView navigationView;
     Toolbar toolbar;
     RecyclerView recyclerView;
     Runnable runtoLeft;
     Handler handler;
-    MenuItem menuItem;
 
     //Recycle vars.
     private ArrayList<String> mName = new ArrayList<>();
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause() {
         Log.d(TAG, "onPause: RecycleView AutoScroll Pause and Remove Callback");
         handler.removeCallbacks(runtoLeft);
+        isRunning = false;
         recyclerView.clearFocus();
         recyclerView.clearOnScrollListeners();
         super.onPause();
@@ -119,18 +122,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.pic_detect:
-                getSupportFragmentManager().beginTransaction()
-                                           .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
-                                           .replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack(null).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack("pic_detect").commit();
                 onPause();
                 getSupportActionBar().hide();
                 break;
 
             case R.id.ar_model:
                 toolbar.setTitle(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction()
-                                           .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
-                                           .replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack("ar").commit();
+                Log.d(TAG, "onNavigationItemSelected: Back stack AR = "+getSupportFragmentManager().getBackStackEntryCount());
                 //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
                 onPause();
                 break;
@@ -140,29 +146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Uri data = Uri.parse("mailto:giggabome@gmail.com?subject=" + "Provide support");
                 emailIntent.setData(data);
                 startActivity(emailIntent);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                 break;
-
-            case R.id.exit_btn:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Exit");
-                builder.setMessage("Do you want to exit ?");
-                builder.setPositiveButton("Yes, Exit now !", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-                builder.setNegativeButton("Not now", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                break;
-
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -171,20 +156,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed(){
+
+        getSupportActionBar().show();
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            Log.d(TAG, "onBackPressed: Backstack 1 = "+fragmentManager.getBackStackEntryCount());
+
+        }else if(fragmentManager.getBackStackEntryCount() > 0){
+            fragmentManager.popBackStackImmediate();
+        }else if (!doubleBackToExitPressedOnce) {
+            this.doubleBackToExitPressedOnce = true;
+            backToast = Toast.makeText(this,"BACK again to exit.", Toast.LENGTH_SHORT);
+            backToast.show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         } else {
+            backToast.cancel();
             super.onBackPressed();
+            return;
         }
-        if(fragmentManager.getBackStackEntryCount() == 0) {
+
+        if(fragmentManager.getBackStackEntryCount() == 0){
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
             toolbar.setTitle("KHON Application");
             getSupportActionBar().show();
-            onResume();
+            Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
+            if(!isRunning) {
+                onResume();
+                Log.d(TAG, "onBackPressed: Resume!!");
+            }
         }
-        getSupportActionBar().show();
-
     }
 
     public void initImageBitmap() {
@@ -211,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView = findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(layoutManager);
-        SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this, mName, mImageURL);
+        SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this,this, mName, mImageURL);
         recyclerView.setAdapter(adapter);
         scrollable();
     }
@@ -224,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 int firstItemVisible = layoutManager.findFirstCompletelyVisibleItemPosition();
                 int last = layoutManager.findLastCompletelyVisibleItemPosition();
                 int finalSize = mImageURL.size() - 1;
-                Log.d(TAG, "onScrolled: firstitem : " + firstItemVisible + " Lastitem : " + last + " FinalSize : " + finalSize);
                 if (last == finalSize){
                     layoutManager.scrollToPosition(0);
                 }
@@ -237,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         runtoLeft = new Runnable() {
             @Override
             public void run() {
+                isRunning = true;
                 recyclerView.scrollBy(2, 0);
                 handler.postDelayed(this, 0);
             }

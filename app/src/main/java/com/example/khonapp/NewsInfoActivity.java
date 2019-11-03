@@ -34,6 +34,7 @@ public class NewsInfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
         if (savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
@@ -51,5 +52,18 @@ public class NewsInfoActivity extends AppCompatActivity {
 
         Glide.with(getBaseContext()).load(new_img).into(news_img);
         news_title.setText(new_title);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public void finish(){
+        super.finish();
+        Log.d(TAG, "finish: Finish called");
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
 }

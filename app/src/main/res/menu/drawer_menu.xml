@@ -29,14 +29,4 @@
                 android:title="@string/menu6" />
         </menu>
     </item>
-
-    <item android:title="@string/menu7">
-        <menu>
-            <item
-                android:id="@+id/exit_btn"
-                android:icon="@drawable/ic_power"
-                android:title="@string/menu8"/>
-        </menu>
-    </item>
-
 </menu>

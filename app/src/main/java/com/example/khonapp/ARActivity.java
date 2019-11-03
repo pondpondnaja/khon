@@ -41,8 +41,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private ArFragment arFragment;
     private boolean isModelPlace;
     private Context context;
-    private String path = "http://192.168.64.2/3D/";
-    //private String path = "http://mungmee.ddns.net/3D/";
+    //private String path = "http://192.168.64.2/3D/";
+    private String path = "http://mungmee.ddns.net/3D/";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";

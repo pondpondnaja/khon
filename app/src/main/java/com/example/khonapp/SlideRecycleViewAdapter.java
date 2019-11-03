@@ -1,5 +1,6 @@
 package com.example.khonapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -23,11 +24,13 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();
     private Context mcontext;
+    private Activity mActivity;
 
-    public SlideRecycleViewAdapter(Context mcontext, ArrayList<String> mName, ArrayList<String> mImageURL){
+    public SlideRecycleViewAdapter(Activity mActivity, Context mcontext, ArrayList<String> mName, ArrayList<String> mImageURL){
         this.mName = mName;
         this.mImageURL = mImageURL;
         this.mcontext = mcontext;
+        this.mActivity = mActivity;
     }
 
     @Override
@@ -52,8 +55,8 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
                 Intent intent = new Intent(mcontext,NewsInfoActivity.class);
                 intent.putExtra("new_title",mName.get(position));
                 intent.putExtra("new_img",mImageURL.get(position));
-
                 mcontext.startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
     }

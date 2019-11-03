@@ -25,7 +25,7 @@ public class Splashscreen extends AppCompatActivity {
         setContentView(R.layout.activity_splashscreen);
 
         sp_txt = findViewById(R.id.splash_text);
-        textmove_in = AnimationUtils.loadAnimation(this,R.anim.slide_in_right);
+        textmove_in = AnimationUtils.loadAnimation(this,R.anim.fade_in);
         textmove_out = AnimationUtils.loadAnimation(this,R.anim.text_slide_out);
 
         handler = new Handler();
@@ -46,7 +46,7 @@ public class Splashscreen extends AppCompatActivity {
                     public void onAnimationEnd(Animation animation){
                         sp_txt.setVisibility(View.GONE);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                        overridePendingTransition(R.anim.fade_in,R.anim.slide_out_left);
                         finish();
                     }
 
