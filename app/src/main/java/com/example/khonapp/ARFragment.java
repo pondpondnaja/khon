@@ -33,7 +33,7 @@ public class ARFragment extends Fragment {
         recyclerView = view.findViewById(R.id.ar_recycleview);
         layoutManager = new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
-        ARListRecycleViewAdapter adapter = new ARListRecycleViewAdapter(context,ARName,FolderName);
+        ARListRecycleViewAdapter adapter = new ARListRecycleViewAdapter(getActivity(),context,ARName,FolderName);
         recyclerView.setAdapter(adapter);
 
         return view;

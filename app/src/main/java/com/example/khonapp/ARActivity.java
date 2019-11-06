@@ -134,8 +134,10 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         moreinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
 
+                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2,getApplicationContext().getTheme()));
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
                     if(foldername.equals("Am")){
@@ -161,6 +163,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                     }
                 }else{
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1,getApplicationContext().getTheme()));
                 }
             }
         });

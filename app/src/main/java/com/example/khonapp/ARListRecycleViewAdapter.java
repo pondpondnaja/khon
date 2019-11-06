@@ -1,5 +1,6 @@
 package com.example.khonapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -19,10 +20,12 @@ public class ARListRecycleViewAdapter extends RecyclerView.Adapter<ARListRecycle
     private static final String TAG = "ARRecycle";
 
     private Context context;
+    private Activity mActivity;
     private ArrayList<String> ARName = new ArrayList<>();
     private ArrayList<String> FolderName = new ArrayList<>();
 
-    public ARListRecycleViewAdapter(Context context, ArrayList<String> ARName, ArrayList<String> folderName) {
+    public ARListRecycleViewAdapter(Activity mActivity, Context context, ArrayList<String> ARName, ArrayList<String> folderName) {
+        this.mActivity = mActivity;
         this.context = context;
         this.ARName = ARName;
         this.FolderName = folderName;
@@ -48,6 +51,7 @@ public class ARListRecycleViewAdapter extends RecyclerView.Adapter<ARListRecycle
                 Intent intent = new Intent(context,ARActivity.class);
                 intent.putExtra("foldername",FolderName.get(position));
                 context.startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
 

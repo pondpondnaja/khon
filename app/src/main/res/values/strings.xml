@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KHON APPLICATION</string>
+    <string name="app_name">KHON Application</string>
 
     <string name="sp_text1">KHON</string>
     <string name="sp_text2">APPLICATION</string>
@@ -17,10 +17,9 @@
     <string name="menu4">AR Models</string>
     <string name="menu5">Communicate</string>
     <string name="menu6">Contact us</string>
-    <string name="menu7">Setting</string>
-    <string name="menu8">Exit</string>
 
     <!-- Demo text -->
     <string name="new_title">Title</string>
     <string name="paragraph">Demo text</string>
+    <string name="dummy_text">Dummy text</string>
 </resources>
