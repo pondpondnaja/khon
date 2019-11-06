@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Main_color_1">
+    android:background="@color/Main_color_2">
 
     <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -21,20 +21,33 @@
             android:elevation="4dp"
             app:titleTextColor="@color/ar_text"/>
 
-        <ImageView
-            android:id="@+id/news_img"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/news_img_parent"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/toolbar_news"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"/>
+            android:elevation="10dp"
+            app:cardCornerRadius="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
+
+            <ImageView
+                android:id="@+id/news_img"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/toolbar_news"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher"/>
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/news_img"
+            android:layout_below="@id/news_img_parent"
             android:text="@string/new_title"
             android:textColor="@color/all_text_color"
             android:textSize="20sp"

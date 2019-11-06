@@ -89,18 +89,23 @@ public class CameraFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(TAG, "onPause: camera start");
         cameraView.start();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onPause: camera resume");
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         cameraView.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause: camera pause");
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         cameraView.stop();
