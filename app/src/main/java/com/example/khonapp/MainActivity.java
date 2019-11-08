@@ -17,12 +17,24 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "mainAc";
+    private static final String final_url = "http://192.168.64.2/3D/news.php";
+    //private static final String final_url = "http://mungmee.ddns.net/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
@@ -37,8 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Handler handler;
 
     //Recycle vars.
-    private ArrayList<String> mName = new ArrayList<>();
-    private ArrayList<String> mImageURL = new ArrayList<>();
+    private ArrayList<String> mName        = new ArrayList<>();
+    private ArrayList<String> mImageURL    = new ArrayList<>();
+    private ArrayList<String> mDescription = new ArrayList<>();
+    //Layout
     LinearLayoutManager layoutManager;
 
     @Override
@@ -77,10 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume(){
         if(fragmentManager.getBackStackEntryCount() == 0){
             Log.d(TAG, "onResume: RecycleView AutoScroll Resume BackStack = "+fragmentManager.getBackStackEntryCount());
-            recyclerView.getFocusable();
-            layoutManager.scrollToPosition(0);
-            scrollable();
-            autoScrolltoLeft();
         }
         super.onResume();
     }
@@ -176,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void run() {
                     doubleBackToExitPressedOnce = false;
                 }
+
             }, 2000);
         } else {
             backToast.cancel();
@@ -189,16 +200,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().show();
             Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
             if(!isRunning) {
-                onResume();
+                scrollable();
+                autoScrolltoLeft();
                 Log.d(TAG, "onBackPressed: Resume!!");
             }
         }
     }
 
-    public void initImageBitmap() {
+    public void initImageBitmap(){
         Log.d(TAG, "initImageBitmap: preparing Bitmap");
 
-        mImageURL.add("http://www.finearts.go.th/promotion/images/266/Kathin2562/XL1A7916.jpg");
+        /*mImageURL.add("http://www.finearts.go.th/promotion/images/266/Kathin2562/XL1A7916.jpg");
         mName.add("กรมศิลปากรกำหนดถวายผ้าพระกฐินพระราชทาน ประจำปี ๒๕๖๒ ณ วัดทรงศิลา จังหวัดชัยภูมิ");
 
         mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-08_65thNationalExhibition/XL1A8685.jpg");
@@ -208,9 +220,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mName.add("เตรียมความพร้อมต้อนรับภริยาผู้นำประเทศอาเซียน");
 
         mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-10/62-10-10_01.jpg");
-        mName.add("ศิลปินสำนักการสังคีต ฝึกซ้อมการแสดงนาฏศิลป์และดนตรีไทย");
+        mName.add("ศิลปินสำนักการสังคีต ฝึกซ้อมการแสดงนาฏศิลป์และดนตรีไทย");*/
 
-        initRecycleView();
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, final_url, null,
+                new Response.Listener<JSONArray>(){
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, "onResponse: JSON respond : "+response.length());
+                        for (int i = 0; i < response.length(); i++) {                    // Parsing json
+                            try {
+                                JSONObject obj     = response.getJSONObject(i);
+                                String title       = obj.getString("title");
+                                String description = obj.getString("description");
+                                String image_url   = obj.getString("img_url");
+                                Log.d(TAG, "onResponse: Title : "+title+" Image url : "+image_url);
+                                mName.add(title);
+                                mDescription.add(description);
+                                mImageURL.add(image_url);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        initRecycleView();
+                        scrollable();
+                        autoScrolltoLeft();
+                    }
+                },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: Error appear");
+                Toast.makeText(MainActivity.this,"Please check your internet connection or go to contact us.",Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+                finish();
+            }
+        });
+        requestQueue.add(request);
     }
 
     private void initRecycleView() {
@@ -219,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView = findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(layoutManager);
-        SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this,this, mName, mImageURL);
+        SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this,this, mName, mImageURL,mDescription);
         recyclerView.setAdapter(adapter);
         scrollable();
     }

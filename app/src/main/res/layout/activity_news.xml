@@ -28,48 +28,81 @@
             android:layout_below="@id/toolbar_news"
             android:elevation="10dp"
             app:cardCornerRadius="6dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp">
 
-            <ImageView
-                android:id="@+id/news_img"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_below="@id/toolbar_news"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progressBar_news"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible"
+                    android:indeterminate="true"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/Main_color_1"/>
+
+                <ImageView
+                    android:id="@+id/news_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"/>
+
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/news_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/news_img_parent"
-            android:text="@string/new_title"
-            android:textColor="@color/all_text_color"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
-
-        <TextView
-            android:id="@+id/news_detail"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/news_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/news_title"
-            android:text="@string/demo_text"
-            android:padding="8dp"
-            android:layout_marginTop="5dp"
-            android:textAlignment="center"
-            android:textColor="@color/all_text_color"
-            android:textSize="15sp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:layout_below="@id/news_img_parent"
+            app:cardCornerRadius="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
+
+            <RelativeLayout
+                android:id="@+id/news_body_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/Main_color_1">
+
+                <TextView
+                    android:id="@+id/news_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_title"
+                    android:textColor="@color/all_text_color"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+                <TextView
+                    android:id="@+id/news_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/news_title"
+                    android:text="@string/demo_text"
+                    android:padding="8dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/all_text_color"
+                    android:textSize="18sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 

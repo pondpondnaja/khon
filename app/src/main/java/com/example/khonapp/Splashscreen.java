@@ -26,7 +26,7 @@ public class Splashscreen extends AppCompatActivity {
 
         sp_txt = findViewById(R.id.splash_text);
         textmove_in = AnimationUtils.loadAnimation(this,R.anim.fade_in);
-        textmove_out = AnimationUtils.loadAnimation(this,R.anim.text_slide_out);
+        textmove_out = AnimationUtils.loadAnimation(this,R.anim.text_fade_out);
 
         handler = new Handler();
 

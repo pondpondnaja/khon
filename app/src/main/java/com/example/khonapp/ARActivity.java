@@ -17,6 +17,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
@@ -29,6 +35,10 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Collection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,16 +50,19 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private ArFragment arFragment;
     private boolean isModelPlace;
-    private Context context;
-    //private String path = "http://192.168.64.2/3D/";
-    private String path = "http://mungmee.ddns.net/3D/";
+    private String url = "http://192.168.64.2/3D/ar_path.php?";
+    //private String url = "http://mungmee.ddns.net/3D/ar_path.php?";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
+    private String head = "http://";
+    private String build_url;
+    private String model_url = "";
 
     private BottomSheetBehavior mbottomSheetBehavior;
     private TextView mtextViewState;
     AnchorNode anchorNode;
+    Anchor anchor;
 
     CircleImageView human_m,human_fm,giant,monkey;
     Button moreinfo;
@@ -95,7 +108,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
             Intent goback = new Intent(ARActivity.this,MainActivity.class);
-            Toast.makeText(context, "Failed to create AR session.", Toast.LENGTH_LONG).show();
+            Toast.makeText(ARActivity.this, "Failed to create AR session.", Toast.LENGTH_LONG).show();
             startActivity(goback);
         }else{
             if (savedInstanceState == null){
@@ -111,8 +124,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             }
 
             //Build Path
-            ASSET_3D = path + foldername + "/" + "human_m" + extension;
-            Log.d(TAG, "onCreate: Final Path is : " + ASSET_3D);
+            getPath(foldername,"human_m");
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
 
             //init model border
@@ -193,7 +205,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(0);
-            ASSET_3D = path + foldername + "/" + "human_m" + extension;
+            getPath(foldername,"human_m");
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }else if(view.getId() == R.id.human_fm){
@@ -205,7 +217,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(15);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(0);
-            ASSET_3D = path + foldername + "/" + "human_fm" + extension;
+            getPath(foldername,"human_fm");
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }else if(view.getId() == R.id.giant){
@@ -217,7 +229,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(15);
             monkey.setBorderWidth(0);
-            ASSET_3D = path + foldername + "/" + "giant" + extension;
+            getPath(foldername,"giant");
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }else if(view.getId() == R.id.monkey){
@@ -229,7 +241,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(15);
-            ASSET_3D = path + foldername + "/" + "monkey" + extension;
+            getPath(foldername,"monkey");
             Log.d(TAG, "onClick: New Path : "+ASSET_3D);
 
         }
@@ -245,13 +257,44 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         Collection<Plane> planes = frame.getUpdatedTrackables(Plane.class);
         for(Plane plane : planes){
             if(plane.getTrackingState() == TrackingState.TRACKING){
-                Anchor anchor = plane.createAnchor(plane.getCenterPose());
+                anchor = plane.createAnchor(plane.getCenterPose());
                 Log.d(TAG, "onCreate: Surface Detected.");
                 Toast.makeText(getApplicationContext(),"Surface Detected",Toast.LENGTH_SHORT).show();
                 placeModel(anchor);
                 break;
             }
         }
+    }
+
+    private void getPath(String action, String races){
+        build_url = url + "action="+action+"&"+"races="+races;
+        Log.d(TAG, "getPath: Final url : "+build_url);
+        RequestQueue requestQueue = Volley.newRequestQueue(ARActivity.this);
+        StringRequest request = new StringRequest(Request.Method.GET,build_url, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "onResponse: "+response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject item = jsonArray.getJSONObject(0);
+                    model_url = item.getString("file_url");
+                    ASSET_3D = head+model_url;
+                    build_url = "";
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //placeModel(anchor);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onError",error.toString());
+                Toast.makeText(ARActivity.this,"เกิดข้อผิดพลาดโปรดลองอีกครั้ง",Toast.LENGTH_SHORT).show();
+                build_url = "";
+            }
+        });
+        requestQueue.add(request);
     }
 
     private void placeModel(Anchor anchor) {
