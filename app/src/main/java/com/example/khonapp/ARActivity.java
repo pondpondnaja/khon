@@ -50,8 +50,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private ArFragment arFragment;
     private boolean isModelPlace;
-    private String url = "http://192.168.64.2/3D/ar_path.php?";
-    //private String url = "http://mungmee.ddns.net/3D/ar_path.php?";
+    //private String url = "http://192.168.64.2/3D/ar_path.php?";
+    private String url = "http://mungmee.ddns.net/3D/ar_path.php?";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
@@ -345,5 +345,24 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             nodeToremove.setParent(null);
             nodeToremove = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+            mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1,getApplicationContext().getTheme()));
+        }else{
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    public void finish(){
+        super.finish();
+        Log.d(TAG, "finish: Finish called");
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
 }

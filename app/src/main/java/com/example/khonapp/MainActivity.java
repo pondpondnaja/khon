@@ -33,13 +33,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "mainAc";
-    private static final String final_url = "http://192.168.64.2/3D/news.php";
-    //private static final String final_url = "http://mungmee.ddns.net/3D/news.php";
+    //private static final String final_url = "http://192.168.64.2/3D/news.php";
+    private static final String final_url   = "http://mungmee.ddns.net/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
     boolean doubleBackToExitPressedOnce = false;
-    boolean isRunning = false;
+    boolean isRunning                   = false;
 
     FragmentManager fragmentManager;
     NavigationView navigationView;
@@ -62,9 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         fragmentManager = getSupportFragmentManager();
-        toolbar = findViewById(R.id.toolbar);
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigationView);
+        toolbar         = findViewById(R.id.toolbar);
+        drawer          = findViewById(R.id.drawer_layout);
+        navigationView  = findViewById(R.id.navigationView);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         setSupportActionBar(toolbar);
@@ -263,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "initRecycleView: init RecycleView");
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView = findViewById(R.id.recycleview);
+        recyclerView  = findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(layoutManager);
         SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this,this, mName, mImageURL,mDescription);
         recyclerView.setAdapter(adapter);
@@ -286,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void autoScrolltoLeft() {
-        handler = new Handler();
+        handler   = new Handler();
         runtoLeft = new Runnable() {
             @Override
             public void run() {
