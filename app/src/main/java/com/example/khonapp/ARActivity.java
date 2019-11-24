@@ -107,9 +107,10 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         mbottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
-            Intent goback = new Intent(ARActivity.this,MainActivity.class);
             Toast.makeText(ARActivity.this, "Failed to create AR session.", Toast.LENGTH_LONG).show();
+            Intent goback = new Intent(ARActivity.this,MainActivity.class);
             startActivity(goback);
+            finish();
         }else{
             if (savedInstanceState == null){
                 Bundle extras = getIntent().getExtras();
@@ -195,7 +196,6 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-
         if(view.getId() == R.id.human_m){
 
             removeAnchorNode(anchorNode);
@@ -249,7 +249,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private void onUpdate(FrameTime frameTime) {
 
-        if(isModelPlace){
+        if(isModelPlace || ASSET_3D.equals("")){
             return;
         }
 
@@ -267,6 +267,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     private void getPath(String action, String races){
+
         build_url = url + "action="+action+"&"+"races="+races;
         Log.d(TAG, "getPath: Final url : "+build_url);
         RequestQueue requestQueue = Volley.newRequestQueue(ARActivity.this);
@@ -279,19 +280,17 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                     JSONObject item = jsonArray.getJSONObject(0);
                     model_url = item.getString("file_url");
                     ASSET_3D = head+model_url;
-                    build_url = "";
+                    Log.d(TAG, "onResponse: Path from respond : "+ASSET_3D);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //placeModel(anchor);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("onError",error.toString());
                 Toast.makeText(ARActivity.this,"เกิดข้อผิดพลาดโปรดลองอีกครั้ง",Toast.LENGTH_SHORT).show();
-                build_url = "";
             }
         });
         requestQueue.add(request);
@@ -324,7 +323,6 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor){
-
         anchorNode = new AnchorNode(anchor);
         anchorNode.setParent(arFragment.getArSceneView().getScene());
 
@@ -339,7 +337,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
         if (nodeToremove != null){
             isModelPlace = false;
-            Log.d(TAG, "removeAnchorNode: Remove Model Complete.");
+            ASSET_3D = "";
+            Log.d(TAG, "removeAnchorNode: Remove Model and reset ASSET url Complete.");
             arFragment.getArSceneView().getScene().removeChild(nodeToremove);
             nodeToremove.getAnchor().detach();
             nodeToremove.setParent(null);

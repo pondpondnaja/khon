@@ -10,22 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".NewsInfoActivity">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_news"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/Main_color_1"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:elevation="4dp"
-            app:titleTextColor="@color/ar_text"/>
+        tools:context=".NewsInfoActivity"
+        android:paddingTop="?attr/actionBarSize">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/news_img_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar_news"
             android:elevation="10dp"
             app:cardCornerRadius="6dp"
             android:layout_marginTop="6dp"
@@ -66,7 +57,8 @@
             app:cardCornerRadius="6dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp">
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="10dp">
 
             <RelativeLayout
                 android:id="@+id/news_body_container"
@@ -93,7 +85,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/news_title"
                     android:text="@string/demo_text"
-                    android:padding="8dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="9dp"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/all_text_color"
                     android:textSize="18sp"

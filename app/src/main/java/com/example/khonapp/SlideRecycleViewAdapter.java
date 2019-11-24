@@ -2,8 +2,8 @@ package com.example.khonapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +33,7 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
     private ArrayList<String> mDescription = new ArrayList<>();
     private Context mcontext;
     private Activity mActivity;
+    Bundle bundle;
 
     public SlideRecycleViewAdapter(Activity mActivity, Context mcontext, ArrayList<String> mName, ArrayList<String> mImageURL, ArrayList<String> mDescription){
         this.mName        = mName;
@@ -78,19 +80,34 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
                 Log.d(TAG, "onClick: click on image : " + mName.get(position));
                 Toast.makeText(mcontext, mName.get(position),Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(mcontext,NewsInfoActivity.class);
+                /*Intent intent = new Intent(mcontext,NewsInfoActivity.class);
                 intent.putExtra("new_title",mName.get(position));
                 intent.putExtra("new_img",mImageURL.get(position));
                 intent.putExtra("news_des",mDescription.get(position));
                 mcontext.startActivity(intent);
-                mActivity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                mActivity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);*/
+
+                bundle = new Bundle();
+                bundle.putString("new_title",mName.get(position));
+                bundle.putString("new_img",mImageURL.get(position));
+                bundle.putString("news_des",mDescription.get(position));
+
+                NewFragment newFragment = new NewFragment();
+                newFragment.setArguments(bundle);
+
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, newFragment,"news").addToBackStack("news").commit();
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mImageURL.size();
+        return 4;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -33,8 +33,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "mainAc";
-    //private static final String final_url = "http://192.168.64.2/3D/news.php";
-    private static final String final_url   = "http://mungmee.ddns.net/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
+    private static final String URL   = "http://mungmee.ddns.net/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     NavigationView navigationView;
     Toolbar toolbar;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,recyclerView_new;
     Runnable runtoLeft;
     Handler handler;
 
@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<String> mImageURL    = new ArrayList<>();
     private ArrayList<String> mDescription = new ArrayList<>();
     //Layout
-    LinearLayoutManager layoutManager;
+    LinearLayoutManager layoutManager,layoutManager_new;
+    SlideRecycleViewAdapter adapter;
+    Full_NewViewAdapter adapter_new;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "onPause: RecycleView AutoScroll Pause and Remove Callback");
         handler.removeCallbacks(runtoLeft);
         isRunning = false;
+        mName.clear();
+        mImageURL.clear();
+        mDescription.clear();
         recyclerView.clearFocus();
         recyclerView.clearOnScrollListeners();
         super.onPause();
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
 
             case R.id.home_section:
-                toolbar.setTitle("KHON Application");
+                toolbar.setTitle(getResources().getString(R.string.app_name));
                 int backStackEntry = getSupportFragmentManager().getBackStackEntryCount();
                 if (backStackEntry > 0) {
                     for (int i = 0; i < backStackEntry; i++) {
@@ -166,6 +171,91 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void initImageBitmap(){
+
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONArray>(){
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, "onResponse: JSON respond : "+response);
+                        for (int i = 0; i < response.length(); i++) {                    // Parsing json
+                            try {
+                                JSONObject obj     = response.getJSONObject(i);
+                                String title       = obj.getString("title");
+                                String description = obj.getString("description");
+                                String image_url   = obj.getString("img_url");
+                                Log.d(TAG, "onResponse: Title : "+title+" Image url : "+image_url);
+
+                                mName.add(title);
+                                mDescription.add(description);
+                                mImageURL.add(image_url);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        initRecycleView();
+                        scrollable();
+                        autoScrolltoLeft();
+                    }
+                },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: Error appear");
+                Toast.makeText(MainActivity.this,"Please check your internet connection or go to contact us.",Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(request);
+    }
+
+    private void initRecycleView() {
+        Log.d(TAG, "initRecycleView: init RecycleView");
+
+        layoutManager_new = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclerView_new  = findViewById(R.id.recycleview_new_full);
+        recyclerView_new.setLayoutManager(layoutManager_new);
+        adapter_new       = new Full_NewViewAdapter(mName,mImageURL,mDescription,this);
+        recyclerView_new.setHasFixedSize(false);
+        recyclerView_new.setAdapter(adapter_new);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView  = findViewById(R.id.recycleview);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter       = new SlideRecycleViewAdapter(this,this, mName, mImageURL,mDescription);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setAdapter(adapter);
+        scrollable();
+    }
+
+    public void scrollable() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int last = layoutManager.findLastCompletelyVisibleItemPosition();
+                int finalSize = adapter.getItemCount() - 1;
+                if (last == finalSize){
+                    layoutManager.scrollToPosition(0);
+                }
+            }
+        });
+    }
+
+    public void autoScrolltoLeft() {
+        handler   = new Handler();
+        runtoLeft = new Runnable() {
+            @Override
+            public void run() {
+                isRunning = true;
+                recyclerView.scrollBy(2, 0);
+                handler.postDelayed(this, 0);
+            }
+        };
+        handler.postDelayed(runtoLeft, 0);
+    }
+
     @Override
     public void onBackPressed(){
 
@@ -197,7 +287,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(fragmentManager.getBackStackEntryCount() == 0){
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
-            toolbar.setTitle("KHON Application");
+
+            toolbar.setTitle(getResources().getString(R.string.app_name));
             getSupportActionBar().show();
             Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
             if(!isRunning) {
@@ -206,96 +297,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d(TAG, "onBackPressed: Resume!!");
             }
         }
-    }
-
-    public void initImageBitmap(){
-        Log.d(TAG, "initImageBitmap: preparing Bitmap");
-
-        /*mImageURL.add("http://www.finearts.go.th/promotion/images/266/Kathin2562/XL1A7916.jpg");
-        mName.add("กรมศิลปากรกำหนดถวายผ้าพระกฐินพระราชทาน ประจำปี ๒๕๖๒ ณ วัดทรงศิลา จังหวัดชัยภูมิ");
-
-        mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-08_65thNationalExhibition/XL1A8685.jpg");
-        mName.add("พิธีเปิดการแสดงศิลปกรรมแห่งชาติ ครั้งที่ ๖๕ ประจำปี ๒๕๖๒");
-
-        mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-02/62-10-02_11.JPG");
-        mName.add("เตรียมความพร้อมต้อนรับภริยาผู้นำประเทศอาเซียน");
-
-        mImageURL.add("http://www.finearts.go.th/promotion/images/266/62-10-10/62-10-10_01.jpg");
-        mName.add("ศิลปินสำนักการสังคีต ฝึกซ้อมการแสดงนาฏศิลป์และดนตรีไทย");*/
-
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, final_url, null,
-                new Response.Listener<JSONArray>(){
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, "onResponse: JSON respond : "+response.length());
-                        for (int i = 0; i < response.length(); i++) {                    // Parsing json
-                            try {
-                                JSONObject obj     = response.getJSONObject(i);
-                                String title       = obj.getString("title");
-                                String description = obj.getString("description");
-                                String image_url   = obj.getString("img_url");
-                                Log.d(TAG, "onResponse: Title : "+title+" Image url : "+image_url);
-                                mName.add(title);
-                                mDescription.add(description);
-                                mImageURL.add(image_url);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        initRecycleView();
-                        scrollable();
-                        autoScrolltoLeft();
-                    }
-                },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: Error appear");
-                Toast.makeText(MainActivity.this,"Please check your internet connection or go to contact us.",Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-                finish();
-            }
-        });
-        requestQueue.add(request);
-    }
-
-    private void initRecycleView() {
-        Log.d(TAG, "initRecycleView: init RecycleView");
-
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView  = findViewById(R.id.recycleview);
-        recyclerView.setLayoutManager(layoutManager);
-        SlideRecycleViewAdapter adapter = new SlideRecycleViewAdapter(this,this, mName, mImageURL,mDescription);
-        recyclerView.setAdapter(adapter);
-        scrollable();
-    }
-
-    public void scrollable() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int firstItemVisible = layoutManager.findFirstCompletelyVisibleItemPosition();
-                int last = layoutManager.findLastCompletelyVisibleItemPosition();
-                int finalSize = mImageURL.size() - 1;
-                if (last == finalSize){
-                    layoutManager.scrollToPosition(0);
-                }
-            }
-        });
-    }
-
-    public void autoScrolltoLeft() {
-        handler   = new Handler();
-        runtoLeft = new Runnable() {
-            @Override
-            public void run() {
-                isRunning = true;
-                recyclerView.scrollBy(2, 0);
-                handler.postDelayed(this, 0);
-            }
-        };
-        handler.postDelayed(runtoLeft, 0);
     }
 }

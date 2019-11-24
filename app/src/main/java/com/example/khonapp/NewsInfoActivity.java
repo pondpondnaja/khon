@@ -33,7 +33,7 @@ public class NewsInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        toolbar      = findViewById(R.id.toolbar_news);
+        //toolbar      = findViewById(R.id.toolbar_news);
         news_img     = findViewById(R.id.news_img);
         news_title   = findViewById(R.id.news_title);
         news_detail  = findViewById(R.id.news_detail);

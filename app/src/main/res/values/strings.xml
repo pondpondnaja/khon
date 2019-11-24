@@ -22,4 +22,6 @@
     <string name="new_title">Title</string>
     <string name="paragraph">Demo text</string>
     <string name="dummy_text">Dummy text</string>
+
+    <string name="read_more">read-more</string>
 </resources>
