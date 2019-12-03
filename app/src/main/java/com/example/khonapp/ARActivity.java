@@ -50,8 +50,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private ArFragment arFragment;
     private boolean isModelPlace;
-    //private String url = "http://192.168.64.2/3D/ar_path.php?";
-    private String url = "http://mungmee.ddns.net/3D/ar_path.php?";
+    private String url = "http://192.168.64.2/3D/ar_path.php?";
+    //private String url = "http://mungmee.ddns.net/3D/ar_path.php?";
     private String extension = ".glb";
     private String ASSET_3D = "";
     private String foldername = "";
@@ -64,7 +64,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     AnchorNode anchorNode;
     Anchor anchor;
 
-    CircleImageView human_m,human_fm,giant,monkey;
+    CircleImageView human_m, human_fm, giant, monkey;
     Button moreinfo;
     CoordinatorLayout parentView;
     View arrayView[];
@@ -96,10 +96,10 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_ar);
 
         parentView = findViewById(R.id.parentview);
-        human_m  = findViewById(R.id.human_m);
+        human_m = findViewById(R.id.human_m);
         human_fm = findViewById(R.id.human_fm);
-        giant    = findViewById(R.id.giant);
-        monkey   = findViewById(R.id.monkey);
+        giant = findViewById(R.id.giant);
+        monkey = findViewById(R.id.monkey);
         moreinfo = findViewById(R.id.more);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
@@ -108,28 +108,28 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
             Toast.makeText(ARActivity.this, "Failed to create AR session.", Toast.LENGTH_LONG).show();
-            Intent goback = new Intent(ARActivity.this,MainActivity.class);
+            Intent goback = new Intent(ARActivity.this, MainActivity.class);
             startActivity(goback);
             finish();
-        }else{
-            if (savedInstanceState == null){
+        } else {
+            if (savedInstanceState == null) {
                 Bundle extras = getIntent().getExtras();
                 if (extras == null) {
                     foldername = null;
-                }else{
+                } else {
                     foldername = extras.getString("foldername");
                     Log.d(TAG, "onCreate: FolderName : " + foldername);
                 }
-            }else{
+            } else {
                 foldername = (String) savedInstanceState.getSerializable("foldername");
             }
 
             //Build Path
-            getPath(foldername,"human_m");
+            getPath(foldername, "human_m");
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
 
             //init model border
-            human_m.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+            human_m.setBorderColor(getResources().getColor(R.color.select_ar, getApplicationContext().getTheme()));
             human_m.setBorderWidth(15);
 
             setArrayView();
@@ -148,35 +148,35 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
 
-                if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                if (mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
 
-                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2,getApplicationContext().getTheme()));
+                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2, getApplicationContext().getTheme()));
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-                    if(foldername.equals("Am")){
+                    if (foldername.equals("Am")) {
 
                         mtextViewState.setText("ท่าฉัน");
 
-                    }else if(foldername.equals("Angry")){
+                    } else if (foldername.equals("Angry")) {
 
                         mtextViewState.setText("ท่าโกรธ");
 
-                    }else if(foldername.equals("Cry")){
+                    } else if (foldername.equals("Cry")) {
 
                         mtextViewState.setText("ท่าร้องไห้");
 
-                    }else if(foldername.equals("Shy")){
+                    } else if (foldername.equals("Shy")) {
 
                         mtextViewState.setText("ท่าเขิน");
 
-                    }else if(foldername.equals("Smile")){
+                    } else if (foldername.equals("Smile")) {
 
                         mtextViewState.setText("ท่ายิ้ม");
 
                     }
-                }else{
+                } else {
                     mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1,getApplicationContext().getTheme()));
+                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
                 }
             }
         });
@@ -184,103 +184,103 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private void setArrayView() {
         arrayView = new View[]{
-                human_m,human_fm,giant,monkey
+                human_m, human_fm, giant, monkey
         };
     }
 
     private void setClickListener() {
-        for(int i = 0; i < arrayView.length; i++) {
+        for (int i = 0; i < arrayView.length; i++) {
             arrayView[i].setOnClickListener(this);
         }
     }
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.human_m){
+        if (view.getId() == R.id.human_m) {
 
             removeAnchorNode(anchorNode);
-            human_m.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+            human_m.setBorderColor(getResources().getColor(R.color.select_ar, getApplicationContext().getTheme()));
 
             human_m.setBorderWidth(15);
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(0);
-            getPath(foldername,"human_m");
-            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+            getPath(foldername, "human_m");
+            Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
-        }else if(view.getId() == R.id.human_fm){
+        } else if (view.getId() == R.id.human_fm) {
 
             removeAnchorNode(anchorNode);
-            human_fm.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+            human_fm.setBorderColor(getResources().getColor(R.color.select_ar, getApplicationContext().getTheme()));
 
             human_m.setBorderWidth(0);
             human_fm.setBorderWidth(15);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(0);
-            getPath(foldername,"human_fm");
-            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+            getPath(foldername, "human_fm");
+            Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
-        }else if(view.getId() == R.id.giant){
+        } else if (view.getId() == R.id.giant) {
 
             removeAnchorNode(anchorNode);
-            giant.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+            giant.setBorderColor(getResources().getColor(R.color.select_ar, getApplicationContext().getTheme()));
 
             human_m.setBorderWidth(0);
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(15);
             monkey.setBorderWidth(0);
-            getPath(foldername,"giant");
-            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+            getPath(foldername, "giant");
+            Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
-        }else if(view.getId() == R.id.monkey){
+        } else if (view.getId() == R.id.monkey) {
 
             removeAnchorNode(anchorNode);
-            monkey.setBorderColor(getResources().getColor(R.color.select_ar,getApplicationContext().getTheme()));
+            monkey.setBorderColor(getResources().getColor(R.color.select_ar, getApplicationContext().getTheme()));
 
             human_m.setBorderWidth(0);
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(15);
-            getPath(foldername,"monkey");
-            Log.d(TAG, "onClick: New Path : "+ASSET_3D);
+            getPath(foldername, "monkey");
+            Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
         }
     }
 
     private void onUpdate(FrameTime frameTime) {
 
-        if(isModelPlace || ASSET_3D.equals("")){
+        if (isModelPlace || ASSET_3D.equals("")) {
             return;
         }
 
         Frame frame = arFragment.getArSceneView().getArFrame();
         Collection<Plane> planes = frame.getUpdatedTrackables(Plane.class);
-        for(Plane plane : planes){
-            if(plane.getTrackingState() == TrackingState.TRACKING){
+        for (Plane plane : planes) {
+            if (plane.getTrackingState() == TrackingState.TRACKING) {
                 anchor = plane.createAnchor(plane.getCenterPose());
                 Log.d(TAG, "onCreate: Surface Detected.");
-                Toast.makeText(getApplicationContext(),"Surface Detected",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Surface Detected", Toast.LENGTH_SHORT).show();
                 placeModel(anchor);
                 break;
             }
         }
     }
 
-    private void getPath(String action, String races){
+    private void getPath(String action, String races) {
 
-        build_url = url + "action="+action+"&"+"races="+races;
-        Log.d(TAG, "getPath: Final url : "+build_url);
+        build_url = url + "action=" + action + "&" + "races=" + races;
+        Log.d(TAG, "getPath: Final url : " + build_url);
         RequestQueue requestQueue = Volley.newRequestQueue(ARActivity.this);
-        StringRequest request = new StringRequest(Request.Method.GET,build_url, new Response.Listener<String>(){
+        StringRequest request = new StringRequest(Request.Method.GET, build_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "onResponse: "+response);
+                Log.d(TAG, "onResponse: " + response);
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject item = jsonArray.getJSONObject(0);
                     model_url = item.getString("file_url");
-                    ASSET_3D = head+model_url;
-                    Log.d(TAG, "onResponse: Path from respond : "+ASSET_3D);
+                    ASSET_3D = head + model_url;
+                    Log.d(TAG, "onResponse: Path from respond : " + ASSET_3D);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -289,8 +289,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("onError",error.toString());
-                Toast.makeText(ARActivity.this,"เกิดข้อผิดพลาดโปรดลองอีกครั้ง",Toast.LENGTH_SHORT).show();
+                Log.d("onError", error.toString());
+                Toast.makeText(ARActivity.this, "เกิดข้อผิดพลาดโปรดลองอีกครั้ง", Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(request);
@@ -300,21 +300,21 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
         isModelPlace = true;
 
-        Log.d(TAG, "onCreate: Place Model From "+ASSET_3D);
-        Toast.makeText(getApplicationContext(),"Fetching Model From : "+foldername,Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onCreate: Place Model From " + ASSET_3D);
+        Toast.makeText(getApplicationContext(), "Fetching Model From : " + foldername, Toast.LENGTH_SHORT).show();
         ModelRenderable
                 .builder()
                 .setSource(
                         this,
                         RenderableSource
-                        .builder()
-                        .setSource(this, Uri.parse(ASSET_3D),RenderableSource.SourceType.GLB)
-                        .setScale(0.01f)
-                        .setRecenterMode(RenderableSource.RecenterMode.ROOT)
-                        .build()
+                                .builder()
+                                .setSource(this, Uri.parse(ASSET_3D), RenderableSource.SourceType.GLB)
+                                .setScale(0.01f)
+                                .setRecenterMode(RenderableSource.RecenterMode.ROOT)
+                                .build()
                 ).setRegistryId(ASSET_3D)
                 .build()
-                .thenAccept(modelRenderable -> addNodeToScene(modelRenderable,anchor))
+                .thenAccept(modelRenderable -> addNodeToScene(modelRenderable, anchor))
                 .exceptionally(throwable -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(throwable.getMessage()).show();
@@ -322,7 +322,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                 });
     }
 
-    private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor){
+    private void addNodeToScene(ModelRenderable modelRenderable, Anchor anchor) {
         anchorNode = new AnchorNode(anchor);
         anchorNode.setParent(arFragment.getArSceneView().getScene());
 
@@ -335,7 +335,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     public void removeAnchorNode(AnchorNode nodeToremove) {
 
-        if (nodeToremove != null){
+        if (nodeToremove != null) {
             isModelPlace = false;
             ASSET_3D = "";
             Log.d(TAG, "removeAnchorNode: Remove Model and reset ASSET url Complete.");
@@ -349,19 +349,19 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onBackPressed() {
 
-        if(mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+        if (mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1,getApplicationContext().getTheme()));
-        }else{
+            moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
+        } else {
             super.onBackPressed();
         }
 
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         Log.d(TAG, "finish: Finish called");
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }

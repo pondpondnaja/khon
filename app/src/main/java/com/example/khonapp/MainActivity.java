@@ -33,8 +33,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "mainAc";
-    //private static final String URL = "http://192.168.64.2/3D/news.php";
-    private static final String URL   = "http://mungmee.ddns.net/3D/news.php";
+    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL   = "http://mungmee.ddns.net/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<String> mName        = new ArrayList<>();
     private ArrayList<String> mImageURL    = new ArrayList<>();
     private ArrayList<String> mDescription = new ArrayList<>();
+
     //Layout
     LinearLayoutManager layoutManager,layoutManager_new;
     SlideRecycleViewAdapter adapter;
