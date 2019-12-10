@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ public class ARFragment extends Fragment {
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
 
+    TextView textView;
     Context context;
 
     @Override
@@ -29,13 +31,14 @@ public class ARFragment extends Fragment {
         context = view.getContext();
 
         //inidata();
-
-        recyclerView = view.findViewById(R.id.ar_recycleview);
+        textView      = view.findViewById(R.id.ar_toolbar);
+        recyclerView  = view.findViewById(R.id.ar_recycleview);
         layoutManager = new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         ARListRecycleViewAdapter adapter = new ARListRecycleViewAdapter(getActivity(),context,ARName,FolderName);
         recyclerView.setAdapter(adapter);
 
+        textView.setText(getResources().getString(R.string.menu4));
         return view;
     }
 

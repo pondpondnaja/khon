@@ -1,19 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Main_color_2"
-    android:paddingStart="2dp"
-    android:paddingEnd="2dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/Main_color_2">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ar_recycleview"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:paddingTop="2dp"
+    <ImageView
+        android:id="@+id/ar_header"
         android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/menu4"
+        android:src="@drawable/menu"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/ar_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy_text"
+        android:textColor="@color/all_text_color"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_above="@id/ar_recycleview_holder"
+        android:layout_marginBottom="-20dp"
+        android:background="@drawable/round_btn"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ar_recycleview_holder"
+        android:layout_width="match_parent"
+        android:layout_below="@id/ar_header"
+        app:cardCornerRadius="8dp"
         android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ar_recycleview"
+            android:paddingTop="2dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_below="@id/ar_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

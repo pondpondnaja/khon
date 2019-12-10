@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -31,10 +33,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {//implements NavigationView.OnNavigationItemSelectedListener
     private static final String TAG = "mainAc";
     private static final String URL = "http://192.168.64.2/3D/news.php";
-    //private static final String URL   = "http://mungmee.ddns.net/3D/news.php";
+    //private static final String URL   = "https://utg-fansub.me/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     NavigationView navigationView;
     Toolbar toolbar;
+    TextView toolbar_text;
     RecyclerView recyclerView,recyclerView_new;
     Runnable runtoLeft;
     Handler handler;
@@ -56,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Layout
     LinearLayoutManager layoutManager,layoutManager_new;
     SlideRecycleViewAdapter adapter;
-    Full_NewViewAdapter adapter_new;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +69,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         toolbar         = findViewById(R.id.toolbar);
         drawer          = findViewById(R.id.drawer_layout);
-        navigationView  = findViewById(R.id.navigationView);
-
-        navigationView.setNavigationItemSelectedListener(this);
-
+        toolbar_text    = toolbar.findViewById(R.id.text_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_text.setText(toolbar.getTitle());
+        /*
+        navigationView  = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, toolbar,
                 R.string.navigation_draw_open, R.string.navigation_draw_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        */
 
         if (savedInstanceState == null){
-            navigationView.setCheckedItem(R.id.home_section);
+            toolbar_text.setText(getResources().getString(R.string.app_name));
+            //navigationView.setCheckedItem(R.id.home_section);
         }
         //initImageBitmap();
     }
@@ -104,11 +110,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "onPause: RecycleView AutoScroll Pause and Remove Callback");
         handler.removeCallbacks(runtoLeft);
         isRunning = false;
-        mName.clear();
-        mImageURL.clear();
-        mDescription.clear();
         recyclerView.clearFocus();
         recyclerView.clearOnScrollListeners();
+        Log.d(TAG, "onPause: mName     : "+mName.size());
+        Log.d(TAG, "onPause: mImageURL : "+mImageURL.size());
         super.onPause();
     }
 
@@ -122,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onDestroy();
     }
 
+/*Side Menu.
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()) {
@@ -171,8 +177,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+*/
 
     public void initImageBitmap(){
+
+        if(!mImageURL.isEmpty() || !mName.isEmpty() || !mDescription.isEmpty()){
+            return;
+        }
 
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL, null,
@@ -213,14 +224,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initRecycleView() {
         Log.d(TAG, "initRecycleView: init RecycleView");
-
-        layoutManager_new = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerView_new  = findViewById(R.id.recycleview_new_full);
-        recyclerView_new.setLayoutManager(layoutManager_new);
-        adapter_new       = new Full_NewViewAdapter(mName,mImageURL,mDescription,this);
-        recyclerView_new.setHasFixedSize(false);
-        recyclerView_new.setAdapter(adapter_new);
-
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView  = findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(layoutManager);
@@ -257,16 +260,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         handler.postDelayed(runtoLeft, 0);
     }
 
+    public void ARClick(View view) {
+        toolbar_text.setText(getResources().getString(R.string.menu4));
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                .replace(R.id.fragment_container, new ARFragment(), "ar_model").addToBackStack("ar").commit();
+        Log.d(TAG, "onNavigationItemSelected: Back stack AR = " + getSupportFragmentManager().getBackStackEntryCount());
+        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ARFragment(),"ar_model").addToBackStack(null).commit();
+        onPause();
+        getSupportActionBar().hide();
+    }
+
+    public void CameraClick(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
+                .replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack("pic_detect").commit();
+        onPause();
+        getSupportActionBar().hide();
+    }
+
+    public void settoolbarTitle(String text){
+        toolbar_text.setText(text);
+    }
+
     @Override
     public void onBackPressed(){
 
         getSupportActionBar().show();
 
+        /*
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             Log.d(TAG, "onBackPressed: Backstack 1 = "+fragmentManager.getBackStackEntryCount());
 
-        }else if(fragmentManager.getBackStackEntryCount() > 0){
+        }else
+        */
+
+        if(fragmentManager.getBackStackEntryCount() > 0){
             fragmentManager.popBackStackImmediate();
         }else if (!doubleBackToExitPressedOnce) {
             this.doubleBackToExitPressedOnce = true;
@@ -289,13 +321,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(fragmentManager.getBackStackEntryCount() == 0){
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
 
-            toolbar.setTitle(getResources().getString(R.string.app_name));
+            toolbar_text.setText(getResources().getString(R.string.app_name));
             getSupportActionBar().show();
             Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
             if(!isRunning) {
                 scrollable();
                 autoScrolltoLeft();
                 Log.d(TAG, "onBackPressed: Resume!!");
+                Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
             }
         }
     }

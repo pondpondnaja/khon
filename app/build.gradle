@@ -55,7 +55,7 @@ dependencies {
     implementation "org.tensorflow:tensorflow-lite:2.0.0"
     implementation "org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly"
     //RecycleView
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
@@ -75,7 +75,6 @@ dependencies {
     //Volley
     implementation 'com.android.volley:volley:1.1.1'
 }
-
 
 sceneform.asset('sampledata/1227 Earth.obj',
         'default',

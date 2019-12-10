@@ -6,7 +6,8 @@
     <string name="navigation_draw_open">Open navigation drawer</string>
     <string name="navigation_draw_close">Close navigation drawer</string>
 
-    <string name="main_s1">NEWS</string>
+    <string name="main_s1">News</string>
+    <string name="main_s2">SERVICES</string>
 
     <string name="demo_text">This is demo text waiting for WebPage.</string>
 
@@ -14,7 +15,7 @@
     <string name="menu1">Home</string>
     <string name="menu2">Detect from camera</string>
     <string name="menu3">Detect from gallery</string>
-    <string name="menu4">AR Models</string>
+    <string name="menu4">AR</string>
     <string name="menu5">Communicate</string>
     <string name="menu6">Contact us</string>
 

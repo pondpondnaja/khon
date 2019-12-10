@@ -40,8 +40,8 @@ public class NewFragment extends Fragment {
         news_detail  = view.findViewById(R.id.news_detail);
         progressBar2 = view.findViewById(R.id.progressBar_news);
 
-        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-        activity.getSupportActionBar().setTitle("News");
+        MainActivity activity =  (MainActivity) getActivity();
+        activity.settoolbarTitle(getResources().getString(R.string.main_s1));
 
         bundle = getArguments();
         if(bundle != null){
@@ -61,7 +61,7 @@ public class NewFragment extends Fragment {
                 .load(new_img)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
-                    public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource){
                         Toast.makeText(getContext(),"Can't load image.",Toast.LENGTH_SHORT).show();
                         return false;
                     }

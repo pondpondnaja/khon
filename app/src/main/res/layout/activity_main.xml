@@ -5,9 +5,9 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Main_color_2"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
-    android:background="@color/Main_color_2">
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,77 +19,181 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/Main_color_1"
+            android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:elevation="4dp"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/text_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/all_text_color"
+                android:layout_gravity="center"
+                android:text="@string/app_name"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recycleview"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
             android:layout_below="@id/toolbar"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <RelativeLayout
             android:id="@+id/news"
-            android:layout_below="@id/recycleview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recycleview"
+            android:layout_marginBottom="2dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="@string/main_s1"
-                android:textStyle="bold"
-                android:textSize="25sp"
+                android:background="@color/Main_color_1"
+                android:gravity="center"
+                android:text="@string/main_s2"
                 android:textAlignment="center"
                 android:textColor="@color/all_text_color"
-                android:background="@color/Main_color_1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/learn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/all_text_color"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="@string/read_more"/>
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ScrollView
+            android:id="@+id/service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recycleview_new_full"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/news"
-            android:layout_marginBottom="5dp">
+            android:layout_below="@id/news">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="1dp"
+                    app:cardMaxElevation="2dp"
+                    android:onClick="ARClick">
+
+                    <RelativeLayout
+                        android:id="@+id/ar_back_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ar_background"
+                            android:scaleType="centerCrop"
+                            android:elevation="3dp"
+                            android:contentDescription="@string/menu4"
+                            android:adjustViewBounds="true"/>
+
+                        <ImageView
+                            android:id="@+id/img_card_1"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:contentDescription="@string/menu4"
+                            android:src="@drawable/ic_ar_white"
+                            android:scaleType="fitXY"
+                            android:elevation="5dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"/>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="1dp"
+                    app:cardMaxElevation="2dp"
+                    android:layout_below="@id/card_1"
+                    android:onClick="CameraClick">
+
+                    <ImageView
+                        android:id="@+id/img_card_2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="@string/menu4"
+                        android:src="@drawable/ic_camera_alt_black_24dp"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="15dp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:id="@+id/other_Services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/card_2"
+                    android:layout_margin="6dp"
+                    android:weightSum="2">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/os_1"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="1dp"
+                        app:cardMaxElevation="2dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginEnd="3dp">
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/os_2"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="1dp"
+                        app:cardMaxElevation="2dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginStart="3dp">
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
-    <com.google.android.material.navigation.NavigationView
+    <!--com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/Main_color_1"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/drawer_menu" /!-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

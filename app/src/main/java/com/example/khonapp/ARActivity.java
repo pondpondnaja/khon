@@ -50,12 +50,12 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private ArFragment arFragment;
     private boolean isModelPlace;
-    private String url = "http://192.168.64.2/3D/ar_path.php?";
-    //private String url = "http://mungmee.ddns.net/3D/ar_path.php?";
-    private String extension = ".glb";
+
+    //private String url = "http://192.168.64.2/3D/ar_path.php?";
+    private String url = "https://utg-fansub.me/3D/ar_path.php?";
     private String ASSET_3D = "";
     private String foldername = "";
-    private String head = "http://";
+    private String head = "https://";
     private String build_url;
     private String model_url = "";
 
@@ -279,7 +279,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject item = jsonArray.getJSONObject(0);
                     model_url = item.getString("file_url");
-                    ASSET_3D = head + model_url;
+                    ASSET_3D = model_url;
                     Log.d(TAG, "onResponse: Path from respond : " + ASSET_3D);
 
                 } catch (JSONException e) {

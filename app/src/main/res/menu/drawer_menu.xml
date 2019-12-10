@@ -19,7 +19,7 @@
     <item
         android:id="@+id/ar_model"
         android:title="@string/menu4"
-        android:icon="@drawable/ic_ar_2"/>
+        android:icon="@drawable/ic_ar_black"/>
 
     <item android:title="@string/menu5">
         <menu>
