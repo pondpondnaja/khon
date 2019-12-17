@@ -1,19 +1,20 @@
 package com.example.khonapp;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {//implements NavigationView.OnNavigationItemSelectedListener
     private static final String TAG = "mainAc";
+
+    private static final int WRITE_PERMISSION_CODE = 100;
+    private static final int CAMERA_PERMISSION_CODE = 101;
+    private static final int INTERNET_PERMISSION_CODE = 102;
     private static final String URL = "http://192.168.64.2/3D/news.php";
     //private static final String URL   = "https://utg-fansub.me/3D/news.php";
 
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     Toolbar toolbar;
     TextView toolbar_text;
     RecyclerView recyclerView,recyclerView_new;
+    CardView ar_card, detect_card;
     Runnable runtoLeft;
     Handler handler;
 
@@ -69,6 +75,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         fragmentManager = getSupportFragmentManager();
         toolbar         = findViewById(R.id.toolbar);
         drawer          = findViewById(R.id.drawer_layout);
+        ar_card = findViewById(R.id.card_1);
+        detect_card = findViewById(R.id.card_2);
         toolbar_text    = toolbar.findViewById(R.id.text_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -87,6 +95,24 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
             toolbar_text.setText(getResources().getString(R.string.app_name));
             //navigationView.setCheckedItem(R.id.home_section);
         }
+
+        ar_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
+                    ARClick();
+                }
+            }
+        });
+
+        detect_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE)) {
+                    CameraClick();
+                }
+            }
+        });
         //initImageBitmap();
     }
 
@@ -260,8 +286,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         handler.postDelayed(runtoLeft, 0);
     }
 
-    public void ARClick(View view) {
-        toolbar_text.setText(getResources().getString(R.string.menu4));
+    public void ARClick() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
@@ -272,7 +297,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         getSupportActionBar().hide();
     }
 
-    public void CameraClick(View view) {
+    public void CameraClick() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
@@ -329,6 +354,38 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                 autoScrolltoLeft();
                 Log.d(TAG, "onBackPressed: Resume!!");
                 Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
+            }
+        }
+    }
+
+    //PERMISSION ------------------------------------------------------------------------------------------------------------
+
+    // Function to check and request permission
+    public boolean checkPermission(String permission, int requestCode) {
+        // Checking if permission is not granted
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+            return false;
+        } else {
+            Toast.makeText(MainActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(MainActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(MainActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
     }

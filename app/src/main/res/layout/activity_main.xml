@@ -84,8 +84,7 @@
                     android:layout_height="170dp"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="1dp"
-                    app:cardMaxElevation="2dp"
-                    android:onClick="ARClick">
+                    app:cardMaxElevation="2dp">
 
                     <RelativeLayout
                         android:id="@+id/ar_back_holder"
@@ -124,8 +123,7 @@
                     app:cardCornerRadius="6dp"
                     app:cardElevation="1dp"
                     app:cardMaxElevation="2dp"
-                    android:layout_below="@id/card_1"
-                    android:onClick="CameraClick">
+                    android:layout_below="@id/card_1">
 
                     <ImageView
                         android:id="@+id/img_card_2"
