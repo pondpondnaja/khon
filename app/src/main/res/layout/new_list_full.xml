@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/new_parent"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="210dp"
         app:cardCornerRadius="6dp"
         app:cardMaxElevation="2dp"
         app:cardElevation="1dp"
@@ -24,21 +24,23 @@
             android:layout_height="match_parent"
             android:background="@color/Main_color_1">
 
+            <ImageView
+                android:id="@+id/news_img_fullList"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:contentDescription="@string/main_s1"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher_background" />
+
             <TextView
                 android:id="@+id/new_title_full"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/news_img_fullList"
+                android:text="@string/demo_text"
+                android:layout_marginTop="5dp"
                 android:textSize="18sp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_centerInParent="true"
-                android:textColor="@color/all_text_color"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:singleLine="true"
-                android:scrollHorizontally="true"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit ="marquee_forever"/>
+                android:textColor="@color/all_text_color" />
 
         </RelativeLayout>
 

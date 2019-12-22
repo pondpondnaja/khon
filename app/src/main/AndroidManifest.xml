@@ -24,9 +24,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ResultActivity"></activity>
-        <activity
-            android:name=".NewsInfoActivity"
-            android:parentActivityName=".MainActivity" />
         <activity android:name=".ARActivity" />
         <activity android:name=".MainActivity" />
         <activity

@@ -18,6 +18,7 @@
     <string name="menu4">AR</string>
     <string name="menu5">Communicate</string>
     <string name="menu6">Contact us</string>
+    <string name="SlideText">Read more</string>
 
     <!-- Demo text -->
     <string name="new_title">Title</string>

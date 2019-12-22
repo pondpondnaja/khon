@@ -32,10 +32,10 @@ import static android.app.Activity.RESULT_OK;
 public class CameraFragment extends Fragment{
     private static final String TAG = "cameraActivity";
     private static final int INPUT_SIZE = 224;
+    private static final int RESULT_LOAD_IMG = 10;
     private CameraView cameraView;
     private ImageButton cap_btn,gall_btn;
     private Bitmap bitmap;
-    private int RESULT_LOAD_IMG = 10;
     private String selectedImagePath;
 
     @Override
@@ -141,7 +141,7 @@ public class CameraFragment extends Fragment{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data){
             Log.d(TAG, "onActivityResult: ImageSelected");
-            Toast.makeText(getActivity().getApplicationContext(), "ImageSelected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "ImageSelected", Toast.LENGTH_LONG).show();
             Uri uri = data.getData();
 
             selectedImagePath = getPath(getContext(), uri);

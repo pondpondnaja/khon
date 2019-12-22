@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
     private static final int WRITE_PERMISSION_CODE = 100;
     private static final int CAMERA_PERMISSION_CODE = 101;
-    private static final int INTERNET_PERMISSION_CODE = 102;
+    private static final int Limit = 4;
     private static final String URL = "http://192.168.64.2/3D/news.php";
     //private static final String URL   = "https://utg-fansub.me/3D/news.php";
 
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         */
 
         if (savedInstanceState == null){
-            toolbar_text.setText(getResources().getString(R.string.app_name));
+            toolbar_text.setText(getResources().getString(R.string.sp_text1));
             //navigationView.setCheckedItem(R.id.home_section);
         }
 
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, "onResponse: JSON respond : "+response);
-                        for (int i = 0; i < response.length(); i++) {                    // Parsing json
+                        for (int i = 0; i < Limit; i++) {                    // Parsing json
                             try {
                                 JSONObject obj     = response.getJSONObject(i);
                                 String title       = obj.getString("title");
@@ -233,9 +233,12 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                                 e.printStackTrace();
                             }
                         }
+                        mName.add("Read more");
+                        mDescription.add("Read more");
+                        mImageURL.add("Read more");
                         initRecycleView();
-                        scrollable();
-                        autoScrolltoLeft();
+                        //scrollable();
+                        //autoScrolltoLeft();
                     }
                 },new Response.ErrorListener(){
             @Override
@@ -256,10 +259,10 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         adapter       = new SlideRecycleViewAdapter(this,this, mName, mImageURL,mDescription);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
-        scrollable();
+        //scrollable();
     }
 
-    public void scrollable() {
+    /*public void scrollable() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -284,7 +287,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
             }
         };
         handler.postDelayed(runtoLeft, 0);
-    }
+    }*/
 
     public void ARClick() {
         getSupportFragmentManager()
@@ -346,12 +349,12 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         if(fragmentManager.getBackStackEntryCount() == 0){
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
 
-            toolbar_text.setText(getResources().getString(R.string.app_name));
+            toolbar_text.setText(getResources().getString(R.string.sp_text1));
             getSupportActionBar().show();
             Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
             if(!isRunning) {
-                scrollable();
-                autoScrolltoLeft();
+                //scrollable();
+                //autoScrolltoLeft();
                 Log.d(TAG, "onBackPressed: Resume!!");
                 Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
             }
