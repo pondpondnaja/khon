@@ -2,6 +2,7 @@ package com.example.khonapp;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -40,13 +42,22 @@ public class NewFragment extends Fragment {
         progressBar2 = view.findViewById(R.id.progressBar_news);
 
         MainActivity activity =  (MainActivity) getActivity();
-        activity.settoolbarTitle(getResources().getString(R.string.main_s1));
+        AppCompatActivity news_activity = (AppCompatActivity) view.getContext();
 
         bundle = getArguments();
         if(bundle != null){
             new_img   = bundle.getString("new_img");
             new_title = bundle.getString("new_title");
             news_des  = bundle.getString("news_des");
+
+            activity.settoolbarTitle(new_title);
+            news_activity.getSupportActionBar().show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    activity.toolbar_text.setSelected(true);
+                }
+            }, 1000);
         }
 
         setData();

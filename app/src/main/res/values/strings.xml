@@ -26,4 +26,8 @@
     <string name="dummy_text">Dummy text</string>
 
     <string name="read_more">read-more</string>
+
+    <!-- Demo text -->
+    <string name="ar_toolbar">AR</string>
+    <string name="news_toolbar">NEWS</string>
 </resources>

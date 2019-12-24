@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +29,8 @@ import java.util.ArrayList;
 
 public class Full_NewListFragment extends Fragment {
     private static final String TAG = "FN";
-    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
+    private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();
@@ -35,16 +38,21 @@ public class Full_NewListFragment extends Fragment {
 
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
+    TextView news_toolbars;
+    AppCompatActivity news_activity;
     Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: CreateView called");
         final View view = inflater.inflate(R.layout.fragment_full_new, container, false);
-        context = view.getContext();
+        news_activity = (AppCompatActivity) view.getContext();
 
+        context = view.getContext();
+        news_toolbars = view.findViewById(R.id.news_toolbar);
         recyclerView = view.findViewById(R.id.news_fullList_view);
 
+        news_toolbars.setText(getResources().getText(R.string.news_toolbar));
         return view;
     }
 
@@ -53,6 +61,30 @@ public class Full_NewListFragment extends Fragment {
         Log.d(TAG, "onStart: Initial data");
         initdata();
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume: Called");
+        news_activity.getSupportActionBar().hide();
+        initdata();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        mName.clear();
+        mImageURL.clear();
+        mDescription.clear();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mName.clear();
+        mImageURL.clear();
+        mDescription.clear();
+        super.onDestroy();
     }
 
     private void initdata() {

@@ -1,17 +1,26 @@
 package com.example.khonapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -33,7 +42,6 @@ public class Full_NewViewAdapter extends RecyclerView.Adapter<Full_NewViewAdapte
     @Override
     public Full_NewViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_list_full,parent,false);
-
         return new ViewHolder(view);
     }
 
@@ -42,6 +50,25 @@ public class Full_NewViewAdapter extends RecyclerView.Adapter<Full_NewViewAdapte
 
         holder.new_title.setText(mName.get(position).trim());
         holder.new_title.setSelected(true);
+
+        Glide.with(mcontext)
+                .asBitmap()
+                .load(mImageURL.get(position))
+                .listener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        Toast.makeText(mcontext, "Can't load image.", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onLoadFailed: Message : " + e);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(holder.news_full_img);
 
         holder.new_parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +88,7 @@ public class Full_NewViewAdapter extends RecyclerView.Adapter<Full_NewViewAdapte
                 activity.getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
-                        .replace(R.id.fragment_container, newFragment,"news").addToBackStack("news").commit();
-
+                        .replace(R.id.fragment_container, newFragment, "news_full_item").addToBackStack("news_full_item").commit();
             }
         });
     }
@@ -76,11 +102,15 @@ public class Full_NewViewAdapter extends RecyclerView.Adapter<Full_NewViewAdapte
 
         TextView new_title;
         CardView new_parent;
+        ImageView news_full_img;
+        ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            new_title  = itemView.findViewById(R.id.new_title_full);
+            new_title = itemView.findViewById(R.id.new_title_full);
             new_parent = itemView.findViewById(R.id.new_parent);
+            progressBar = itemView.findViewById(R.id.progressBar);
+            news_full_img = itemView.findViewById(R.id.news_img_fullList);
         }
     }
 }

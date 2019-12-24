@@ -38,7 +38,7 @@ public class ARFragment extends Fragment {
         ARListRecycleViewAdapter adapter = new ARListRecycleViewAdapter(getActivity(),context,ARName,FolderName);
         recyclerView.setAdapter(adapter);
 
-        textView.setText(getResources().getString(R.string.menu4));
+        textView.setText(getResources().getString(R.string.ar_toolbar));
         return view;
     }
 
