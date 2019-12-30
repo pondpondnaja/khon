@@ -175,6 +175,7 @@
                         app:cardCornerRadius="6dp"
                         app:cardElevation="1dp"
                         app:cardMaxElevation="2dp"
+                        android:onClick="eventClick"
                         android:layout_marginBottom="6dp"
                         android:layout_marginStart="3dp">
 

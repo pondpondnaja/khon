@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 public class Full_NewListFragment extends Fragment {
     private static final String TAG = "FN";
-    //private static final String URL = "http://192.168.64.2/3D/news.php";
-    private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();
@@ -64,19 +64,11 @@ public class Full_NewListFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        Log.d(TAG, "onResume: Called");
-        news_activity.getSupportActionBar().hide();
-        initdata();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
+    public void onStop() {
         mName.clear();
         mImageURL.clear();
         mDescription.clear();
-        super.onPause();
+        super.onStop();
     }
 
     @Override
@@ -105,7 +97,7 @@ public class Full_NewListFragment extends Fragment {
                                 String title = obj.getString("title");
                                 String description = obj.getString("description");
                                 String image_url = obj.getString("img_url");
-                                Log.d(TAG, "onResponse: Title : " + title + " Image url : " + image_url);
+                                //Log.d(TAG, "onResponse: Title : " + title + " Image url : " + image_url);
 
                                 mName.add(title);
                                 mDescription.add(description);

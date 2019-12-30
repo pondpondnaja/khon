@@ -1,7 +1,9 @@
 package com.example.khonapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -40,8 +42,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final int WRITE_PERMISSION_CODE = 100;
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int Limit = 4;
-    //private static final String URL = "http://192.168.64.2/3D/news.php";
-    private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     Toolbar toolbar;
     TextView toolbar_text;
     RecyclerView recyclerView,recyclerView_new;
-    CardView ar_card, detect_card;
+    CardView ar_card, detect_card, os_1, os_2;
     Runnable runtoLeft;
     Handler handler;
 
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         drawer          = findViewById(R.id.drawer_layout);
         ar_card = findViewById(R.id.card_1);
         detect_card = findViewById(R.id.card_2);
+        os_1 = findViewById(R.id.os_1);
+        os_2 = findViewById(R.id.os_2);
         toolbar_text    = toolbar.findViewById(R.id.text_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -113,6 +117,17 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                 }
             }
         });
+
+        os_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mailto = "mailto:giggabome@gmail.com" +
+                        "&subject=" + Uri.encode("Provide support");
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse(mailto));
+                startActivity(emailIntent);
+            }
+        });
         //initImageBitmap();
     }
 
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: recycle destroy");
-        handler.removeCallbacks(runtoLeft);
+        //handler.removeCallbacks(runtoLeft);
         recyclerView.clearFocus();
         recyclerView.stopScroll();
         recyclerView.clearOnScrollListeners();
@@ -305,6 +320,14 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                 .replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack("pic_detect").commit();
         onPause();
         getSupportActionBar().hide();
+    }
+
+    public void eventClick(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                .replace(R.id.fragment_container, new CalendarFragment(), "event").addToBackStack("event").commit();
+        onPause();
     }
 
     public void settoolbarTitle(String text){
