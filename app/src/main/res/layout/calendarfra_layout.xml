@@ -20,7 +20,9 @@
             android:id="@+id/calendarView"
             app:type="one_day_picker"
             app:eventsEnabled="true"
-            app:headerColor="@color/Main_color_2" />
+            app:headerColor="@color/Main_color_2"
+            app:selectionColor="@color/Main_color_2"
+            app:todayLabelColor="@color/Main_color_2" />
 
     </androidx.cardview.widget.CardView>
 

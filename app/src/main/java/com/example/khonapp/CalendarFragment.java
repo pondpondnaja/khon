@@ -45,6 +45,31 @@ public class CalendarFragment extends Fragment {
 
         String[] arr = {"2019-11-16", "2019-11-23", "2019-11-28", "2019-11-31", "2020-0-1", "2020-0-2"};
         String[] des = {"description 1", "description 2", "description 3", "description 4", "description 5", "description 6"};
+        String[] tit = {"Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"};
+
+        if (savedInstanceState == null) {
+            boolean match = false;
+            int date = calendarView.getFirstSelectedDate().get(Calendar.DATE);
+            for (int i = 0; i < days.size(); i++) {
+                if (String.valueOf(date).equals(days.get(i))) {
+                    if (text_description.getVisibility() != View.VISIBLE) {
+                        text_description.setVisibility(View.VISIBLE);
+                    }
+                    text_title.setText(tit[i]);
+                    text_description.setText(description.get(i));
+                    match = true;
+                    Log.d(TAG, "onDayClick: Event Day position : " + i);
+                    Log.d(TAG, "onDayClick: Event Description  : " + description.get(i));
+                    break;
+                } else {
+                    match = false;
+                }
+            }
+            if (!match) {
+                text_title.setText("No Event");
+                text_description.setVisibility(View.GONE);
+            }
+        }
 
         for (int i = 0; i < arr.length; i++) {
             String[] item = arr[i].split("-");
@@ -57,7 +82,7 @@ public class CalendarFragment extends Fragment {
         for (int j = 0; j < years.size(); j++) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Integer.valueOf(years.get(j)), Integer.valueOf(months.get(j)), Integer.valueOf(days.get(j)));
-            events.add(new MyEventDay(calendar, R.drawable.circle_btn_after, "I am Event " + (j + 1)));
+            events.add(new MyEventDay(calendar, R.drawable.calendar_dot, tit[j]));
         }
         /*Calendar calendar1 = Calendar.getInstance();
         calendar1.set(2019,11,4);
@@ -72,7 +97,7 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
-                Log.d(TAG, "onDayClick: " + eventDay.getCalendar().get(Calendar.DATE));
+                //Log.d(TAG, "onDayClick: " + eventDay.getCalendar().get(Calendar.DATE));
                 int i;
                 boolean match = false;
                 for (i = 0; i < days.size(); i++) {
@@ -97,5 +122,9 @@ public class CalendarFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void initData() {
+
     }
 }
