@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         os_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String mailto = "mailto:giggabome@gmail.com" +
-                        "&subject=" + Uri.encode("Provide support");
+                String mailto = "mailto:supporter@gmail.com" +
+                        "?subject=" + Uri.encode("Provide support");
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
                 emailIntent.setData(Uri.parse(mailto));
                 startActivity(emailIntent);

@@ -86,5 +86,4 @@ public class NewFragment extends Fragment {
         news_title.setText(new_title);
         news_detail.setText(news_des);
     }
-
 }

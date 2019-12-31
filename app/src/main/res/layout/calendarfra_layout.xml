@@ -34,57 +34,64 @@
         android:layout_below="@id/calendarHolder"
         android:background="@color/Main_color_1">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/event_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/demo_text"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/all_text_color"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/location"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/all_text_color"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/event_title" />
+                <TextView
+                    android:id="@+id/event_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/demo_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/all_text_color"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp" />
 
-            <TextView
-                android:id="@+id/location_r"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/all_text_color"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/demo_text"
-                android:layout_below="@id/event_title"
-                android:layout_toEndOf="@id/location" />
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/location"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/all_text_color"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@id/event_title" />
 
-            <TextView
-                android:id="@+id/event_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/demo_text"
-                android:textSize="15sp"
-                android:textColor="@color/all_text_color"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="22dp"
-                android:layout_below="@id/location" />
+                <TextView
+                    android:id="@+id/location_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/all_text_color"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/demo_text"
+                    android:layout_below="@id/event_title"
+                    android:layout_toEndOf="@id/location" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/event_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/demo_text"
+                    android:textSize="15sp"
+                    android:textColor="@color/all_text_color"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_below="@id/location"
+                    android:layout_marginBottom="5dp" />
+
+            </RelativeLayout>
+
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
 

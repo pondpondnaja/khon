@@ -46,7 +46,9 @@ public class Full_NewListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: CreateView called");
         final View view = inflater.inflate(R.layout.fragment_full_new, container, false);
+
         news_activity = (AppCompatActivity) view.getContext();
+        news_activity.getSupportActionBar().hide();
 
         context = view.getContext();
         news_toolbars = view.findViewById(R.id.news_toolbar);
