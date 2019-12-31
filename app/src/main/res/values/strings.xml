@@ -30,4 +30,5 @@
     <!-- Demo text -->
     <string name="ar_toolbar">AR</string>
     <string name="news_toolbar">NEWS</string>
+    <string name="location">Location :</string>
 </resources>
