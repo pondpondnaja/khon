@@ -58,7 +58,6 @@ public class ARFragment extends Fragment {
     }
 
     public void initdata() {
-
         Log.d(TAG, "initdata: addData");
         ARName.add("ท่าที่ 1 : ฉัน");
         ARName.add("ท่าที่ 2 : โกรธ");

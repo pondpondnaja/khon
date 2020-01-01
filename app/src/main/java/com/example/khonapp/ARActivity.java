@@ -51,8 +51,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private ArFragment arFragment;
     private boolean isModelPlace;
 
-    private String url = "http://192.168.64.2/3D/ar_path.php?";
-    //private String url = "https://utg-fansub.me/3D/ar_path.php?";
+    //private String url = "http://192.168.64.2/3D/ar_path.php?";
+    private String url = "https://utg-fansub.me/3D/ar_path.php?";
     private String ASSET_3D = "";
     private String foldername = "";
     private String build_url;
@@ -303,11 +303,9 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         Toast.makeText(getApplicationContext(), "Fetching Model From : " + foldername, Toast.LENGTH_SHORT).show();
         ModelRenderable
                 .builder()
-                .setSource(
-                        this,
-                        RenderableSource
+                .setSource(ARActivity.this, RenderableSource
                                 .builder()
-                                .setSource(this, Uri.parse(ASSET_3D), RenderableSource.SourceType.GLB)
+                        .setSource(ARActivity.this, Uri.parse(ASSET_3D), RenderableSource.SourceType.GLB)
                                 .setScale(0.01f)
                                 .setRecenterMode(RenderableSource.RecenterMode.ROOT)
                                 .build()

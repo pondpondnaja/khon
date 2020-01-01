@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final int WRITE_PERMISSION_CODE = 100;
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int Limit = 4;
-    private static final String URL = "http://192.168.64.2/3D/news.php";
-    //private static final String URL = "https://utg-fansub.me/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
+    private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
