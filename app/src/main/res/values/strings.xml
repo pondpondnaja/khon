@@ -31,4 +31,6 @@
     <string name="ar_toolbar">AR</string>
     <string name="news_toolbar">NEWS</string>
     <string name="location">Location :</string>
+    <string name="event_list">event_list</string>
+    <string name="contact_us">contact_us</string>
 </resources>

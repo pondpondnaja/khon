@@ -31,8 +31,8 @@ import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
     private static final String TAG = "FC";
-    //private static final String URL = "http://192.168.64.2/3D/calendar.php";
-    private static final String URL = "https://utg-fansub.me/3D/calendar.php";
+    private static final String URL = "http://192.168.64.2/3D/calendar.php";
+    //private static final String URL = "https://utg-fansub.me/3D/calendar.php";
 
     ArrayList<EventDay> events = new ArrayList<EventDay>();
     ArrayList<String> year_month_day = new ArrayList<>();

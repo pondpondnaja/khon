@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.wonderkiln.camerakit.CameraKitError;
@@ -27,11 +30,24 @@ import com.wonderkiln.camerakit.CameraKitImage;
 import com.wonderkiln.camerakit.CameraKitVideo;
 import com.wonderkiln.camerakit.CameraView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import static android.app.Activity.RESULT_OK;
 
 public class CameraFragment extends Fragment{
     private static final String TAG = "cameraActivity";
-    private static final int INPUT_SIZE = 224;
+    private static final String POSTURL = "http://192.168.1.43:5000/connectFromAndroid";
+    private static final int INPUT_SIZE = 784;
     private static final int RESULT_LOAD_IMG = 10;
     private CameraView cameraView;
     private ImageButton cap_btn,gall_btn;
@@ -41,6 +57,8 @@ public class CameraFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_camera,container,false);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -63,9 +81,23 @@ public class CameraFragment extends Fragment{
 
             @Override
             public void onImage(CameraKitImage cameraKitImage) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
                 bitmap = cameraKitImage.getBitmap();
                 bitmap = Bitmap.createScaledBitmap(bitmap,INPUT_SIZE,INPUT_SIZE,false);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
                 Log.d(TAG, "onImage: Byte of image "+bitmap);
+
+                RequestBody postBodyImage = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("image", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
+                        .addFormDataPart("algo", "0")
+                        .build();
+
+                postRequest(POSTURL, postBodyImage);
             }
 
             @Override
@@ -148,7 +180,64 @@ public class CameraFragment extends Fragment{
             //imgPath.setText(selectedImagePath);
             Log.d(TAG, "onActivityResult: IMG_Path : " + selectedImagePath);
             Toast.makeText(getContext(), selectedImagePath, Toast.LENGTH_LONG).show();
+            connectServer();
         }
+    }
+
+    public void connectServer() {
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        // Read BitMap by file path
+        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        RequestBody postBodyImage = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
+                .addFormDataPart("algo", "0")
+                .build();
+
+        postRequest(POSTURL, postBodyImage);
+    }
+
+    public void postRequest(String postUrl, RequestBody postBody) {
+
+        OkHttpClient client = new OkHttpClient();
+        AppCompatActivity appCompatActivity = new AppCompatActivity();
+        Request request = new Request.Builder()
+                .url(postUrl)
+                .post(postBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Cancel the post on failure.
+                call.cancel();
+                appCompatActivity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getContext(), "Fail to connect to server", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                // In order to access the TextView inside the UI thread, the code is executed inside runOnUiThread()
+                appCompatActivity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            Toast.makeText(getContext(), "Result = " + response.body().string(), Toast.LENGTH_LONG).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     // Implementation of the getPath() method and all its requirements is taken from the StackOverflow Paul Burke's answer: https://stackoverflow.com/a/20559175/5426539

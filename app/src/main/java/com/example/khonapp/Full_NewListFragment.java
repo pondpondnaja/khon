@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 public class Full_NewListFragment extends Fragment {
     private static final String TAG = "FN";
-    //private static final String URL = "http://192.168.64.2/3D/news.php";
-    private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();

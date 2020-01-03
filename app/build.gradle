@@ -76,6 +76,8 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     //Calendar
     implementation 'com.applandeo:material-calendar-view:1.7.0'
+    //FlaskConnector
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 }
 
 sceneform.asset('sampledata/1227 Earth.obj',
