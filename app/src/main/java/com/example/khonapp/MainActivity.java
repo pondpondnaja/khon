@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,19 +43,21 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final String URL = "http://192.168.64.2/3D/news.php";
     //  private static final String URL = "https://utg-fansub.me/3D/news.php";
 
-    private DrawerLayout drawer;
+    //private DrawerLayout drawer;
     private Toast backToast;
+
     boolean doubleBackToExitPressedOnce = false;
     boolean isRunning                   = false;
 
-    FragmentManager fragmentManager;
-    NavigationView navigationView;
-    Toolbar toolbar;
-    TextView toolbar_text;
-    RecyclerView recyclerView,recyclerView_new;
-    CardView ar_card, detect_card, os_1, os_2;
-    Runnable runtoLeft;
-    Handler handler;
+    private FragmentManager fragmentManager;
+    private RecyclerView recyclerView;
+    //private NavigationView navigationView;
+    //private Runnable runtoLeft;
+    //private Handler handler;
+
+    public Toolbar toolbar;
+    public TextView toolbar_text;
+    public CardView ar_card, detect_card, os_1, os_2;
 
     //Recycle vars.
     private ArrayList<String> mName        = new ArrayList<>();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private ArrayList<String> mDescription = new ArrayList<>();
 
     //Layout
-    LinearLayoutManager layoutManager,layoutManager_new;
+    LinearLayoutManager layoutManager;
     SlideRecycleViewAdapter adapter;
 
     @Override
@@ -76,12 +76,13 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
         fragmentManager = getSupportFragmentManager();
         toolbar         = findViewById(R.id.toolbar);
-        drawer          = findViewById(R.id.drawer_layout);
+        //drawer          = findViewById(R.id.drawer_layout);
         ar_card = findViewById(R.id.card_1);
         detect_card = findViewById(R.id.card_2);
         os_1 = findViewById(R.id.os_1);
         os_2 = findViewById(R.id.os_2);
         toolbar_text    = toolbar.findViewById(R.id.text_toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_text.setText(toolbar.getTitle());
