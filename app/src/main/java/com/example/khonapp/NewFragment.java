@@ -24,11 +24,12 @@ import com.bumptech.glide.request.target.Target;
 public class NewFragment extends Fragment {
     private static final String TAG = "newAc";
 
-    Bundle bundle;
-    Toolbar toolbar;
-    ImageView news_img;
-    TextView news_title,news_detail;
-    ProgressBar progressBar2;
+    private Bundle bundle;
+    private Toolbar toolbar;
+    private ImageView news_img;
+    private TextView news_title, news_detail;
+    private ProgressBar progressBar2;
+    private MainActivity activity;
 
     private String new_img,new_title,news_des = "";
 
@@ -41,7 +42,7 @@ public class NewFragment extends Fragment {
         news_detail  = view.findViewById(R.id.news_detail);
         progressBar2 = view.findViewById(R.id.progressBar_news);
 
-        MainActivity activity =  (MainActivity) getActivity();
+        activity = (MainActivity) getActivity();
         AppCompatActivity news_activity = (AppCompatActivity) view.getContext();
 
         bundle = getArguments();
@@ -63,6 +64,12 @@ public class NewFragment extends Fragment {
         setData();
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activity.toolbar_text.setSelected(false);
     }
 
     private void setData() {

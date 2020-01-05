@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int Limit = 4;
     private static final String URL = "http://192.168.64.2/3D/news.php";
-    //private static final String URL = "https://utg-fansub.me/3D/news.php";
+    //  private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private DrawerLayout drawer;
     private Toast backToast;
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         detect_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE)) {
+                if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE) && checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
                     CameraClick();
                 }
             }

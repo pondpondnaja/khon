@@ -50,7 +50,12 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment:1.0.0"
     implementation "android.arch.navigation:navigation-ui:1.0.0"
     //Camera module from CameraKit.
-    implementation "com.wonderkiln:camerakit:0.13.2"
+    implementation 'com.camerakit:camerakit:1.0.0-beta3.11'
+    implementation 'com.camerakit:jpegkit:0.1.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
+    //Camera module from CameraView
+    implementation 'com.otaliastudios:cameraview:2.6.0'
     //TensorFlow lite.
     implementation "org.tensorflow:tensorflow-lite:2.0.0"
     implementation "org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly"

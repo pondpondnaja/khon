@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -17,21 +19,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.wonderkiln.camerakit.CameraKitError;
-import com.wonderkiln.camerakit.CameraKitEvent;
-import com.wonderkiln.camerakit.CameraKitEventListener;
-import com.wonderkiln.camerakit.CameraKitImage;
-import com.wonderkiln.camerakit.CameraKitVideo;
-import com.wonderkiln.camerakit.CameraView;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraView;
+import com.otaliastudios.cameraview.PictureResult;
+import com.otaliastudios.cameraview.controls.Mode;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,120 +52,169 @@ import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CameraFragment extends Fragment{
+public class CameraFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "cameraActivity";
-    private static final String POSTURL = "http://192.168.1.43:5000/connectFromAndroid";
-    private static final int INPUT_SIZE = 784;
+    private static final String URL = "http://192.168.1.41:5000/connectFromAndroid";
+    private static final int INPUT_SIZE = 224;
     private static final int RESULT_LOAD_IMG = 10;
+
     private CameraView cameraView;
-    private ImageButton cap_btn,gall_btn;
+    private ImageView cap_btn, gall_btn, progress_back;
     private Bitmap bitmap;
     private String selectedImagePath;
+    private ProgressBar progressBar;
+
+    private Bundle bundle;
+    private Context context;
 
     @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_camera,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.fragment_camera, container, false);
+        context = rootView.getContext();
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        AppCompatActivity canera_activity = (AppCompatActivity) context;
+        canera_activity.getSupportActionBar().hide();
 
         cap_btn = rootView.findViewById(R.id.detection);
         gall_btn = rootView.findViewById(R.id.gallery_btn);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        progress_back = rootView.findViewById(R.id.img_overlay);
 
-        cameraView = rootView.findViewById(R.id.main_camera);
-        cameraView.addCameraKitListener(new CameraKitEventListener() {
+        cameraView = rootView.findViewById(R.id.camera);
+        cameraView.setLifecycleOwner(getViewLifecycleOwner());
+        cameraView.addCameraListener(new Listener());
+        cameraView.setPlaySounds(false);
 
-            @Override
-            public void onEvent(CameraKitEvent cameraKitEvent) {
-
-            }
-
-            @Override
-            public void onError(CameraKitError cameraKitError) {
-
-            }
-
-            @Override
-            public void onImage(CameraKitImage cameraKitImage) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                BitmapFactory.Options options = new BitmapFactory.Options();
-
-                bitmap = cameraKitImage.getBitmap();
-                bitmap = Bitmap.createScaledBitmap(bitmap,INPUT_SIZE,INPUT_SIZE,false);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                Log.d(TAG, "onImage: Byte of image "+bitmap);
-
-                RequestBody postBodyImage = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("image", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
-                        .addFormDataPart("algo", "0")
-                        .build();
-
-                postRequest(POSTURL, postBodyImage);
-            }
-
-            @Override
-            public void onVideo(CameraKitVideo cameraKitVideo) {
-
-            }
-
-        });
-
-        cap_btn.setOnClickListener(new View.OnClickListener() {
+        cap_btn.setOnClickListener(this);
+        gall_btn.setOnClickListener(this);
+        /*cap_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraView.captureImage();
-            }
-        });
+                Log.d(TAG, "onClick: Called");
+                cameraView.takePicture();
+                cameraView.addCameraListener(new CameraListener() {
+                    @Override
+                    public void onPictureTaken(@NonNull PictureResult result) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+                        String currentDateAndTime = sdf.format(new Date());
+                        File savedPhoto = new File(Environment.DIRECTORY_PICTURES, currentDateAndTime+".jpg");
+                        byte[] capturedImage = result.getData();
+                        try {
+                            FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
+                            outputStream.write(capturedImage);
+                            outputStream.close();
+                            Log.d(TAG, "onImage: PATH : "+savedPhoto.getPath());
+                            selectedImagePath = savedPhoto.getPath();
+                            connectServer();
 
-        gall_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage();
-            }
-        });
+                        } catch (java.io.IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
+                    @Override
+                    public void onVideoTaken(@NonNull VideoResult result) {
+                        super.onVideoTaken(result);
+                    }
+                });
+            }
+        });*/
+
+        //bitmap = cameraKitImage.getBitmap();
+        //bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false);
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         return rootView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onPause: camera start");
-        cameraView.start();
+        Log.d(TAG, "onStart: camera start");
+        cameraView.open();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onPause: camera resume");
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        cameraView.start();
+        cameraView.open();
+        Log.d(TAG, "onResume: camera resume called");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        cameraView.close();
         Log.d(TAG, "onPause: camera pause");
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        cameraView.stop();
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
+        cameraView.destroy();
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Log.d(TAG, "onDestroy: Camera has been destroyed.");
     }
 
-    public void selectImage() {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.detection:
+                capturePicture();
+                break;
+            case R.id.gallery_btn:
+                selectImage();
+                break;
+        }
+    }
+
+    private class Listener extends CameraListener {
+
+        @Override
+        public void onPictureTaken(@NonNull PictureResult result) {
+            super.onPictureTaken(result);
+            // This can happen if picture was taken with a gesture.
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+            String currentDateAndTime = sdf.format(new Date());
+            File savedPhotoFolder = new File(Environment.getExternalStorageDirectory(), "Download");
+            File imageFile = new File(savedPhotoFolder, currentDateAndTime + ".jpeg");
+            byte[] capturedImage = result.getData();
+            try {
+                FileOutputStream outputStream = new FileOutputStream(imageFile.getPath());
+                outputStream.write(capturedImage);
+                outputStream.close();
+                Log.d(TAG, "onImage: PATH : " + imageFile.getPath());
+                selectedImagePath = imageFile.getPath();
+                previewImage();
+            } catch (java.io.IOException e) {
+                Log.d(TAG, "onPictureTaken: Error : " + e.toString());
+            }
+        }
+
+        @Override
+        public void onZoomChanged(float newValue, @NonNull float[] bounds, @Nullable PointF[] fingers) {
+            super.onZoomChanged(newValue, bounds, fingers);
+            Toast.makeText(getContext(), "Zoom:" + newValue, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void capturePicture() {
+        if (cameraView.getMode() == Mode.VIDEO) {
+            Toast.makeText(getContext(), "Can't take HQ pictures while in VIDEO mode.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cameraView.takePicture();
+    }
+
+    private void selectImage() {
         Toast.makeText(getContext(), "Opening gallery", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "selectImage: Selected called");
         Intent intent = new Intent();
@@ -166,12 +223,13 @@ public class CameraFragment extends Fragment{
         startActivityForResult(intent, RESULT_LOAD_IMG);*/
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMG);
+        onPause();
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode,Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data){
+        if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
             Log.d(TAG, "onActivityResult: ImageSelected");
             Toast.makeText(getContext(), "ImageSelected", Toast.LENGTH_LONG).show();
             Uri uri = data.getData();
@@ -180,8 +238,31 @@ public class CameraFragment extends Fragment{
             //imgPath.setText(selectedImagePath);
             Log.d(TAG, "onActivityResult: IMG_Path : " + selectedImagePath);
             Toast.makeText(getContext(), selectedImagePath, Toast.LENGTH_LONG).show();
-            connectServer();
+            previewImage();
         }
+    }
+
+    private void previewImage() {
+        progressBar.setVisibility(View.VISIBLE);
+        progress_back.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+                progress_back.setVisibility(View.GONE);
+
+                bundle = new Bundle();
+                bundle.putString("img_path", selectedImagePath);
+                CameraResultFragment cameraResultFragment = new CameraResultFragment();
+                cameraResultFragment.setArguments(bundle);
+
+                AppCompatActivity activity = (AppCompatActivity) context;
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                        .add(R.id.fragment_container, cameraResultFragment, "detect_result").addToBackStack("detect_result").commit();
+            }
+        }, 2000);
     }
 
     public void connectServer() {
@@ -200,7 +281,7 @@ public class CameraFragment extends Fragment{
                 .addFormDataPart("algo", "0")
                 .build();
 
-        postRequest(POSTURL, postBodyImage);
+        postRequest(URL, postBodyImage);
     }
 
     public void postRequest(String postUrl, RequestBody postBody) {
@@ -219,7 +300,11 @@ public class CameraFragment extends Fragment{
                 call.cancel();
                 appCompatActivity.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(getContext(), "Fail to connect to server", Toast.LENGTH_LONG).show();
+                        try {
+                            Toast.makeText(getContext(), "Fail to connect server", Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
