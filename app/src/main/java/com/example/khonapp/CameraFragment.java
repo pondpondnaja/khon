@@ -55,7 +55,7 @@ import static android.app.Activity.RESULT_OK;
 public class CameraFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "cameraActivity";
     private static final String URL = "http://192.168.1.41:5000/connectFromAndroid";
-    private static final int INPUT_SIZE = 224;
+    //private static final int INPUT_SIZE = 224;
     private static final int RESULT_LOAD_IMG = 10;
 
     private CameraView cameraView;
@@ -77,8 +77,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        AppCompatActivity canera_activity = (AppCompatActivity) context;
-        canera_activity.getSupportActionBar().hide();
+        AppCompatActivity camera_activity = (AppCompatActivity) context;
+        camera_activity.getSupportActionBar().hide();
 
         cap_btn = rootView.findViewById(R.id.detection);
         gall_btn = rootView.findViewById(R.id.gallery_btn);
@@ -217,7 +217,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     private void selectImage() {
         Toast.makeText(getContext(), "Opening gallery", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "selectImage: Selected called");
-        Intent intent = new Intent();
+        //Intent intent = new Intent();
         //intent.setType("*/*");
         /*intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, RESULT_LOAD_IMG);*/
@@ -245,23 +245,25 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     private void previewImage() {
         progressBar.setVisibility(View.VISIBLE);
         progress_back.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.GONE);
-                progress_back.setVisibility(View.GONE);
+        cap_btn.setEnabled(false);
+        gall_btn.setEnabled(false);
 
-                bundle = new Bundle();
-                bundle.putString("img_path", selectedImagePath);
-                CameraResultFragment cameraResultFragment = new CameraResultFragment();
-                cameraResultFragment.setArguments(bundle);
+        new Handler().postDelayed(() -> {
+            progressBar.setVisibility(View.GONE);
+            progress_back.setVisibility(View.GONE);
+            cap_btn.setEnabled(true);
+            gall_btn.setEnabled(true);
 
-                AppCompatActivity activity = (AppCompatActivity) context;
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
-                        .add(R.id.fragment_container, cameraResultFragment, "detect_result").addToBackStack("detect_result").commit();
-            }
+            bundle = new Bundle();
+            bundle.putString("img_path", selectedImagePath);
+            CameraResultFragment cameraResultFragment = new CameraResultFragment();
+            cameraResultFragment.setArguments(bundle);
+
+            AppCompatActivity activity = (AppCompatActivity) context;
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                    .add(R.id.fragment_container, cameraResultFragment, "detect_result").addToBackStack("detect_result").commit();
         }, 2000);
     }
 
@@ -284,7 +286,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         postRequest(URL, postBodyImage);
     }
 
-    public void postRequest(String postUrl, RequestBody postBody) {
+    private void postRequest(String postUrl, RequestBody postBody) {
 
         OkHttpClient client = new OkHttpClient();
         AppCompatActivity appCompatActivity = new AppCompatActivity();
@@ -326,7 +328,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     }
 
     // Implementation of the getPath() method and all its requirements is taken from the StackOverflow Paul Burke's answer: https://stackoverflow.com/a/20559175/5426539
-    public static String getPath(final Context context, final Uri uri) {
+    private static String getPath(final Context context, final Uri uri) {
         // DocumentProvider
         if (DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
@@ -387,34 +389,28 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         return null;
     }
 
-    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
-        Cursor cursor = null;
+    private static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+
         final String column = "_data";
         final String[] projection = {column};
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
+        try (Cursor cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
             }
-        } finally {
-            if (cursor != null)
-                cursor.close();
         }
         return null;
     }
 
-    public static boolean isExternalStorageDocument(Uri uri) {
+    private static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isDownloadsDocument(Uri uri) {
+    private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isMediaDocument(Uri uri) {
+    private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
