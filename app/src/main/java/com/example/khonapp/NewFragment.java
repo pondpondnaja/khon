@@ -1,5 +1,6 @@
 package com.example.khonapp;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,11 +33,13 @@ public class NewFragment extends Fragment {
     private MainActivity activity;
 
     private String new_img,new_title,news_des = "";
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.activity_news,container,false);
 
+        context = view.getContext();
         news_img     = view.findViewById(R.id.news_img);
         news_title   = view.findViewById(R.id.news_title);
         news_detail  = view.findViewById(R.id.news_detail);
@@ -53,12 +56,7 @@ public class NewFragment extends Fragment {
 
             activity.settoolbarTitle(new_title);
             news_activity.getSupportActionBar().show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    activity.toolbar_text.setSelected(true);
-                }
-            }, 1000);
+            new Handler().postDelayed(() -> activity.toolbar_text.setSelected(true), 1000);
         }
 
         setData();
@@ -73,7 +71,7 @@ public class NewFragment extends Fragment {
     }
 
     private void setData() {
-        Glide.with(getContext())
+        Glide.with(context)
                 .asBitmap()
                 .load(new_img)
                 .listener(new RequestListener<Bitmap>() {

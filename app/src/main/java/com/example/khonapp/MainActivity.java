@@ -23,12 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -101,33 +98,24 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
             //navigationView.setCheckedItem(R.id.home_section);
         }
 
-        ar_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
-                    ARClick();
-                }
+        ar_card.setOnClickListener(view -> {
+            if (checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
+                ARClick();
             }
         });
 
-        detect_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE) && checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
-                    CameraClick();
-                }
+        detect_card.setOnClickListener(view -> {
+            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE) && checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
+                CameraClick();
             }
         });
 
-        os_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String mailto = "mailto:supporter@gmail.com" +
-                        "?subject=" + Uri.encode("Provide support");
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                emailIntent.setData(Uri.parse(mailto));
-                startActivity(emailIntent);
-            }
+        os_1.setOnClickListener(view -> {
+            String mailto = "mailto:supporter@gmail.com" +
+                    "?subject=" + Uri.encode("Provide support");
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse(mailto));
+            startActivity(emailIntent);
         });
         //initImageBitmap();
     }
@@ -227,40 +215,34 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONArray>(){
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, "onResponse: JSON respond : "+response);
-                        for (int i = 0; i < Limit; i++) {                    // Parsing json
-                            try {
-                                JSONObject obj     = response.getJSONObject(i);
-                                String title       = obj.getString("title");
-                                String description = obj.getString("description");
-                                String image_url   = obj.getString("img_url");
-                                Log.d(TAG, "onResponse: Title : "+title+" Image url : "+image_url);
+                response -> {
+                    Log.d(TAG, "onResponse: JSON respond : " + response);
+                    for (int i = 0; i < Limit; i++) {                    // Parsing json
+                        try {
+                            JSONObject obj = response.getJSONObject(i);
+                            String title = obj.getString("title");
+                            String description = obj.getString("description");
+                            String image_url = obj.getString("img_url");
+                            Log.d(TAG, "onResponse: Title : " + title + " Image url : " + image_url);
 
-                                mName.add(title);
-                                mDescription.add(description);
-                                mImageURL.add(image_url);
+                            mName.add(title);
+                            mDescription.add(description);
+                            mImageURL.add(image_url);
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        mName.add("Read more");
-                        mDescription.add("Read more");
-                        mImageURL.add("Read more");
-                        initRecycleView();
-                        //scrollable();
-                        //autoScrolltoLeft();
                     }
-                },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: Error appear");
-                Toast.makeText(MainActivity.this,"Please check your internet connection or go to contact us.",Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-            }
+                    mName.add("Read more");
+                    mDescription.add("Read more");
+                    mImageURL.add("Read more");
+                    initRecycleView();
+                    //scrollable();
+                    //autoScrolltoLeft();
+                }, error -> {
+            Log.d(TAG, "onErrorResponse: Error appear");
+            Toast.makeText(MainActivity.this, "Please check your internet connection or go to contact us.", Toast.LENGTH_LONG).show();
+            error.printStackTrace();
         });
         requestQueue.add(request);
     }

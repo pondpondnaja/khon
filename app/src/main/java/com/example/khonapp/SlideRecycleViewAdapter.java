@@ -39,11 +39,11 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
     Bundle bundle;
     View view;
 
-    public SlideRecycleViewAdapter(Activity mActivity, Context mcontext, ArrayList<String> mName, ArrayList<String> mImageURL, ArrayList<String> mDescription) {
+    public SlideRecycleViewAdapter(Activity mActivity, Context mContext, ArrayList<String> mName, ArrayList<String> mImageURL, ArrayList<String> mDescription) {
         this.mName = mName;
         this.mImageURL = mImageURL;
         this.mDescription = mDescription;
-        this.mcontext = mcontext;
+        this.mcontext = mContext;
         this.mActivity = mActivity;
     }
 
@@ -99,39 +99,31 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
                     .into(holder.img);
         }
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: click on image : " + mName.get(position));
-                Toast.makeText(mcontext, mName.get(position), Toast.LENGTH_SHORT).show();
+        holder.parentLayout.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: click on image : " + mName.get(position));
+            Toast.makeText(mcontext, mName.get(position), Toast.LENGTH_SHORT).show();
 
-                switch (position) {
+            if (position == Slide_size) {
+                AppCompatActivity news_activity = (AppCompatActivity) view.getContext();
+                news_activity.getSupportActionBar().hide();
+                news_activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, new Full_NewListFragment(), "full_news").addToBackStack("full_news").commit();
+            } else {
+                bundle = new Bundle();
+                bundle.putString("new_title", mName.get(position));
+                bundle.putString("new_img", mImageURL.get(position));
+                bundle.putString("news_des", mDescription.get(position));
 
-                    case Slide_size:
-                        AppCompatActivity news_activity = (AppCompatActivity) view.getContext();
-                        news_activity.getSupportActionBar().hide();
-                        news_activity.getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
-                                .replace(R.id.fragment_container, new Full_NewListFragment(), "full_news").addToBackStack("full_news").commit();
-                        break;
+                NewFragment newFragment = new NewFragment();
+                newFragment.setArguments(bundle);
 
-                    default:
-                        bundle = new Bundle();
-                        bundle.putString("new_title", mName.get(position));
-                        bundle.putString("new_img", mImageURL.get(position));
-                        bundle.putString("news_des", mDescription.get(position));
-
-                        NewFragment newFragment = new NewFragment();
-                        newFragment.setArguments(bundle);
-
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                        activity.getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
-                                .replace(R.id.fragment_container, newFragment, "news").addToBackStack("news").commit();
-                        break;
-                }
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, newFragment, "news").addToBackStack("news").commit();
             }
         });
     }
@@ -149,7 +141,7 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
         ProgressBar progressBar;
         //TextView text;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             parentLayout = itemView.findViewById(R.id.parentLayout);
             img = itemView.findViewById(R.id.image_view);

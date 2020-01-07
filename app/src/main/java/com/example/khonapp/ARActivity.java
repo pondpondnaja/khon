@@ -19,8 +19,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -107,8 +105,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
             Toast.makeText(ARActivity.this, "Failed to create AR session.", Toast.LENGTH_LONG).show();
-            Intent goback = new Intent(ARActivity.this, MainActivity.class);
-            startActivity(goback);
+            startActivity(new Intent(ARActivity.this, MainActivity.class));
             finish();
         } else {
             if (savedInstanceState == null) {
@@ -143,40 +140,39 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             //Auto detection surface Method.
             arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
         }
-        moreinfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+        moreinfo.setOnClickListener(view -> {
 
-                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2, getApplicationContext().getTheme()));
-                    mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if (mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
 
-                    if (foldername.equals("Am")) {
+                moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2, getApplicationContext().getTheme()));
+                mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
+                switch (foldername) {
+                    case "Am":
                         mtextViewState.setText("ท่าฉัน");
+                        break;
 
-                    } else if (foldername.equals("Angry")) {
-
+                    case "Angry":
                         mtextViewState.setText("ท่าโกรธ");
+                        break;
 
-                    } else if (foldername.equals("Cry")) {
-
+                    case "Cry":
                         mtextViewState.setText("ท่าร้องไห้");
+                        break;
 
-                    } else if (foldername.equals("Shy")) {
-
+                    case "Shy":
                         mtextViewState.setText("ท่าเขิน");
+                        break;
 
-                    } else if (foldername.equals("Smile")) {
-
+                    case "Smile":
                         mtextViewState.setText("ท่ายิ้ม");
-
-                    }
-                } else {
-                    mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
+                        break;
                 }
+
+            } else {
+                mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
             }
         });
     }
@@ -188,8 +184,8 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setClickListener() {
-        for (int i = 0; i < arrayView.length; i++) {
-            arrayView[i].setOnClickListener(this);
+        for (View view : arrayView) {
+            view.setOnClickListener(this);
         }
     }
 
@@ -253,6 +249,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         }
 
         Frame frame = arFragment.getArSceneView().getArFrame();
+        assert frame != null;
         Collection<Plane> planes = frame.getUpdatedTrackables(Plane.class);
         for (Plane plane : planes) {
             if (plane.getTrackingState() == TrackingState.TRACKING) {
@@ -270,27 +267,22 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         build_url = url + "action=" + action + "&" + "races=" + races;
         Log.d(TAG, "getPath: Final url : " + build_url);
         RequestQueue requestQueue = Volley.newRequestQueue(ARActivity.this);
-        StringRequest request = new StringRequest(Request.Method.GET, build_url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "onResponse: " + response);
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    JSONObject item = jsonArray.getJSONObject(0);
-                    model_url = item.getString("file_url");
-                    ASSET_3D = model_url;
-                    Log.d(TAG, "onResponse: Path from respond : " + ASSET_3D);
+        StringRequest request = new StringRequest(Request.Method.GET, build_url,
+                response -> {
+                    Log.d(TAG, "onResponse: " + response);
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        JSONObject item = jsonArray.getJSONObject(0);
+                        model_url = item.getString("file_url");
+                        ASSET_3D = model_url;
+                        Log.d(TAG, "onResponse: Path from respond : " + ASSET_3D);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("onError", error.toString());
-                Toast.makeText(ARActivity.this, "เกิดข้อผิดพลาดโปรดลองอีกครั้ง", Toast.LENGTH_SHORT).show();
-            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            Log.d("onError", error.toString());
+            Toast.makeText(ARActivity.this, "เกิดข้อผิดพลาดโปรดลองอีกครั้ง", Toast.LENGTH_SHORT).show();
         });
         requestQueue.add(request);
     }
@@ -304,11 +296,11 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         ModelRenderable
                 .builder()
                 .setSource(ARActivity.this, RenderableSource
-                                .builder()
+                        .builder()
                         .setSource(ARActivity.this, Uri.parse(ASSET_3D), RenderableSource.SourceType.GLB)
-                                .setScale(0.01f)
-                                .setRecenterMode(RenderableSource.RecenterMode.ROOT)
-                                .build()
+                        .setScale(0.01f)
+                        .setRecenterMode(RenderableSource.RecenterMode.ROOT)
+                        .build()
                 ).setRegistryId(ASSET_3D)
                 .build()
                 .thenAccept(modelRenderable -> addNodeToScene(modelRenderable, anchor))
