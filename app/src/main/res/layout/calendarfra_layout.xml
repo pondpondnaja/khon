@@ -21,79 +21,10 @@
             app:eventsEnabled="true"
             app:headerColor="@color/Main_color_2"
             app:selectionColor="@color/Main_color_2"
-            app:todayLabelColor="@color/Main_color_2"
+            app:todayLabelColor="@color/today_color"
             app:type="one_day_picker" />
 
     </androidx.cardview.widget.CardView>
-
-    <!--androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="15dp"
-        app:cardCornerRadius="6dp"
-        android:layout_below="@id/calendarHolder"
-        android:background="@color/Main_color_1">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/event_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/demo_text"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/all_text_color"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/location"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/all_text_color"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_below="@id/event_title" />
-
-                <TextView
-                    android:id="@+id/location_r"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/all_text_color"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:text="@string/demo_text"
-                    android:layout_below="@id/event_title"
-                    android:layout_toEndOf="@id/location" />
-
-                <TextView
-                    android:id="@+id/event_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/demo_text"
-                    android:textSize="15sp"
-                    android:textColor="@color/all_text_color"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_below="@id/location"
-                    android:layout_marginBottom="5dp" />
-
-            </RelativeLayout>
-
-        </ScrollView>
-
-    </androidx.cardview.widget.CardView-->
 
     <ImageView
         android:id="@+id/event_detail_popup"

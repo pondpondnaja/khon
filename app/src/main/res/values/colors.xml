@@ -17,4 +17,5 @@
     <color name="all_text_color">#000000</color>
 
     <color name="select_ar">#B482B3</color>
+    <color name="today_color">#FF1300</color>
 </resources>

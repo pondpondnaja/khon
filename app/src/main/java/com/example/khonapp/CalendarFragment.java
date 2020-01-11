@@ -192,11 +192,12 @@ public class CalendarFragment extends Fragment {
         }
         calendarView.setEvents(events);
 
+        String URL_Builder;
         boolean match = false;
         int date = calendarView.getFirstSelectedDate().get(Calendar.DATE);
         for (int i = 0; i < days.size(); i++) {
             if (String.valueOf(date).equals(days.get(i))) {
-                if (text_description.getVisibility() != View.VISIBLE) {
+                if (text_description.getVisibility() != View.VISIBLE || event_img.getVisibility() != View.VISIBLE) {
                     text_description.setVisibility(View.VISIBLE);
                     location_t.setVisibility(View.VISIBLE);
                     text_location.setVisibility(View.VISIBLE);
@@ -205,6 +206,12 @@ public class CalendarFragment extends Fragment {
                 text_title.setText(title.get(i));
                 text_description.setText(description.get(i));
                 text_location.setText(location.get(i));
+                if (img_name.get(i) != null) {
+                    URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i);
+                    Glide.with(context).load(URL_Builder).into(event_img);
+                } else {
+                    event_img.setVisibility(View.GONE);
+                }
                 match = true;
                 break;
             }
