@@ -85,7 +85,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
 
-        parentView = findViewById(R.id.parentview);
+        parentView = findViewById(R.id.parentView);
         human_m = findViewById(R.id.human_m);
         human_fm = findViewById(R.id.human_fm);
         giant = findViewById(R.id.giant);
@@ -115,7 +115,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
             //Build Path
             getPath(FolderName, "human_m");
-            arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
+            arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment_model);
 
             //init model border
             human_m.setBorderColor(getResources().getColor(R.color.select_ar, getApplicationContext().getTheme()));

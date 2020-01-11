@@ -38,4 +38,7 @@
     <string name="preview_image">preview_image</string>
     <string name="progressbar_background">progressBar_background</string>
     <string name="calendar_noevent">No Event</string>
+    <string name="btn_symbol">\?</string>
+    <string name="event_calendar_decoration">event_calendar_decoration</string>
+    <string name="event_popup_btn">event_popup_btn</string>
 </resources>

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +44,8 @@ public class CalendarFragment extends Fragment {
     private ArrayList<String> days = new ArrayList<>();
 
     private TextView text_title, text_description, text_location, location_t;
+    private ImageView popUp_btn;
+    private BottomSheetBehavior mBottomSheetBehavior;
     private CalendarView calendarView;
     private Context context;
 
@@ -60,6 +64,10 @@ public class CalendarFragment extends Fragment {
         text_description = view.findViewById(R.id.event_description);
         text_location = view.findViewById(R.id.location_r);
         location_t = view.findViewById(R.id.location);
+        popUp_btn = view.findViewById(R.id.event_detail_popup);
+
+        View bottomSheet = view.findViewById(R.id.bottom_sheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         //String[] arr = {"2019-11-16", "2019-11-23", "2019-11-28", "2019-11-31", "2020-0-1", "2020-0-2"};
         //String[] des = {"description 1", "description 2", "description 3", "description 4", "description 5", "description 6"};
@@ -71,7 +79,6 @@ public class CalendarFragment extends Fragment {
             months.add(item[1]);
             days.add(item[2]);
         }*/
-
         calendarView.setOnDayClickListener(eventDay -> {
             //Log.d(TAG, "onDayClick: " + eventDay.getCalendar().get(Calendar.DATE));
             int i;
@@ -106,6 +113,13 @@ public class CalendarFragment extends Fragment {
                 location_t.setVisibility(View.GONE);
             }
         });
+
+        popUp_btn.setOnClickListener(View -> {
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+
         return view;
     }
 
