@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,7 +61,6 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
     private CameraView cameraView;
     private ImageView cap_btn, gall_btn, progress_back;
-    private Bitmap bitmap;
     private String selectedImagePath;
     private ProgressBar progressBar;
 
@@ -75,10 +75,11 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         AppCompatActivity camera_activity = (AppCompatActivity) context;
-        camera_activity.getSupportActionBar().hide();
+        Objects.requireNonNull(camera_activity.getSupportActionBar()).hide();
 
         cap_btn = rootView.findViewById(R.id.detection);
         gall_btn = rootView.findViewById(R.id.gallery_btn);
@@ -141,7 +142,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         cameraView.open();
         Log.d(TAG, "onResume: camera resume called");
@@ -152,7 +153,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         super.onPause();
         cameraView.close();
         Log.d(TAG, "onPause: camera pause");
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
@@ -160,7 +161,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         cameraView.destroy();
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
@@ -280,7 +281,6 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         RequestBody postBodyImage = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("image", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
-                .addFormDataPart("algo", "0")
                 .build();
 
         postRequest(URL, postBodyImage);
@@ -300,27 +300,24 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
             public void onFailure(Call call, IOException e) {
                 // Cancel the post on failure.
                 call.cancel();
-                appCompatActivity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            Toast.makeText(getContext(), "Fail to connect server", Toast.LENGTH_LONG).show();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                appCompatActivity.runOnUiThread(() -> {
+                    try {
+                        Toast.makeText(getContext(), "Fail to connect server", Toast.LENGTH_LONG).show();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
                     }
                 });
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
                 // In order to access the TextView inside the UI thread, the code is executed inside runOnUiThread()
-                appCompatActivity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            Toast.makeText(getContext(), "Result = " + response.body().string(), Toast.LENGTH_LONG).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                appCompatActivity.runOnUiThread(() -> {
+                    try {
+                        assert response.body() != null;
+                        Toast.makeText(getContext(), "Result = " + response.body().string(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 });
             }

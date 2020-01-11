@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.io.File;
+import java.util.Objects;
 
 public class CameraResultFragment extends Fragment {
     private static final String TAG = "cameraResult";
@@ -28,9 +29,7 @@ public class CameraResultFragment extends Fragment {
 
     private TextView mTItle, mDescription;
     private ImageView mImage;
-    private Bundle bundle;
     private Context context;
-    private Bitmap bitmap;
 
     @Nullable
     @Override
@@ -38,14 +37,14 @@ public class CameraResultFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_cameraresult, container, false);
         context = view.getContext();
 
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mImage = view.findViewById(R.id.preview_img);
         mTItle = view.findViewById(R.id.result_title);
         mDescription = view.findViewById(R.id.result_description);
 
-        bundle = getArguments();
+        Bundle bundle = getArguments();
         if (bundle != null) {
             img_path = bundle.getString("img_path");
         } else {
@@ -60,10 +59,10 @@ public class CameraResultFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        AppCompatActivity canera_activity = (AppCompatActivity) context;
-        canera_activity.getSupportActionBar().hide();
+        AppCompatActivity camera_activity = (AppCompatActivity) context;
+        Objects.requireNonNull(camera_activity.getSupportActionBar()).hide();
         Log.d(TAG, "onDestroy: Called");
     }
 
@@ -71,7 +70,7 @@ public class CameraResultFragment extends Fragment {
         File imgFile = new File(img_path);
 
         if (imgFile.exists()) {
-            bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             try {
                 ExifInterface exif = new ExifInterface(imgFile.getAbsolutePath());
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
