@@ -5,7 +5,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,9 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class ARActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "loadModel";
@@ -52,32 +51,26 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private String url = "http://192.168.64.2/3D/ar_path.php?";
     //private String url = "https://utg-fansub.me/3D/ar_path.php?";
     private String ASSET_3D = "";
-    private String foldername = "";
-    private String build_url;
+    private String FolderName = "";
     private String model_url = "";
 
-    private BottomSheetBehavior mbottomSheetBehavior;
-    private TextView mtextViewState;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private TextView mTextViewState;
     AnchorNode anchorNode;
     Anchor anchor;
 
     CircleImageView human_m, human_fm, giant, monkey;
-    Button moreinfo;
+    Button moreInfo;
     CoordinatorLayout parentView;
-    View arrayView[];
+    View[] arrayView;
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            Log.e(TAG, "SceneForm Requires Android N (Android 8.0) or later");
-            Toast.makeText(activity, "SceneForm Requires Android N (Android 8.0) or later", Toast.LENGTH_LONG).show();
-            activity.finish();
-            return false;
-        }
-        String openGlVersionString =
-                ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
-                        .getDeviceConfigurationInfo()
-                        .getGlEsVersion();
+        String openGlVersionString = ((ActivityManager) Objects
+                .requireNonNull(activity.getSystemService(Context.ACTIVITY_SERVICE)))
+                .getDeviceConfigurationInfo()
+                .getGlEsVersion();
+
         if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
             Log.e(TAG, "SceneForm requires OpenGL ES 3.0 later");
             Toast.makeText(activity, "SceneForm requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG).show();
@@ -97,11 +90,11 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         human_fm = findViewById(R.id.human_fm);
         giant = findViewById(R.id.giant);
         monkey = findViewById(R.id.monkey);
-        moreinfo = findViewById(R.id.more);
+        moreInfo = findViewById(R.id.more);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
-        mtextViewState = findViewById(R.id.bottom_text);
-        mbottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mTextViewState = findViewById(R.id.bottom_text);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
             Toast.makeText(ARActivity.this, "Failed to create AR session.", Toast.LENGTH_LONG).show();
@@ -111,17 +104,17 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             if (savedInstanceState == null) {
                 Bundle extras = getIntent().getExtras();
                 if (extras == null) {
-                    foldername = null;
+                    FolderName = null;
                 } else {
-                    foldername = extras.getString("foldername");
-                    Log.d(TAG, "onCreate: FolderName : " + foldername);
+                    FolderName = extras.getString("FolderName");
+                    Log.d(TAG, "onCreate: FolderName : " + FolderName);
                 }
             } else {
-                foldername = (String) savedInstanceState.getSerializable("foldername");
+                FolderName = (String) savedInstanceState.getSerializable("FolderName");
             }
 
             //Build Path
-            getPath(foldername, "human_m");
+            getPath(FolderName, "human_m");
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arfragment_model);
 
             //init model border
@@ -133,7 +126,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
             //Tap to place model Method.
             /*arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
-                Log.d(TAG, "onCreate: placemodel init");
+                Log.d(TAG, "onCreate: PlaceModel init");
                 placeModel(hitResult.createAnchor());
             });*/
 
@@ -141,38 +134,38 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
         }
 
-        moreinfo.setOnClickListener(view -> {
+        moreInfo.setOnClickListener(view -> {
 
-            if (mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
 
-                moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2, getApplicationContext().getTheme()));
-                mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                moreInfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_2, getApplicationContext().getTheme()));
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-                switch (foldername) {
+                switch (FolderName) {
                     case "Am":
-                        mtextViewState.setText("ท่าฉัน");
+                        mTextViewState.setText("ท่าฉัน");
                         break;
 
                     case "Angry":
-                        mtextViewState.setText("ท่าโกรธ");
+                        mTextViewState.setText("ท่าโกรธ");
                         break;
 
                     case "Cry":
-                        mtextViewState.setText("ท่าร้องไห้");
+                        mTextViewState.setText("ท่าร้องไห้");
                         break;
 
                     case "Shy":
-                        mtextViewState.setText("ท่าเขิน");
+                        mTextViewState.setText("ท่าเขิน");
                         break;
 
                     case "Smile":
-                        mtextViewState.setText("ท่ายิ้ม");
+                        mTextViewState.setText("ท่ายิ้ม");
                         break;
                 }
 
             } else {
-                mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                moreInfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
             }
         });
     }
@@ -200,7 +193,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(0);
-            getPath(foldername, "human_m");
+            getPath(FolderName, "human_m");
             Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
         } else if (view.getId() == R.id.human_fm) {
@@ -212,7 +205,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(15);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(0);
-            getPath(foldername, "human_fm");
+            getPath(FolderName, "human_fm");
             Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
         } else if (view.getId() == R.id.giant) {
@@ -224,7 +217,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(15);
             monkey.setBorderWidth(0);
-            getPath(foldername, "giant");
+            getPath(FolderName, "giant");
             Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
         } else if (view.getId() == R.id.monkey) {
@@ -236,13 +229,13 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
             human_fm.setBorderWidth(0);
             giant.setBorderWidth(0);
             monkey.setBorderWidth(15);
-            getPath(foldername, "monkey");
+            getPath(FolderName, "monkey");
             Log.d(TAG, "onClick: New Path : " + ASSET_3D);
 
         }
     }
 
-    private void onUpdate(FrameTime frameTime) {
+    private void onUpdate(FrameTime FrameTime) {
 
         if (isModelPlace || ASSET_3D.equals("")) {
             return;
@@ -264,7 +257,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     private void getPath(String action, String races) {
 
-        build_url = url + "action=" + action + "&" + "races=" + races;
+        String build_url = url + "action=" + action + "&" + "races=" + races;
         Log.d(TAG, "getPath: Final url : " + build_url);
         RequestQueue requestQueue = Volley.newRequestQueue(ARActivity.this);
         StringRequest request = new StringRequest(Request.Method.GET, build_url,
@@ -292,7 +285,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
         isModelPlace = true;
 
         Log.d(TAG, "onCreate: Place Model From " + ASSET_3D);
-        Toast.makeText(getApplicationContext(), "Fetching Model From : " + foldername, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Fetching Model From : " + FolderName, Toast.LENGTH_SHORT).show();
         ModelRenderable
                 .builder()
                 .setSource(ARActivity.this, RenderableSource
@@ -322,25 +315,24 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
     }
 
-    public void removeAnchorNode(AnchorNode nodeToremove) {
+    public void removeAnchorNode(AnchorNode nodeToRemove) {
 
-        if (nodeToremove != null) {
+        if (nodeToRemove != null) {
             isModelPlace = false;
             ASSET_3D = "";
             Log.d(TAG, "removeAnchorNode: Remove Model and reset ASSET url Complete.");
-            arFragment.getArSceneView().getScene().removeChild(nodeToremove);
-            nodeToremove.getAnchor().detach();
-            nodeToremove.setParent(null);
-            nodeToremove = null;
+            arFragment.getArSceneView().getScene().removeChild(nodeToRemove);
+            Objects.requireNonNull(nodeToRemove.getAnchor()).detach();
+            nodeToRemove.setParent(null);
         }
     }
 
     @Override
     public void onBackPressed() {
 
-        if (mbottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mbottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            moreinfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            moreInfo.setBackgroundTintList(getResources().getColorStateList(R.color.Main_color_1, getApplicationContext().getTheme()));
         } else {
             super.onBackPressed();
         }

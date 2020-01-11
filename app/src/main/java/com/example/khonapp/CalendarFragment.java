@@ -28,10 +28,11 @@ import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
     private static final String TAG = "FC";
-    private static final String URL = "http://192.168.1.43:5000/androidNews";
+    //private static final String URL = "http://192.168.1.43:5000/androidNews";
+    private static final String URL = "http://192.168.64.2/3D/calendar.php";
     //private static final String URL = "https://utg-fansub.me/3D/calendar.php";
 
-    private ArrayList<EventDay> events = new ArrayList<EventDay>();
+    private ArrayList<EventDay> events = new ArrayList<>();
     private ArrayList<String> year_month_day = new ArrayList<>();
     private ArrayList<String> location = new ArrayList<>();
     private ArrayList<String> title = new ArrayList<>();
@@ -51,6 +52,7 @@ public class CalendarFragment extends Fragment {
         context = view.getContext();
 
         MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
         activity.settoolbarTitle("Even Calendar");
 
         calendarView = view.findViewById(R.id.calendarView);
@@ -95,8 +97,6 @@ public class CalendarFragment extends Fragment {
                         Log.d(TAG, "onDayClick: Event Description  : " + ((MyEventDay) eventDay).getNote());
                         break;
                     }
-                } else {
-                    match = false;
                 }
             }
             if (!match) {
@@ -177,8 +177,6 @@ public class CalendarFragment extends Fragment {
                 text_location.setText(location.get(i));
                 match = true;
                 break;
-            } else {
-                match = false;
             }
         }
         if (!match) {
