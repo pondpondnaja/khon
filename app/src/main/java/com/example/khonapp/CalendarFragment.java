@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.json.JSONException;
@@ -30,8 +31,8 @@ import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
     private static final String TAG = "FC";
-    //private static final String URL = "http://192.168.1.43:5000/androidNews";
-    private static final String URL = "http://192.168.64.2/3D/calendar.php";
+    private static final String URL = "http://192.168.1.43:5000/androidEvents";
+    //private static final String URL = "http://192.168.64.2/3D/calendar.php";
     //private static final String URL = "https://utg-fansub.me/3D/calendar.php";
 
     private ArrayList<EventDay> events = new ArrayList<>();
@@ -39,12 +40,13 @@ public class CalendarFragment extends Fragment {
     private ArrayList<String> location = new ArrayList<>();
     private ArrayList<String> title = new ArrayList<>();
     private ArrayList<String> description = new ArrayList<>();
+    private ArrayList<String> img_name = new ArrayList<>();
     private ArrayList<String> years = new ArrayList<>();
     private ArrayList<String> months = new ArrayList<>();
     private ArrayList<String> days = new ArrayList<>();
 
     private TextView text_title, text_description, text_location, location_t;
-    private ImageView popUp_btn;
+    private ImageView popUp_btn, event_img;
     private BottomSheetBehavior mBottomSheetBehavior;
     private CalendarView calendarView;
     private Context context;
@@ -65,6 +67,7 @@ public class CalendarFragment extends Fragment {
         text_location = view.findViewById(R.id.location_r);
         location_t = view.findViewById(R.id.location);
         popUp_btn = view.findViewById(R.id.event_detail_popup);
+        event_img = view.findViewById(R.id.event_img);
 
         View bottomSheet = view.findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -83,6 +86,7 @@ public class CalendarFragment extends Fragment {
             //Log.d(TAG, "onDayClick: " + eventDay.getCalendar().get(Calendar.DATE));
             int i;
             boolean match = false;
+            String URL_Builder;
             String date = String.valueOf(eventDay.getCalendar().get(Calendar.DATE));
             String month_r = String.valueOf(eventDay.getCalendar().get(Calendar.MONTH));
             for (i = 0; i < days.size(); i++) {
@@ -91,14 +95,21 @@ public class CalendarFragment extends Fragment {
                     Log.d(TAG, "onDayClick: Day   : " + date + " = " + days.get(i));
                     if (date.equals(days.get(i))) {
                         Log.d(TAG, "onDayClick: Called");
-                        if (text_description.getVisibility() != View.VISIBLE) {
+                        if (text_description.getVisibility() != View.VISIBLE || event_img.getVisibility() != View.VISIBLE) {
                             text_description.setVisibility(View.VISIBLE);
                             location_t.setVisibility(View.VISIBLE);
                             text_location.setVisibility(View.VISIBLE);
+                            event_img.setVisibility(View.VISIBLE);
                         }
                         text_title.setText(((MyEventDay) eventDay).getNote());
                         text_description.setText(description.get(i));
                         text_location.setText(location.get(i));
+                        if (img_name.get(i) != null) {
+                            URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i);
+                            Glide.with(context).load(URL_Builder).into(event_img);
+                        } else {
+                            event_img.setVisibility(View.GONE);
+                        }
                         match = true;
                         Log.d(TAG, "onDayClick: Event Day position : " + i);
                         Log.d(TAG, "onDayClick: Event Description  : " + ((MyEventDay) eventDay).getNote());
@@ -111,6 +122,7 @@ public class CalendarFragment extends Fragment {
                 text_description.setVisibility(View.GONE);
                 text_location.setVisibility(View.GONE);
                 location_t.setVisibility(View.GONE);
+                event_img.setVisibility(View.GONE);
             }
         });
 
@@ -141,12 +153,15 @@ public class CalendarFragment extends Fragment {
                             String description_a = obj.getString("description");
                             String event_date_a = obj.getString("event_date");
                             String location_a = obj.getString("location");
+                            String image_a = obj.getString("img_name");
+
                             Log.d(TAG, "onResponse: Title : " + title + " Event Date : " + year_month_day);
 
                             title.add(title_a);
                             description.add(description_a);
                             year_month_day.add(event_date_a);
                             location.add(location_a);
+                            img_name.add(image_a);
                             //mImageURL.add(image_url);
 
                         } catch (JSONException e) {
@@ -185,6 +200,7 @@ public class CalendarFragment extends Fragment {
                     text_description.setVisibility(View.VISIBLE);
                     location_t.setVisibility(View.VISIBLE);
                     text_location.setVisibility(View.VISIBLE);
+                    event_img.setVisibility(View.VISIBLE);
                 }
                 text_title.setText(title.get(i));
                 text_description.setText(description.get(i));
@@ -198,6 +214,7 @@ public class CalendarFragment extends Fragment {
             text_description.setVisibility(View.GONE);
             location_t.setVisibility(View.GONE);
             text_location.setVisibility(View.GONE);
+            event_img.setVisibility(View.GONE);
         }
     }
 }

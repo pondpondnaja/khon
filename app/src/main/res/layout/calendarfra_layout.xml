@@ -142,7 +142,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/decoration"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/demo_text"
                 android:textColor="@color/all_text_color"
@@ -154,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/event_title"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/location"
                 android:textColor="@color/all_text_color"
@@ -166,19 +167,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/event_title"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:layout_toEndOf="@id/location"
                 android:text="@string/demo_text"
                 android:textColor="@color/all_text_color"
                 android:textSize="18sp" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/event_img_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/location_r"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="6dp">
+
+                <ImageView
+                    android:id="@+id/event_img"
+                    android:layout_width="300dp"
+                    android:layout_height="400dp"
+                    android:contentDescription="@string/event_image"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_launcher_background" />
+
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:id="@+id/event_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/location"
+                android:layout_below="@id/event_img_holder"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp"
