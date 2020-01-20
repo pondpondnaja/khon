@@ -102,8 +102,8 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ar_background"
-                            android:scaleType="centerCrop"
+                            android:src="@drawable/ar_icon"
+                            android:scaleType="fitXY"
                             android:elevation="3dp"
                             android:contentDescription="@string/menu4"
                             android:adjustViewBounds="true"/>
@@ -133,15 +133,33 @@
                     app:cardMaxElevation="2dp"
                     android:layout_below="@id/card_1">
 
-                    <ImageView
-                        android:id="@+id/img_card_2"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:contentDescription="@string/menu4"
-                        android:src="@drawable/ic_camera_alt_black_24dp"
-                        android:scaleType="fitXY"
-                        android:layout_gravity="center_vertical|start"
-                        android:layout_marginStart="15dp"/>
+                    <RelativeLayout
+                        android:id="@+id/camera_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/camera_icon"
+                            android:scaleType="fitXY"
+                            android:elevation="3dp"
+                            android:contentDescription="@string/menu4"
+                            android:adjustViewBounds="true" />
+
+                        <ImageView
+                            android:id="@+id/img_card_2"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:contentDescription="@string/menu4"
+                            android:src="@drawable/ic_camera_alt_black_24dp"
+                            android:scaleType="fitXY"
+                            android:elevation="5dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp" />
+
+                    </RelativeLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 

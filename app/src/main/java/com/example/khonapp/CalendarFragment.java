@@ -105,7 +105,8 @@ public class CalendarFragment extends Fragment {
                         text_description.setText(description.get(i));
                         text_location.setText(location.get(i));
                         if (img_name.get(i) != null) {
-                            URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i);
+                            URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i).replace(",", "");
+                            Log.d(TAG, "onCreateView: ImageURL : " + URL_Builder);
                             Glide.with(context).load(URL_Builder).into(event_img);
                         } else {
                             event_img.setVisibility(View.GONE);
@@ -155,7 +156,8 @@ public class CalendarFragment extends Fragment {
                             String location_a = obj.getString("location");
                             String image_a = obj.getString("img_name");
 
-                            Log.d(TAG, "onResponse: Title : " + title + " Event Date : " + year_month_day);
+                            Log.d(TAG, "onResponse: Title   : " + title + " Event Date : " + year_month_day);
+                            Log.d(TAG, "initData: ImagePath : " + img_name);
 
                             title.add(title_a);
                             description.add(description_a);

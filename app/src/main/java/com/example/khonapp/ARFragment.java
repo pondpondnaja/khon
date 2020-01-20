@@ -19,6 +19,7 @@ public class ARFragment extends Fragment {
     private static final String TAG = "MainActivityAR";
     private ArrayList<String> ARName = new ArrayList<>();
     private ArrayList<String> FolderName = new ArrayList<>();
+
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
 
@@ -30,7 +31,7 @@ public class ARFragment extends Fragment {
         final View view =  inflater.inflate(R.layout.fragment_ar,container,false);
         context = view.getContext();
 
-        //initdata();
+        //initData();
         textView      = view.findViewById(R.id.ar_toolbar);
         recyclerView  = view.findViewById(R.id.ar_recycleview);
         layoutManager = new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
@@ -45,7 +46,7 @@ public class ARFragment extends Fragment {
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: Initial data");
-        initdata();
+        initData();
         super.onStart();
     }
 
@@ -57,13 +58,18 @@ public class ARFragment extends Fragment {
         super.onStop();
     }
 
-    public void initdata() {
-        Log.d(TAG, "initdata: addData");
+    private void initData() {
+        Log.d(TAG, "initData: addData");
         ARName.add("ท่าที่ 1 : ฉัน");
         ARName.add("ท่าที่ 2 : โกรธ");
         ARName.add("ท่าที่ 3 : ร้องไห้");
         ARName.add("ท่าที่ 4 : อาย");
         ARName.add("ท่าที่ 5 : ยิ้ม");
+        ARName.add("ท่าที่ 6 : ");
+        ARName.add("ท่าที่ 7 : ");
+        ARName.add("ท่าที่ 8 : ");
+        ARName.add("ท่าที่ 9 : ");
+        ARName.add("ท่าที่ 10 : ");
 
         FolderName.add("Am");
         FolderName.add("Angry");
