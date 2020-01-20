@@ -46,7 +46,7 @@ public class CalendarFragment extends Fragment {
     private ArrayList<String> days = new ArrayList<>();
 
     private TextView text_title, text_description, text_location, location_t;
-    private ImageView popUp_btn, event_img;
+    private ImageView event_img;
     private BottomSheetBehavior mBottomSheetBehavior;
     private CalendarView calendarView;
     private Context context;
@@ -66,7 +66,7 @@ public class CalendarFragment extends Fragment {
         text_description = view.findViewById(R.id.event_description);
         text_location = view.findViewById(R.id.location_r);
         location_t = view.findViewById(R.id.location);
-        popUp_btn = view.findViewById(R.id.event_detail_popup);
+        ImageView popUp_btn = view.findViewById(R.id.event_detail_popup);
         event_img = view.findViewById(R.id.event_img);
 
         View bottomSheet = view.findViewById(R.id.bottom_sheet);
