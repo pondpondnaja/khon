@@ -45,11 +45,12 @@ public class ARListRecycleViewAdapter extends RecyclerView.Adapter<ARListRecycle
         Log.d(TAG, "onBindViewHolder: called");
 
         holder.text.setText(ARName.get(position));
+
         holder.parentLayout.setOnClickListener(view -> {
             Log.d(TAG, "onClick: clicked on " + ARName.get(position) + " in folder " + FolderName.get(position));
             Toast.makeText(context, ARName.get(position) + " from folder : " + FolderName.get(position), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, ARActivity.class);
-            intent.putExtra("foldername", FolderName.get(position));
+            intent.putExtra("FolderName", FolderName.get(position));
             context.startActivity(intent);
             mActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

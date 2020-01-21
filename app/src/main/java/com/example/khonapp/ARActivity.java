@@ -48,14 +48,15 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
     private ArFragment arFragment;
     private boolean isModelPlace;
 
-    private String url = "http://192.168.64.2/3D/ar_path.php?";
-    //private String url = "https://utg-fansub.me/3D/ar_path.php?";
+    //private String url = "http://192.168.64.2/3D/ar_path.php?";
+    private String url = "https://utg-fansub.me/3D/ar_path.php?";
     private String ASSET_3D = "";
     private String FolderName = "";
     private String model_url = "";
+    private String description = "";
 
     private BottomSheetBehavior mBottomSheetBehavior;
-    private TextView mTextViewState;
+    private TextView mTextViewState, mTextInfo;
     AnchorNode anchorNode;
     Anchor anchor;
 
@@ -94,6 +95,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         mTextViewState = findViewById(R.id.bottom_text);
+        mTextInfo = findViewById(R.id.text_info);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         if (!checkIsSupportedDeviceOrFinish(this)) {
@@ -144,22 +146,27 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                 switch (FolderName) {
                     case "Am":
                         mTextViewState.setText("ท่าฉัน");
+                        mTextInfo.setText(description);
                         break;
 
                     case "Angry":
                         mTextViewState.setText("ท่าโกรธ");
+                        mTextInfo.setText(description);
                         break;
 
                     case "Cry":
                         mTextViewState.setText("ท่าร้องไห้");
+                        mTextInfo.setText(description);
                         break;
 
                     case "Shy":
                         mTextViewState.setText("ท่าเขิน");
+                        mTextInfo.setText(description);
                         break;
 
                     case "Smile":
                         mTextViewState.setText("ท่ายิ้ม");
+                        mTextInfo.setText(description);
                         break;
                 }
 
@@ -267,8 +274,10 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                         JSONArray jsonArray = new JSONArray(response);
                         JSONObject item = jsonArray.getJSONObject(0);
                         model_url = item.getString("file_url");
-                        ASSET_3D = model_url;
+                        description = item.getString("description");
+                        ASSET_3D = model_url.replace("http://", "https://");
                         Log.d(TAG, "onResponse: Path from respond : " + ASSET_3D);
+                        Log.d(TAG, "getPath: Description : " + description);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -42,4 +42,5 @@
     <string name="event_calendar_decoration">event_calendar_decoration</string>
     <string name="event_popup_btn">event_popup_btn</string>
     <string name="event_image">event_image</string>
+    <string name="detail">Detail</string>
 </resources>

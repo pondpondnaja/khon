@@ -36,15 +36,16 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
     private static final int WRITE_PERMISSION_CODE = 100;
     private static final int CAMERA_PERMISSION_CODE = 101;
+    private static final int READ_PERMISSION_CODE = 102;
     private static final int Limit = 4;
-    private static final String URL = "http://192.168.64.2/3D/news.php";
-    //  private static final String URL = "https://utg-fansub.me/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
+    private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     //private DrawerLayout drawer;
     private Toast backToast;
 
     boolean doubleBackToExitPressedOnce = false;
-    boolean isRunning                   = false;
+    boolean isRunning = false;
 
     private FragmentManager fragmentManager;
     private RecyclerView recyclerView;
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     public CardView ar_card, detect_card, os_1, os_2;
 
     //Recycle vars.
-    private ArrayList<String> mName        = new ArrayList<>();
-    private ArrayList<String> mImageURL    = new ArrayList<>();
+    private ArrayList<String> mName = new ArrayList<>();
+    private ArrayList<String> mImageURL = new ArrayList<>();
     private ArrayList<String> mDescription = new ArrayList<>();
 
     //Layout
@@ -72,13 +73,13 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         setContentView(R.layout.activity_main);
 
         fragmentManager = getSupportFragmentManager();
-        toolbar         = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         //drawer          = findViewById(R.id.drawer_layout);
         ar_card = findViewById(R.id.card_1);
         detect_card = findViewById(R.id.card_2);
         os_1 = findViewById(R.id.os_1);
         os_2 = findViewById(R.id.os_2);
-        toolbar_text    = toolbar.findViewById(R.id.text_toolbar);
+        toolbar_text = toolbar.findViewById(R.id.text_toolbar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         toggle.syncState();
         */
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             toolbar_text.setText(getResources().getString(R.string.sp_text1));
             //navigationView.setCheckedItem(R.id.home_section);
         }
@@ -105,7 +106,10 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         });
 
         detect_card.setOnClickListener(view -> {
-            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE) && checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
+            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE)
+                    && checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)
+                    && checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_PERMISSION_CODE)) {
+
                 CameraClick();
             }
         });
@@ -128,9 +132,9 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     }
 
     @Override
-    protected void onResume(){
-        if(fragmentManager.getBackStackEntryCount() == 0){
-            Log.d(TAG, "onResume: RecycleView AutoScroll Resume BackStack = "+fragmentManager.getBackStackEntryCount());
+    protected void onResume() {
+        if (fragmentManager.getBackStackEntryCount() == 0) {
+            Log.d(TAG, "onResume: RecycleView AutoScroll Resume BackStack = " + fragmentManager.getBackStackEntryCount());
         }
         super.onResume();
     }
@@ -140,8 +144,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         Log.d(TAG, "onPause: RecycleView AutoScroll Pause and Remove Callback");
         recyclerView.clearFocus();
         recyclerView.clearOnScrollListeners();
-        Log.d(TAG, "onPause: mName     : "+mName.size());
-        Log.d(TAG, "onPause: mImageURL : "+mImageURL.size());
+        Log.d(TAG, "onPause: mName     : " + mName.size());
+        Log.d(TAG, "onPause: mImageURL : " + mImageURL.size());
         super.onPause();
     }
 
@@ -207,9 +211,9 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     }
 */
 
-    public void initImageBitmap(){
+    public void initImageBitmap() {
 
-        if(!mImageURL.isEmpty() || !mName.isEmpty() || !mDescription.isEmpty()){
+        if (!mImageURL.isEmpty() || !mName.isEmpty() || !mDescription.isEmpty()) {
             return;
         }
 
@@ -250,9 +254,9 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private void initRecycleView() {
         Log.d(TAG, "initRecycleView: init RecycleView");
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView  = findViewById(R.id.recycleview);
+        recyclerView = findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(layoutManager);
-        adapter       = new SlideRecycleViewAdapter(this,this, mName, mImageURL,mDescription);
+        adapter = new SlideRecycleViewAdapter(this, this, mName, mImageURL, mDescription);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
         //scrollable();
@@ -299,8 +303,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     public void CameraClick() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
-                .replace(R.id.fragment_container, new CameraFragment(),"camera").addToBackStack("pic_detect").commit();
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                .replace(R.id.fragment_container, new CameraFragment(), "camera").addToBackStack("pic_detect").commit();
         onPause();
         getSupportActionBar().hide();
     }
@@ -313,12 +317,12 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         onPause();
     }
 
-    public void settoolbarTitle(String text){
+    public void settoolbarTitle(String text) {
         toolbar_text.setText(text);
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
         getSupportActionBar().show();
 
@@ -330,11 +334,11 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         }else
         */
 
-        if(fragmentManager.getBackStackEntryCount() > 0){
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStackImmediate();
-        }else if (!doubleBackToExitPressedOnce) {
+        } else if (!doubleBackToExitPressedOnce) {
             this.doubleBackToExitPressedOnce = true;
-            backToast = Toast.makeText(this,"BACK again to exit.", Toast.LENGTH_SHORT);
+            backToast = Toast.makeText(this, "BACK again to exit.", Toast.LENGTH_SHORT);
             backToast.show();
             new Handler().postDelayed(new Runnable() {
 
@@ -350,17 +354,17 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
             return;
         }
 
-        if(fragmentManager.getBackStackEntryCount() == 0){
+        if (fragmentManager.getBackStackEntryCount() == 0) {
             Log.d(TAG, "onBackPressed: Backstack = " + fragmentManager.getBackStackEntryCount());
 
             toolbar_text.setText(getResources().getString(R.string.sp_text1));
             getSupportActionBar().show();
-            Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
-            if(!isRunning) {
+            Log.d(TAG, "onBackPressed: Runable status: " + isRunning);
+            if (!isRunning) {
                 //scrollable();
                 //autoScrolltoLeft();
                 Log.d(TAG, "onBackPressed: Resume!!");
-                Log.d(TAG, "onBackPressed: Runable status: "+isRunning);
+                Log.d(TAG, "onBackPressed: Runable status: " + isRunning);
             }
         }
     }
@@ -393,6 +397,12 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                 Toast.makeText(MainActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == READ_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(MainActivity.this, "READ Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "READ Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
