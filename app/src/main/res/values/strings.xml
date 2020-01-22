@@ -43,4 +43,6 @@
     <string name="event_popup_btn">event_popup_btn</string>
     <string name="event_image">event_image</string>
     <string name="detail">Detail</string>
+    <string name="event_calendar">Event Calendar</string>
+    <string name="contact_us_main">Contact us</string>
 </resources>

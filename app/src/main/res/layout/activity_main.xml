@@ -22,24 +22,24 @@
             android:background="@color/Main_color_1"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:contentInsetStart="0dp">
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <TextView
                 android:id="@+id/text_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@color/all_text_color"
-                android:textAlignment="center"
+                android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:singleLine="true"
-                android:scrollHorizontally="true"
-                android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:text="@string/sp_text1" />
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/sp_text1"
+                android:textAlignment="center"
+                android:textColor="@color/all_text_color"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -102,23 +102,23 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ar_icon"
-                            android:scaleType="fitXY"
-                            android:elevation="3dp"
+                            android:adjustViewBounds="true"
                             android:contentDescription="@string/menu4"
-                            android:adjustViewBounds="true"/>
+                            android:elevation="3dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ar_icon" />
 
                         <ImageView
                             android:id="@+id/img_card_1"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:contentDescription="@string/menu4"
-                            android:src="@drawable/ic_ar_white"
-                            android:scaleType="fitXY"
-                            android:elevation="5dp"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="20dp"/>
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="30dp"
+                            android:contentDescription="@string/menu4"
+                            android:elevation="5dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_ar_white" />
 
                     </RelativeLayout>
 
@@ -128,10 +128,10 @@
                     android:id="@+id/card_2"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
+                    android:layout_below="@id/card_1"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="1dp"
-                    app:cardMaxElevation="2dp"
-                    android:layout_below="@id/card_1">
+                    app:cardMaxElevation="2dp">
 
                     <RelativeLayout
                         android:id="@+id/camera_holder"
@@ -141,23 +141,23 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/camera_icon"
-                            android:scaleType="fitXY"
-                            android:elevation="3dp"
+                            android:adjustViewBounds="true"
                             android:contentDescription="@string/menu4"
-                            android:adjustViewBounds="true" />
+                            android:elevation="3dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/camera_icon" />
 
                         <ImageView
                             android:id="@+id/img_card_2"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:contentDescription="@string/menu4"
-                            android:src="@drawable/ic_camera_alt_black_24dp"
-                            android:scaleType="fitXY"
-                            android:elevation="5dp"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="20dp" />
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="30dp"
+                            android:contentDescription="@string/menu4"
+                            android:elevation="5dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_camera_alt_black_24dp" />
 
                     </RelativeLayout>
 
@@ -167,51 +167,143 @@
                     android:id="@+id/other_Services"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_below="@id/card_2"
                     android:layout_margin="6dp"
+                    android:orientation="horizontal"
                     android:weightSum="2">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/os_1"
                         android:layout_width="0dp"
-                        android:layout_height="200dp"
+                        android:layout_height="205dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginBottom="6dp"
                         android:layout_weight="1"
                         app:cardCornerRadius="6dp"
                         app:cardElevation="1dp"
-                        app:cardMaxElevation="2dp"
-                        android:layout_marginBottom="6dp"
-                        android:layout_marginEnd="3dp">
+                        app:cardMaxElevation="2dp">
 
-                        <ImageView
-                            android:id="@+id/contact_us_icon"
-                            android:contentDescription="@string/contact_us"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_mail_black_24dp" />
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/contact_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginEnd="4dp"
+                                android:background="@drawable/round_back_menu"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="5dp"
+                                android:text="@string/contact_us_main"
+                                android:textAlignment="center"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/space_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_below="@id/contact_text"
+                                android:background="#FFFFFF" />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/space_2"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginEnd="4dp"
+                                android:layout_marginBottom="4dp"
+                                app:cardBackgroundColor="@color/Main_color_1"
+                                app:cardCornerRadius="6dp"
+                                app:cardElevation="1dp"
+                                app:cardMaxElevation="2dp">
+
+                                <ImageView
+                                    android:id="@+id/contact_icon_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/contact_us"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_mail_black_24dp" />
+
+                            </androidx.cardview.widget.CardView>
+
+                        </RelativeLayout>
+
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/os_2"
                         android:layout_width="0dp"
-                        android:layout_height="200dp"
-                        android:layout_weight="1"
-                        app:cardCornerRadius="6dp"
-                        app:cardElevation="1dp"
-                        app:cardMaxElevation="2dp"
-                        android:onClick="eventClick"
+                        android:layout_height="205dp"
+                        android:layout_marginStart="3dp"
                         android:layout_marginBottom="6dp"
-                        android:layout_marginStart="3dp">
+                        android:layout_weight="1"
+                        android:onClick="eventClick"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="1dp"
+                        app:cardMaxElevation="2dp">
 
-                        <ImageView
-                            android:id="@+id/event_list_icon"
-                            android:contentDescription="@string/event_list"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_date_range_black_24dp" />
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/event_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginEnd="4dp"
+                                android:background="@drawable/round_back_menu"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="5dp"
+                                android:text="@string/event_calendar"
+                                android:textAlignment="center"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/space"
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_below="@id/event_text"
+                                android:background="#FFFFFF" />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/space"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginEnd="4dp"
+                                android:layout_marginBottom="4dp"
+                                app:cardBackgroundColor="@color/Main_color_1"
+                                app:cardCornerRadius="6dp"
+                                app:cardElevation="1dp"
+                                app:cardMaxElevation="2dp">
+
+
+                                <ImageView
+                                    android:id="@+id/event_icon_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/contact_us"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/ic_date_range_black_24dp" />
+
+                            </androidx.cardview.widget.CardView>
+
+                        </RelativeLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 
