@@ -59,7 +59,7 @@ public class CalendarFragment extends Fragment {
 
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
-        activity.settoolbarTitle("Even Calendar");
+        activity.setToolbarTitle("Even Calendar");
 
         calendarView = view.findViewById(R.id.calendarView);
         text_title = view.findViewById(R.id.event_title);

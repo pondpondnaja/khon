@@ -54,7 +54,7 @@ public class NewFragment extends Fragment {
             new_title = bundle.getString("new_title");
             news_des  = bundle.getString("news_des");
 
-            activity.settoolbarTitle(new_title);
+            activity.setToolbarTitle(new_title);
             news_activity.getSupportActionBar().show();
             new Handler().postDelayed(() -> activity.toolbar_text.setSelected(true), 1000);
         }

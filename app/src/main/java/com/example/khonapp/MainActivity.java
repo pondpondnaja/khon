@@ -1,6 +1,7 @@
 package com.example.khonapp;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,11 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,19 +30,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {//implements NavigationView.OnNavigationItemSelectedListener
     private static final String TAG = "mainAc";
 
     private static final int WRITE_PERMISSION_CODE = 100;
-    private static final int CAMERA_PERMISSION_CODE = 101;
-    private static final int READ_PERMISSION_CODE = 102;
+    private static final int CAMERA_CODE = 101;
+    private static final int AR_CODE = 102;
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     private static final int Limit = 4;
     private static final String URL = "http://192.168.64.2/3D/news.php";
     //private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     //private DrawerLayout drawer;
     private Toast backToast;
+    private int Destination;
 
     boolean doubleBackToExitPressedOnce = false;
     boolean isRunning = false;
@@ -100,18 +104,11 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         }
 
         ar_card.setOnClickListener(view -> {
-            if (checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)) {
-                ARClick();
-            }
+            checkPermission(AR_CODE);
         });
 
         detect_card.setOnClickListener(view -> {
-            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_PERMISSION_CODE)
-                    && checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE)
-                    && checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_PERMISSION_CODE)) {
-
-                CameraClick();
-            }
+            checkPermission(CAMERA_CODE);
         });
 
         os_1.setOnClickListener(view -> {
@@ -317,7 +314,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         onPause();
     }
 
-    public void settoolbarTitle(String text) {
+    public void setToolbarTitle(String text) {
         toolbar_text.setText(text);
     }
 
@@ -372,7 +369,69 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     //PERMISSION ------------------------------------------------------------------------------------------------------------
 
     // Function to check and request permission
-    public boolean checkPermission(String permission, int requestCode) {
+
+    public void checkPermission(int WhereTogo) {
+        Destination = WhereTogo;
+        ArrayList<String> permissionNeeded = new ArrayList<>();
+        final ArrayList<String> permissionList = new ArrayList<>();
+
+        if (!addPermission(permissionList, Manifest.permission.CAMERA)) {
+            permissionNeeded.add("Camera");
+        }
+        if (!addPermission(permissionList, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            permissionNeeded.add("Storage (Write)");
+        }
+        if (!addPermission(permissionList, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            permissionNeeded.add("Storage (Read)");
+        }
+
+        if (permissionList.size() > 0) {
+            if (permissionNeeded.size() > 0) {
+                // Need Rationale
+                String message = "You need to grant access to " + permissionNeeded.get(0);
+                for (int i = 1; i < permissionNeeded.size(); i++) {
+                    message = message + ", " + permissionNeeded.get(i);
+                }
+                showMessageOKCancel(message,
+                        (dialog, which) -> requestPermissions(permissionList.toArray(new String[permissionList.size()]),
+                                REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS));
+                return;
+            }
+            requestPermissions(permissionList.toArray(new String[permissionList.size()]), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            return;
+        } else {
+            switch (WhereTogo) {
+                case 101:
+                    CameraClick();
+                    break;
+
+                case 102:
+                    ARClick();
+                    break;
+            }
+        }
+    }
+
+    private boolean addPermission(ArrayList<String> permissionsList, String permission) {
+        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+            // Check for Rationale Option
+            if (!shouldShowRequestPermissionRationale(permission))
+                return false;
+        }
+        return true;
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    /*public boolean checkPermission(String permission, int requestCode) {
         // Checking if permission is not granted
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
@@ -381,29 +440,41 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
             Toast.makeText(MainActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
             return true;
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(MainActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+
+        if (requestCode == REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS) {
+            Map<String, Integer> perms = new HashMap<String, Integer>();
+            // Initial
+            perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+            perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+            perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+            // Fill with results
+            for (int i = 0; i < permissions.length; i++)
+                perms.put(permissions[i], grantResults[i]);
+            // Check for ACCESS_FINE_LOCATION
+            if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                    && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                // All Permissions Granted
+                switch (Destination) {
+                    case AR_CODE:
+                        ARClick();
+                        break;
+
+                    case CAMERA_CODE:
+                        CameraClick();
+                        break;
+                }
             } else {
-                Toast.makeText(MainActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+                // Permission Denied
+                Toast.makeText(MainActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT).show();
             }
-        } else if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(MainActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == READ_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(MainActivity.this, "READ Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "READ Permission Denied", Toast.LENGTH_SHORT).show();
-            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
