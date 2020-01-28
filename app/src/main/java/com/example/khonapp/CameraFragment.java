@@ -1,8 +1,10 @@
 package com.example.khonapp;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.otaliastudios.cameraview.CameraListener;
@@ -38,8 +41,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -58,6 +64,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     private static final String URL = "http://192.168.1.41:5000/connectFromAndroid";
     //private static final int INPUT_SIZE = 224;
     private static final int RESULT_LOAD_IMG = 10;
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 111;
 
     private CameraView cameraView;
     private ImageView cap_btn, gall_btn, progress_back;
@@ -135,8 +142,9 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        checkPermission();
         Log.d(TAG, "onStart: camera start");
-        cameraView.open();
+        //cameraView.open();
     }
 
     @Override
@@ -144,7 +152,9 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        cameraView.open();
+        if (!cameraView.isOpened()) {
+            cameraView.open();
+        }
         Log.d(TAG, "onResume: camera resume called");
     }
 
@@ -188,6 +198,9 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
             File savedPhotoFolder = new File(Environment.getExternalStorageDirectory(), "Download");
             File imageFile = new File(savedPhotoFolder, currentDateAndTime + ".jpeg");
             byte[] capturedImage = result.getData();
+            if (savedPhotoFolder.exists()) {
+                Log.d(TAG, "onPictureTaken: Folder Path : " + savedPhotoFolder);
+            }
             try {
                 FileOutputStream outputStream = new FileOutputStream(imageFile.getPath());
                 outputStream.write(capturedImage);
@@ -195,7 +208,9 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 Log.d(TAG, "onImage: PATH : " + imageFile.getPath());
                 selectedImagePath = imageFile.getPath();
                 previewImage();
+
             } catch (java.io.IOException e) {
+                e.printStackTrace();
                 Log.d(TAG, "onPictureTaken: Error : " + e.toString());
             }
         }
@@ -411,4 +426,77 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    //------------------------------PERMISSION CHECK----------------------------------------------
+
+    private void checkPermission() {
+        ArrayList<String> permissionNeeded = new ArrayList<>();
+        final ArrayList<String> permissionList = new ArrayList<>();
+
+        if (!addPermission(permissionList, Manifest.permission.CAMERA)) {
+            permissionNeeded.add("Camera");
+        }
+        if (!addPermission(permissionList, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            permissionNeeded.add("Storage (Write)");
+        }
+        if (!addPermission(permissionList, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            permissionNeeded.add("Storage (Read)");
+        }
+
+        if (permissionList.size() > 0) {
+            if (permissionNeeded.size() > 0) {
+                // Need Rationale
+                String message = "You need to grant access to " + permissionNeeded.get(0);
+                for (int i = 1; i < permissionNeeded.size(); i++) {
+                    message = message + ", " + permissionNeeded.get(i);
+                }
+
+                requestPermissions(permissionList.toArray(new String[permissionList.size()]), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                return;
+            }
+            requestPermissions(permissionList.toArray(new String[permissionList.size()]), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+        } else {
+            cameraView.open();
+        }
+    }
+
+    private boolean addPermission(ArrayList<String> permissionsList, String permission) {
+        if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "addPermission: " + permission + " " + ActivityCompat.checkSelfPermission(context, permission));
+            permissionsList.add(permission);
+            // Check for Rationale Option
+            if (!shouldShowRequestPermissionRationale(permission))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS) {
+            Map<String, Integer> perms = new HashMap<String, Integer>();
+            // Initial
+            perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+            perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+            perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+            // Fill with results
+            for (int i = 0; i < permissions.length; i++)
+                perms.put(permissions[i], grantResults[i]);
+            // Check for ACCESS_FINE_LOCATION
+            if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                    && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                // All Permissions Granted
+                int check = getActivity().checkCallingOrSelfPermission("Manifest.permission.WRITE_EXTERNAL_STORAGE");
+                int check2 = getActivity().checkCallingOrSelfPermission("Manifest.permission.READ_EXTERNAL_STORAGE");
+                Log.d(TAG, "onPictureTaken: Write Permission : " + check);
+                Log.d(TAG, "onPictureTaken: Read Permission : " + check2);
+                cameraView.open();
+            } else {
+                // Permission Denied
+                Toast.makeText(context, "Some Permission is Denied", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }
