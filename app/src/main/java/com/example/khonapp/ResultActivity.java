@@ -13,6 +13,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private TextView mTItle, mDescription;
     private ImageView mImage;
+    private ImageView mImage2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
