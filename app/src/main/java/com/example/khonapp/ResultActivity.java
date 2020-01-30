@@ -1,13 +1,12 @@
 package com.example.khonapp;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -17,12 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.File;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private static final int PERMISSION_CODE = 1000;
     private static final String TAG = "cameraResult";
     private String img_path, img_real_path;
 
@@ -35,6 +34,10 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        }
 
         mImage = findViewById(R.id.preview_img);
 
@@ -52,36 +55,15 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void setData() {
-        File imgFile = new File(img_real_path);
-
-        if (imgFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            try {
-                ExifInterface exif = new ExifInterface(imgFile.getAbsolutePath());
-                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                Log.d(TAG, "Exif: " + orientation);
-                Matrix matrix = new Matrix();
-                if (orientation == 6) {
-                    matrix.postRotate(90);
-                } else if (orientation == 3) {
-                    matrix.postRotate(180);
-                } else if (orientation == 8) {
-                    matrix.postRotate(270);
-                }
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true); // rotating bitmap
-                mImage.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                Log.d(TAG, "setData: Error : " + e.toString());
-            }
-        } else {
-            Toast.makeText(ResultActivity.this, "Error : image doesn't exists", Toast.LENGTH_LONG).show();
-        }
+        String previewPath = getPath(ResultActivity.this, img_address);
+        Log.d(TAG, "setPreviewImage: Image Path : " + previewPath);
+        mImage.setImageURI(img_address);
     }
 
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     private static String getPath(final Context context, final Uri uri) {
@@ -168,5 +150,21 @@ public class ResultActivity extends AppCompatActivity {
 
     private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //this method is called, when user presses Allow or Deny from Permission Request Popup
+        switch (requestCode) {
+            case PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission from popup was granted
+                    setData();
+                } else {
+                    //permission from popup was denied
+                    Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }

@@ -82,6 +82,7 @@ public class CalendarFragment extends Fragment {
             months.add(item[1]);
             days.add(item[2]);
         }*/
+
         calendarView.setOnDayClickListener(eventDay -> {
             //Log.d(TAG, "onDayClick: " + eventDay.getCalendar().get(Calendar.DATE));
             int i;
