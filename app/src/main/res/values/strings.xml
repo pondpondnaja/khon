@@ -45,4 +45,8 @@
     <string name="detail">Detail</string>
     <string name="event_calendar">Event Calendar</string>
     <string name="contact_us_main">Contact us</string>
+    <string name="overlay_img">overlay_img</string>
+    <string name="option_bg">option_bg</string>
+    <string name="detect_from_camera">Detect from camera</string>
+    <string name="detect_from_gallery">Detect from gallery</string>
 </resources>

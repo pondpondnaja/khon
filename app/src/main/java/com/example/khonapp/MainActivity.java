@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    private static final int GALLERY_REQUEST_CODE = 1002;
     private static final int Limit = 4;
     //private static final String URL = "http://192.168.64.2/3D/news.php";
     private static final String URL = "https://utg-fansub.me/3D/news.php";
@@ -53,8 +55,9 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private RecyclerView recyclerView;
 
     public Toolbar toolbar;
+    public ImageView overlay;
     public TextView toolbar_text;
-    public CardView ar_card, detect_card, os_1, os_2;
+    public CardView ar_card, detect_card, os_1, os_2, optional, camera_holder, gallery_holder;
 
     //Recycle vars.
     private ArrayList<String> mName = new ArrayList<>();
@@ -81,6 +84,10 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         detect_card = findViewById(R.id.card_2);
         os_1 = findViewById(R.id.os_1);
         os_2 = findViewById(R.id.os_2);
+        overlay = findViewById(R.id.img_overlay_optional);
+        optional = findViewById(R.id.option_holder);
+        camera_holder = findViewById(R.id.camera_optional_holder);
+        gallery_holder = findViewById(R.id.gallery_holder);
         toolbar_text = toolbar.findViewById(R.id.text_toolbar);
 
         setSupportActionBar(toolbar);
@@ -102,7 +109,20 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
         ar_card.setOnClickListener(view -> ARClick());
 
-        detect_card.setOnClickListener(view -> CameraClick());
+        detect_card.setOnClickListener(view -> {
+            optional.setVisibility(View.VISIBLE);
+            overlay.setVisibility(View.VISIBLE);
+        });
+
+        overlay.setOnClickListener(view -> {
+            if (optional.getVisibility() == View.VISIBLE) {
+                optional.setVisibility(View.GONE);
+                overlay.setVisibility(View.GONE);
+            }
+        });
+
+        camera_holder.setOnClickListener(view -> CameraClick());
+        gallery_holder.setOnClickListener(view -> GalleryClick());
 
         os_1.setOnClickListener(view -> {
             String mailto = "mailto:supporter@gmail.com" +
@@ -114,6 +134,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         //initImageBitmap();
     }
 
+
     @Override
     protected void onStart() {
         Log.d(TAG, "onStart: AutoScroll Enable");
@@ -123,6 +144,10 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
     @Override
     protected void onResume() {
+        if (optional.getVisibility() == View.VISIBLE) {
+            optional.setVisibility(View.GONE);
+            overlay.setVisibility(View.GONE);
+        }
         if (fragmentManager.getBackStackEntryCount() == 0) {
             Log.d(TAG, "onResume: RecycleView AutoScroll Resume BackStack = " + fragmentManager.getBackStackEntryCount());
         }
@@ -290,6 +315,27 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         getSupportActionBar().hide();
     }
 
+    public void GalleryClick() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED ||
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                            PackageManager.PERMISSION_DENIED) {
+                //permission not enabled, request it
+                String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                //show popup to request permissions
+                requestPermissions(permission, PERMISSION_CODE);
+            } else {
+                //permission already granted
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                String[] mimeTypes = {"image/jpeg", "image/png"};
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            }
+        }
+    }
+
     public void CameraClick() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) ==
@@ -325,10 +371,25 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //called when image was captured from camera
         if (resultCode == RESULT_OK) {
-            //set the image captured to our ImageView
-            Intent previewIn = new Intent(MainActivity.this, ResultActivity.class);
-            previewIn.putExtra("img_path", image_uri.toString());
-            startActivity(previewIn);
+            switch (requestCode) {
+
+                case IMAGE_CAPTURE_CODE:
+                    //set the image captured to our ImageView
+                    Intent previewIn = new Intent(MainActivity.this, ResultActivity.class);
+                    previewIn.putExtra("img_path", image_uri.toString());
+                    startActivity(previewIn);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    break;
+
+                case GALLERY_REQUEST_CODE:
+                    Uri selectedImage = data.getData();
+                    Intent galleryIn = new Intent(MainActivity.this, ResultActivity.class);
+                    assert selectedImage != null;
+                    galleryIn.putExtra("img_path", selectedImage.toString());
+                    startActivity(galleryIn);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    break;
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -360,6 +421,9 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
 
         if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStackImmediate();
+        } else if (optional.getVisibility() == View.VISIBLE) {
+            optional.setVisibility(View.GONE);
+            overlay.setVisibility(View.GONE);
         } else if (!doubleBackToExitPressedOnce) {
             this.doubleBackToExitPressedOnce = true;
             backToast = Toast.makeText(this, "BACK again to exit.", Toast.LENGTH_SHORT);
@@ -396,7 +460,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     /*--------------------------------------------PERMISSION CHECK--------------------------------------------*/
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         //this method is called, when user presses Allow or Deny from Permission Request Popup
         switch (requestCode) {
             case PERMISSION_CODE: {
