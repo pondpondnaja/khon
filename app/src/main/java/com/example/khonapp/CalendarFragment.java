@@ -32,8 +32,8 @@ import java.util.Calendar;
 public class CalendarFragment extends Fragment {
     private static final String TAG = "FC";
     //private static final String URL = "http://192.168.1.43:5000/androidEvents";
-    //private static final String URL = "http://192.168.64.2/3D/calendar.php";
-    private static final String URL = "https://utg-fansub.me/3D/calendar.php";
+    private static final String URL = "http://192.168.64.2/3D/calendar.php";
+    //private static final String URL = "https://utg-fansub.me/3D/calendar.php";
 
     private ArrayList<EventDay> events = new ArrayList<>();
     private ArrayList<String> year_month_day = new ArrayList<>();
@@ -101,6 +101,9 @@ public class CalendarFragment extends Fragment {
                             location_t.setVisibility(View.VISIBLE);
                             text_location.setVisibility(View.VISIBLE);
                             event_img.setVisibility(View.VISIBLE);
+                        }
+                        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                         }
                         text_title.setText(((MyEventDay) eventDay).getNote());
                         text_description.setText(description.get(i));
@@ -199,25 +202,28 @@ public class CalendarFragment extends Fragment {
         String URL_Builder;
         boolean match = false;
         int date = calendarView.getFirstSelectedDate().get(Calendar.DATE);
+        int month = calendarView.getFirstSelectedDate().get(Calendar.MONTH);
         for (int i = 0; i < days.size(); i++) {
-            if (String.valueOf(date).equals(days.get(i))) {
-                if (text_description.getVisibility() != View.VISIBLE || event_img.getVisibility() != View.VISIBLE) {
-                    text_description.setVisibility(View.VISIBLE);
-                    location_t.setVisibility(View.VISIBLE);
-                    text_location.setVisibility(View.VISIBLE);
-                    event_img.setVisibility(View.VISIBLE);
+            if (String.valueOf(month).equals(months.get(i))) {
+                if (String.valueOf(date).equals(days.get(i))) {
+                    if (text_description.getVisibility() != View.VISIBLE || event_img.getVisibility() != View.VISIBLE) {
+                        text_description.setVisibility(View.VISIBLE);
+                        location_t.setVisibility(View.VISIBLE);
+                        text_location.setVisibility(View.VISIBLE);
+                        event_img.setVisibility(View.VISIBLE);
+                    }
+                    text_title.setText(title.get(i));
+                    text_description.setText(description.get(i));
+                    text_location.setText(location.get(i));
+                    if (img_name.get(i) != null) {
+                        URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i);
+                        Glide.with(context).load(URL_Builder).into(event_img);
+                    } else {
+                        event_img.setVisibility(View.GONE);
+                    }
+                    match = true;
+                    break;
                 }
-                text_title.setText(title.get(i));
-                text_description.setText(description.get(i));
-                text_location.setText(location.get(i));
-                if (img_name.get(i) != null) {
-                    URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i);
-                    Glide.with(context).load(URL_Builder).into(event_img);
-                } else {
-                    event_img.setVisibility(View.GONE);
-                }
-                match = true;
-                break;
             }
         }
         if (!match) {

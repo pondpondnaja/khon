@@ -75,7 +75,7 @@
                 android:layout_below="@id/decoration"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/demo_text"
                 android:textColor="@color/all_text_color"
                 android:textSize="20sp"
