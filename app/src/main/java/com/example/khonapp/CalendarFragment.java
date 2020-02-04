@@ -3,6 +3,7 @@ package com.example.khonapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,8 @@ import java.util.Calendar;
 public class CalendarFragment extends Fragment {
     private static final String TAG = "FC";
     //private static final String URL = "http://192.168.1.43:5000/androidEvents";
-    private static final String URL = "http://192.168.64.2/3D/calendar.php";
-    //private static final String URL = "https://utg-fansub.me/3D/calendar.php";
+    //private static final String URL = "http://192.168.64.2/3D/calendar.php";
+    private static final String URL = "https://utg-fansub.me/3D/calendar.php";
 
     private ArrayList<EventDay> events = new ArrayList<>();
     private ArrayList<String> year_month_day = new ArrayList<>();
@@ -102,7 +103,7 @@ public class CalendarFragment extends Fragment {
                             text_location.setVisibility(View.VISIBLE);
                             event_img.setVisibility(View.VISIBLE);
                         }
-                        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED || mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
                             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                         }
                         text_title.setText(((MyEventDay) eventDay).getNote());
@@ -136,6 +137,22 @@ public class CalendarFragment extends Fragment {
             if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
+        });
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener((v, keyCode, event) -> {
+            Log.i(TAG, "keyCode: " + keyCode);
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                Log.i(TAG, "onKey Back listener is working!!!");
+                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    return true;
+                } else {
+                    view.clearFocus();
+                }
+            }
+            return false;
         });
 
         return view;
@@ -234,4 +251,6 @@ public class CalendarFragment extends Fragment {
             event_img.setVisibility(View.GONE);
         }
     }
+
+
 }

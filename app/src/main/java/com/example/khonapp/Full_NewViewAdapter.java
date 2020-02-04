@@ -88,7 +88,7 @@ public class Full_NewViewAdapter extends RecyclerView.Adapter<Full_NewViewAdapte
                 activity.getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_right,R.anim.slide_in_right,R.anim.slide_out_right)
-                        .replace(R.id.fragment_container, newFragment, "news_full_item").addToBackStack("news_full_item").commit();
+                        .add(R.id.fragment_container, newFragment, "news_full_item").addToBackStack("news_full_item").commit();
             }
         });
     }

@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private static final int GALLERY_REQUEST_CODE = 1002;
     private static final int Limit = 4;
-    private static final String URL = "http://192.168.64.2/3D/news.php";
-    //private static final String URL = "https://utg-fansub.me/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
+    private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     //private DrawerLayout drawer;
     private Toast backToast;
@@ -458,8 +458,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     /*--------------------------------------------PERMISSION CHECK--------------------------------------------*/
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //this method is called, when user presses Allow or Deny from Permission Request Popup
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
