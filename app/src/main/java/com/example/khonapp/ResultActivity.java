@@ -5,6 +5,8 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,11 +21,24 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class ResultActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final String TAG = "cameraResult";
-    private String img_path, img_real_path;
+    private static final String URL = "http://192.168.1.43:5000/connectFromAndroid";
+    private String img_path, img_real_path, previewPath;
 
     private TextView mTItle, mDescription;
     private ImageView mImage;
@@ -49,21 +64,78 @@ public class ResultActivity extends AppCompatActivity {
                 img_path = extra.getString("img_path");
                 img_address = Uri.parse(img_path);
                 img_real_path = getPath(ResultActivity.this, img_address);
-                setData();
+                //setData();
+                connectServer();
             }
         }
-    }
-
-    public void setData() {
-        String previewPath = getPath(ResultActivity.this, img_address);
-        Log.d(TAG, "setPreviewImage: Image Path : " + previewPath);
-        mImage.setImageURI(img_address);
     }
 
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    public void connectServer() {
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        // Read BitMap by file path
+        Bitmap bitmap = BitmapFactory.decodeFile(img_real_path, options);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        RequestBody postBodyImage = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
+                .build();
+
+        postRequest(URL, postBodyImage);
+    }
+
+    private void postRequest(String postUrl, RequestBody postBody) {
+
+        OkHttpClient client = new OkHttpClient();
+        AppCompatActivity appCompatActivity = new AppCompatActivity();
+        Request request = new Request.Builder()
+                .url(postUrl)
+                .post(postBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Cancel the post on failure.
+                call.cancel();
+                appCompatActivity.runOnUiThread(() -> {
+                    try {
+                        Toast.makeText(getApplicationContext(), "Fail to connect server", Toast.LENGTH_LONG).show();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) {
+                // In order to access the TextView inside the UI thread, the code is executed inside runOnUiThread()
+                appCompatActivity.runOnUiThread(() -> {
+                    try {
+                        assert response.body() != null;
+                        Toast.makeText(getApplicationContext(), "Result = " + response.body().string(), Toast.LENGTH_LONG).show();
+                        setData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
+    }
+
+    public void setData() {
+        Log.d(TAG, "setPreviewImage: Image Path : " + previewPath);
+        mImage.setImageURI(img_address);
     }
 
     private static String getPath(final Context context, final Uri uri) {

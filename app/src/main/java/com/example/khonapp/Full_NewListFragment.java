@@ -23,11 +23,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Full_NewListFragment extends Fragment {
     private static final String TAG = "FN";
-    //private static final String URL = "http://192.168.64.2/3D/news.php";
-    private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();
@@ -45,7 +46,7 @@ public class Full_NewListFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_full_new, container, false);
 
         news_activity = (AppCompatActivity) view.getContext();
-        news_activity.getSupportActionBar().hide();
+        Objects.requireNonNull(news_activity.getSupportActionBar()).hide();
 
         context = view.getContext();
         news_toolbars = view.findViewById(R.id.news_toolbar);

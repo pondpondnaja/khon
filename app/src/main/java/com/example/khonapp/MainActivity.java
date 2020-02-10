@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private static final int GALLERY_REQUEST_CODE = 1002;
     private static final int Limit = 4;
-    //private static final String URL = "http://192.168.64.2/3D/news.php";
-    private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "https://utg-fansub.me/3D/news.php";
 
     //private DrawerLayout drawer;
     private Toast backToast;
@@ -428,14 +428,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
             this.doubleBackToExitPressedOnce = true;
             backToast = Toast.makeText(this, "BACK again to exit.", Toast.LENGTH_SHORT);
             backToast.show();
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-
-            }, 2000);
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         } else {
             backToast.cancel();
             super.onBackPressed();
