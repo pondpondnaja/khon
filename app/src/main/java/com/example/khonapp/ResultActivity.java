@@ -14,7 +14,10 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private TextView mTItle, mDescription;
     private ImageView mImage;
+    private ProgressBar progressBar;
 
     Uri img_address;
 
@@ -54,6 +58,7 @@ public class ResultActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
         }
 
+        progressBar = findViewById(R.id.progressBar);
         mImage = findViewById(R.id.preview_img);
 
         if (savedInstanceState == null) {
@@ -64,8 +69,10 @@ public class ResultActivity extends AppCompatActivity {
                 img_path = extra.getString("img_path");
                 img_address = Uri.parse(img_path);
                 img_real_path = getPath(ResultActivity.this, img_address);
-                //setData();
-                connectServer();
+                progressBar.setVisibility(View.GONE);
+                setData();
+
+                //connectServer();
             }
         }
     }
@@ -111,6 +118,7 @@ public class ResultActivity extends AppCompatActivity {
                 appCompatActivity.runOnUiThread(() -> {
                     try {
                         Toast.makeText(getApplicationContext(), "Fail to connect server", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -124,6 +132,8 @@ public class ResultActivity extends AppCompatActivity {
                     try {
                         assert response.body() != null;
                         Toast.makeText(getApplicationContext(), "Result = " + response.body().string(), Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
+                        Log.d(TAG, "onResponse: PATH : " + img_address);
                         setData();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -134,8 +144,34 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void setData() {
-        Log.d(TAG, "setPreviewImage: Image Path : " + previewPath);
-        mImage.setImageURI(img_address);
+        Log.d(TAG, "setPreviewImage: Image Path : " + img_real_path);
+        Bitmap bMap = BitmapFactory.decodeFile(img_real_path);
+        Log.d(TAG, "setData: Orientation : " + getOrientation(img_address));
+        String orientation = getOrientation(img_address);
+        if (orientation.equals("landscape")) {
+            FrameLayout.LayoutParams imageViewParams = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            mImage.setLayoutParams(imageViewParams);
+        }
+        mImage.setImageURI(Uri.parse(img_real_path));
+    }
+
+    private String getOrientation(Uri uri) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        String orientation = "landscape";
+        try {
+            BitmapFactory.decodeFile(img_real_path, options);
+            int imageHeight = options.outHeight;
+            int imageWidth = options.outWidth;
+            Log.d(TAG, "getOrientation: H : " + imageHeight + " W : " + imageWidth);
+            if (imageHeight > imageWidth) {
+                orientation = "portrait";
+            }
+        } catch (Exception e) {
+            //Do nothing
+        }
+        return orientation;
     }
 
     private static String getPath(final Context context, final Uri uri) {

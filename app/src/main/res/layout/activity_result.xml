@@ -23,7 +23,21 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 app:cardCornerRadius="8dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="15dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:indeterminate="true"
+                    android:visibility="visible"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/Main_color_1" />
 
                 <ImageView
                     android:id="@+id/preview_img"
@@ -32,7 +46,7 @@
                     android:layout_centerHorizontal="true"
                     android:contentDescription="@string/preview_image"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_launcher_background" />
+                    android:background="#FFFFFF" />
 
             </androidx.cardview.widget.CardView>
 
