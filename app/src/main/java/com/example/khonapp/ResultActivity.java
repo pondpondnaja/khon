@@ -149,8 +149,10 @@ public class ResultActivity extends AppCompatActivity {
         Log.d(TAG, "setData: Orientation : " + getOrientation(img_address));
         String orientation = getOrientation(img_address);
         if (orientation.equals("landscape")) {
-            FrameLayout.LayoutParams imageViewParams = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams imageViewParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            mImage.setLayoutParams(imageViewParams);
+        } else if (orientation.equals("portrait")) {
+            FrameLayout.LayoutParams imageViewParams = new FrameLayout.LayoutParams(1000, 1500);
             mImage.setLayoutParams(imageViewParams);
         }
         mImage.setImageURI(Uri.parse(img_real_path));
