@@ -32,9 +32,9 @@ import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
     private static final String TAG = "FC";
-    //private static final String URL = "http://192.168.1.43:5000/androidEvents";
+    private static final String URL = "http://192.168.1.43:5000/androidEvents";
     //private static final String URL = "http://192.168.64.2/3D/calendar.php";
-    private static final String URL = "https://utg-fansub.me/3D/calendar.php";
+    //private static final String URL = "https://utg-fansub.me/3D/calendar.php";
 
     private ArrayList<EventDay> events = new ArrayList<>();
     private ArrayList<String> year_month_day = new ArrayList<>();
@@ -110,8 +110,8 @@ public class CalendarFragment extends Fragment {
                         text_description.setText(description.get(i));
                         text_location.setText(location.get(i));
                         if (img_name.get(i) != null) {
-                            //URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i).replace(",", "");
-                            URL_Builder = URL.replace("/calendar.php", "") + "/assets/images/shows/" + img_name.get(i).replace(",", "");
+                            URL_Builder = URL.replace("/androidEvents", "") + "/static/images/shows/" + img_name.get(i).replace(",", "");
+                            //URL_Builder = URL.replace("/calendar.php", "") + "/assets/images/shows/" + img_name.get(i).replace(",", "");
                             Log.d(TAG, "onCreateView: ImageURL : " + URL_Builder);
                             Glide.with(context).load(URL_Builder).into(event_img);
                         } else {
