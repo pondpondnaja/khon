@@ -171,51 +171,44 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <RelativeLayout
-            android:id="@+id/news"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/recycleview"
-            android:layout_marginBottom="2dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:background="@color/Main_color_1"
-                android:gravity="center"
-                android:text="@string/main_s2"
-                android:textAlignment="center"
-                android:textColor="@color/all_text_color"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
         <ScrollView
             android:id="@+id/service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/news">
+            android:layout_below="@id/toolbar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/services"
+                    android:layout_below="@id/recycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:background="@color/Main_color_1"
+                    android:gravity="center"
+                    android:text="@string/main_s2"
+                    android:textAlignment="center"
+                    android:textColor="@color/all_text_color"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="5dp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_1"
+                    android:layout_below="@id/services"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     app:cardCornerRadius="6dp"

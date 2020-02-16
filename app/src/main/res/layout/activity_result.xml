@@ -15,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/preview_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/preview_img_container"
