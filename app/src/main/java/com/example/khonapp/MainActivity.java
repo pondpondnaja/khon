@@ -34,7 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {//implements NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends AppCompatActivity {//implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "mainAc";
 
     private static final int PERMISSION_CODE = 1000;
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar_text.setText(toolbar.getTitle());
+
         /*
         navigationView  = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
