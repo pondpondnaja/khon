@@ -52,7 +52,7 @@ dependencies {
     //Camera module from CameraView
     implementation 'com.otaliastudios:cameraview:2.6.0'
     //TensorFlow lite.
-    implementation "org.tensorflow:tensorflow-lite:2.0.0"
+    implementation "org.tensorflow:tensorflow-lite:2.1.0"
     implementation "org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly"
     //RecycleView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -62,13 +62,13 @@ dependencies {
     //cardView
     implementation 'androidx.cardview:cardview:1.0.0'
     //SceneForm
-    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.14.0'
-    implementation 'com.google.ar:core:1.14.0'
-    implementation 'com.google.ar.sceneform:assets:1.14.0'
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.15.0'
+    implementation 'com.google.ar:core:1.15.0'
+    implementation 'com.google.ar.sceneform:assets:1.15.0'
     //FireBase
     implementation 'com.google.firebase:firebase-core:17.2.2'
-    implementation 'com.google.firebase:firebase-storage:19.1.0'
-    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.firebaseui:firebase-ui-database:5.0.0'
     //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.0.1'
