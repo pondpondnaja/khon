@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>KHON Project</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="../static/css/bootstrap.css" rel="stylesheet">
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Style Import-->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <script src ="../static/js/clock.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../static/js/jquery.min.js"></script>
+  <!--<script src="../static/js/lucid.js"></script>-->
+  <script>
+    $(window).on('load', function() {
+      $(this).impulse();
+    });
+  </script>
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+
+<body onload="startTime()">
+  <div class = "container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="sidebar text-center">
+          <div class="sticky-top" style="top:5%">
+            <img src="../static/images/icon/kmutnb.png" class="rounded " style="width: 80%;height: auto;" alt="University Icon">
+            <ul class="navbar-nav mr-auto card card-body text-center" style="background-color: #7E7558;border-color: #7E7558">
+              <li class="nav-item ">
+                <a class="sidebarbtn shadow" href="/" style="background-color: #B4A882">หน้าหลัก </a>
+              </li>
+              <li class="nav-item">
+                <a class="sidebarbtn shadow" href="application" style="background-color: #B4A882">ประมวลผลท่ารำ</a>
+              </li>
+              <li class="nav-item">
+                <a class="sidebarbtn shadow" href="show" style="background-color: #B4A882">รอบการแสดง</a>
+              </li>
+              <li class="nav-item">
+                <a class="sidebarbtn shadow" href="gesture" style="background-color: #B4A882">ท่าทางการรำโขน</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10" >
+        <div class="row">
+          <div class="">
+            <img src="../static/images/etc/head.png" class="img-fluid" style="margin-bottom: -31%">
+          </div>
+        </div>
+        <div class="row justify-content-center card shadow-lg" style="margin-left: 3%;margin-right: 3%;margin-top: 3%" >
+          <div class="card card-body shadow-md"style="background-color: #eee; margin: 2%">
+            <h1 style="margin-top: 1%; color:#331A00 ">โขนคืออะไร</h1>
+          </div>
+        </div>
+        <div class="row justify-content-center card shadow" style="color:#331A00;margin-left: 3%;margin-right: 3%;margin-bottom: 3%" >
+          <div class="row card-body">
+            <div class="col-md-6" style="background-color: #fff ; ">
+
+              {% block text %}
+              <p>{{text}}</p>
+              {% endblock %}
+            </div>
+            <div class="col-md-6">
+              <img src="../static/images/etc/khonindex.jpg" class="img-fluid" style="border-radius: 50px;border: 2.5px solid #7E7558;padding: 2%">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 justify-content-center">
+          <div class="row card shadow" style="margin-top: 3%;color:#331A00">
+            <div class=" card card-body shadow-md " style="background-color: #eee;margin: 2%;">
+              <h1>ข่าวสาร</h1>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          {% for i in range(news_title|length) %}
+          <div  class="col-md-4 card shadow" style="height:100%;max-width: 31rem;margin: 1%;padding: 2% ;color:#331A00">
+            <div class="card text-center" style="background-color: #eae0c2;border-color: #FFF;margin-top: 2%;margin-bottom: 2%;border-radius: 25px;border: 2.5px solid #7E7558;">
+              <img src="../static/images/news/{{ news_img[i][0]}}" class="img-fluid " style="margin: auto;height: 300px;padding: 2% ;border-radius: 25px;" >
+            </div>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <div class="card" style="background-color: #eee; font-size: 1rem;padding: 2%">
+              <h4 style="font-family: charm;font-size: 20vb ;padding-top: 5%;">{{ news_title[i] }}</h4>
+            </div> 
+
+            <div class="box card-footer text-center">
+              <p style="font-family: 'Ekkamai';font-size: 96%">{{news_subtitle[i]}}</p>
+            </div>     
+            <h5 class="text-center" style="margin-top: 5%"><a  href="#news{{news_index[i]}}" data-toggle="modal" class="transition" style="color:#331A00">~คลิกที่นี่เพื่ออ่านต่อ~</a></h5>   
+          </div>
+          {% endfor %}
+        </div>
+
+
+        {% for i in range(news_index|length) %}
+        <div class="modal fade" id="news{{news_index[i]}}" style="color:#331A00">
+          <div class="modal-dialog modal-news" >
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header" style="background-color: #eae0c2;">
+                <h1 class="modal-title" >{{news_title[i]}}</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+
+              <div class="modal-body">
+                <div class=" row justify-content-center">
+
+
+                  <div id="news_slide{{news_index[i]}}" class="carousel slide" data-ride="carousel" style="margin: auto;height: auto">
+                    <ul class=" carousel-indicators">
+                      <li data-target="#news_slide{{news_index[i]}}" data-slide-to="{{i}}" class="active"></li>
+                    </ul>
+
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="../static/images/news/{{ news_img[i][0]}}" class="img-fluid" style="max-width: auto ;min-height: 300px;max-height: 300px;border-radius: 25px;border: 2.5px solid #7E7558;" >
+                        <div class="carousel-caption">
+                        </div>   
+                      </div>
+                      {% for j in range((news_img[i]|length)-2) %}
+                      <div class="carousel-item">
+                        <img src="../static/images/news/{{ news_img[i][j+1]}}" class=" img-fluid" style="max-width: auto;min-width: auto;min-height: 300px;border-radius: 25px;border: 2.5px solid #7E7558;max-height: 300px" >
+                        <div class="carousel-caption">
+                        </div>   
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#news_slide{{news_index[i]}}" data-slide="prev">
+                      <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#news_slide{{news_index[i]}}" data-slide="next">
+                      <span class="carousel-control-next-icon"></span>
+                    </a>
+                  </div>
+
+
+
+
+                </div>  
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <h3>
+                  <p style=";font-family: 'Ekkamai'">{{news_desc[i]}}</p>                
+                </h3>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    content = encodeURIComponent($('.summernote').summernote('code'));  
+  });
+</script>
+
+
+
+
+
+</body>
+
+<div class="col-md-12">
+  <footer class="ftco-footer ftco-section section card " style="border:none;background-color: #7e7558;margin-top:0%">
+
+    <div class="container-fluid ">
+      <div class="row justify-content-center" style="padding-top: 0.5%">
+        <div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 23rem">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2 " style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">เกี่ยวกับ</h2>
+            <p style="color: #222;font-family: 'Ekkamai';font-size: 95%">จุดประสงค์ของเว็บไซต์นี้เพื่อนำเสนอผลงานและข้อมูลเท่านั้น <br>ไม่มีจุดประสงค์ในการใช้เพื่อการค้า<br>ด้วยความเคารพ</p>
+
+          </div>
+        </div>
+        <div class="col-md-3 card shadow"  style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 20rem">
+          <div class="ftco-footer-widget mb-4 ml-md-4">
+            <h2 class="ftco-heading-2" style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">ลิงก์</h2>
+            <ul class="list-unstyled" >
+              <li><a href="https://www.itar.site/#home-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>หน้าหลัก</a></li>
+              <li><a href="https://www.itar.site/#about-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>เกี่ยวกับ</a></li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>งานถนัด</a>
+              </li>
+              <li><a href="https://www.itar.site/#projects-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>ประกาศนียบัตร</a>
+              </li>
+              <li><a href="https://www.itar.site/#contact-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>ติดต่อ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 20rem">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2" style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">หน้าที่</h2>
+            <ul class="list-unstyled">
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>หน้าเว็บ(หน้าบ้าน)</a>
+              </li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>ระบบเว็บ(หลังบ้าน)</a>
+              </li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>ดูแลและจัดการฐานข้อมูล
+              </a></li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>วิเคราะห์ข้อมูล
+              </a></li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>แอพพลิเคชันมือถือ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 25rem">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2" style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">สอบถามเพิ่มเติม</h2>
+            <div class="block-23 mb-3">
+              <ul class="list-unstyled">
+                <li><span class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'Ekkamai';font-size: 90%">Floor'6 building'72 Faculty of Applied Science<br>King Mongkut's University of Technology North Bangkok</span>
+                </li>
+                <li><a href="tel:025552000"><span
+                  class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'Ekkamai';font-size: 90%">02-555-2000</span></a></li>
+                  <li><a href="mailto:s5904062663123@email.kmutnb.ac.th"><span class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'Ekkamai';font-size: 90%"> s5904062663123@<br>email.kmutnb.ac.th</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>

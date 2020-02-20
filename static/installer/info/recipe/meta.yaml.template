@@ -1,0 +1,48 @@
+{% set name = "absl-py" %}
+{% set version = "0.6.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "87519e3b91a3d573664c6e2ee33df582bb68dca6642ae3cf3a4361b1c0a4e9d6" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.{{ file_ext }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  {{ hash_type }}: {{ hash_value }}
+
+build:
+  number: 1000
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - six
+  run:
+    - python
+    - six
+    - enum34  # [py27]
+
+test:
+  imports:
+    - absl
+    - absl.flags
+    - absl.logging
+    - absl.testing
+
+about:
+  home: https://abseil.io/
+  license: Apache 2.0
+  license_family: Apache
+  license_file: '{{ environ["RECIPE_DIR"] }}/LICENSE'
+  summary: Abseil Python Common Libraries, see https://github.com/abseil/abseil-py.
+  doc_url: https://abseil.io/docs/
+  dev_url: https://github.com/abseil/abseil-py
+
+extra:
+  recipe-maintainers:
+    - jjhelmus

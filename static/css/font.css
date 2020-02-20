@@ -1,0 +1,18 @@
+@font-face {
+  font-family: '911Fonts.com_ImpactRegular__-_911fonts.com_fonts_4mSI';
+  src: url('911Fonts.com_ImpactRegular__-_911fonts.com_fonts_4mSI.eot');
+  src: url('911Fonts.com_ImpactRegular__-_911fonts.com_fonts_4mSI.eot?#iefix') format('embedded-opentype'),
+       url('911Fonts.com_ImpactRegular__-_911fonts.com_fonts_4mSI.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Impact';
+  src: url('Impact.svg#Impact') format('svg'),
+       url('Impact.ttf') format('truetype'),
+       url('Impact.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+

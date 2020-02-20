@@ -1,0 +1,146 @@
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>KHON Project</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link href="../static/css/bootstrap.css" rel="stylesheet">
+	<!-- Style Import-->
+	<link href="../static/css/style.css" rel="stylesheet">
+	<script src ="../static/js/clock.js"></script>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="../static/js/jquery.min.js"></script>
+	<script src="../static/js/bootstrap.bundle.min.js"></script>
+
+</head>
+{% extends "application.html" %}
+{% block form %}
+
+<div class="container-fluid" style="; color:#331A00">
+	<div class="row justify-content-center card shadow-lg" style="margin-left: 3%;margin-right: 3%;margin-top: 3%" >
+		<div class="card card-body shadow-md"style="background-color: #eee; margin: 2%">
+			<h1 style="margin-top: 1%; color:#331A00 ">Result<br>~Found {{ found }} actors~</h1>
+		</div>
+
+		{% for i in range(found) %}
+		<div class ="row center shadow icard" style="padding-bottom:2%;margin-bottom:2%;background:#eee">	
+			<div class = "col-md-3" style="padding-top:2%;">
+				<img src={{ out_image[i] }} type ="text" class="img-responsive mx-auto d-block" style="max-width: 100%;min-width: auto;min-height: 300px;border-radius: 25px;border: 2.5px solid #7E7558;max-height: 100%;margin: auto">	
+				<div class="row d-flex justify-content-center" style="margin-top: 4%">
+					<a href="#modal{{i}}" id="btn{{i}}" data-toggle="modal" class="adminsidebarbtn " style="color:#331a00;background-color: #b4a882;width:80%">Model 3D<br>(โมเดล 3 มิติ)</a>
+				</div>	
+			</div>
+			<div class = "col-md-9 ">
+				<div class="icard row" style=" margin: 1%">
+					<div class="col-md-12" style="padding-top: 2.5% ;background-color:#b4a882 ; margin-bottom: 1%"> 
+						<div class="float-left">
+							<h1 style="font-family: Charm;">ตัวละคร {{ character_thai[i] }}({{character_eng[i]}}) : {{ score[i] }}% </h1>
+						</div>
+					</div>
+					<div class="col-md-12"> 
+						<div class="float-left">
+							<h5 style="font-family: Charm;padding-top: 2%;line-height:25pt">&nbsp&nbsp&nbsp&nbsp{{ character_desc[i] }}</h5>
+						</div>
+					</div>
+
+					
+				</div>
+				<div class="icard row" style="margin: 1%;background-color: #FFF"> 
+
+					<div class="col-md-12" style="padding-top: 2.5% ;background-color: #eae0c2">
+						<h1 class="float-left">{{gesture_name[i]}} : {{gesture_score[i]}}%</h1>
+					</div>
+					<br>
+					<div class="col-md-12">
+						<div class="float-left">
+							<h5 style="font-family: Charm;padding-top: 2%;line-height:25pt">&nbsp&nbsp&nbsp&nbsp{{ desc[i] }}</h5>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+
+
+			<div class="modal fade" id="modal{{i}}" style="color:#331A00">
+				<div class="modal-dialog modal-lg" >
+					<div class="modal-content">
+
+						<!-- Modal Header -->
+						<div class="modal-header" style="background-color: #eae0c2;">
+							<h1 class="modal-title">{{i+1}}.{{gesture_name[i]}} ของตัวละคร {{character_thai[i]}}</h1>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<!-- Modal body -->
+
+						<div class="modal-body">
+							<div class=" row justify-content-center">
+							
+								<div class="col-md-6">
+									<div class="sketchfab-embed-wrapper">
+										<iframe title="A 3D model" id="model{{i}}" width="955" height="640" src="-" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+									</div>
+
+								</div> 
+	
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<h3>
+									<p>{{ desc[i]}}</p>                
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+		</div>
+		{% endfor %}		
+	</div>
+	<div class = "row justify-content-center" style="margin:3%;padding-bottom:2%;" >
+		<div class="row icard shadow" style="padding: 1%;background:#eee;">
+			<div class="card">
+				<div class="row">
+					<div class = "col-md-12 text-center" style="padding:2%">
+						<h1> 
+							If you want to detect again<br>press the button
+						</h1><br>
+					</div>
+				</div>
+				<div class="row justify-content-center" style="margin-bottom:5%">
+					<a class="ibtn btn-secondary" href="application" role="button">Detect Again</a>
+				</div>
+			</div>
+		</div>  
+	</div>
+</div>
+<script>
+	$('#overlay').hide();
+	{% for i in range(found)%}
+
+	$("#modal{{i}}").on("hidden.bs.modal", function () {
+		document.getElementById('model{{i}}').src = "iTar is hiding src for better performance";
+	});
+	$("#btn{{i}}").on("click", function () {
+		let src{{i}} = "{{model[i]}}";
+		document.getElementById('model{{i}}').src =src{{i}};  
+	});
+
+	{% endfor %}
+
+</script>
+{% endblock %}
+

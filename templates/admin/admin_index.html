@@ -1,0 +1,1224 @@
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>KHON Project</title>
+	<!-- Bootstrap core CSS -->
+	<link href="../static/css/bootstrap.css" rel="stylesheet">
+	<link href="../static/css/animate.css" rel="stylesheet">
+	<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Style Import-->
+	<link href="../static/css/style.css" rel="stylesheet">
+	<script src ="../static/js/clock.js"></script>
+
+	<!-- Bootstrap core JavaScript -->
+
+	<script src="../static/js/jquery.min.js"></script>
+	<!-- <script src="../static/js/lucid.js"></script>-->
+	<script src="../static/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+
+
+	<script src="https://code.responsivevoice.org/responsivevoice.js?key=MSkayEv8"></script>
+	<script>
+		$(window).on('load', function() {
+			$(this).impulse();
+		});
+	</script>
+
+</head>
+
+
+<body>
+	<div class="container-fluid no-gutters" style="color:#331A00">
+		<div class="row border-dark" style="margin-bottom:2%">
+			<h1 class="display-5  font-apple fixed-top border-danger text-left" style="padding-left: 4% ;background-color:#7e7558; font-family: impact;font-style:italic;">Admin Panel</h1>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<div class="sidebar text-center">
+					<div class="sticky-top" style="top:5%">
+						<img src="../static/images/icon/kmutnb.png" class="rounded " style="width: 80%;height: auto;" alt="University Icon">
+						<ul class="navbar-nav mr-auto card card-body text-center" >
+							<div class="card card-body text-center" style="font-family: arial,italic; background-color: #eee; margin-bottom: 10%">
+								<h1 class="navbar-nav mr-auto " style="font-family: impact; margin-bottom: 3%; ">Welcome {{ name }}</h1>
+								<h6 class="text-secondary ">{{ email }}</h6>
+							</div>
+							<li class="text-center border" style="margin-bottom: 10%">เลือกทำรายการ</li>
+
+
+							<div accept-charset="utf-8" onclick="drawTrendlines()">
+								<!-- <li class="nav-item" id="dashboardlink" >
+									<a class="adminsidebarbtn  " style="background-color: #B4A882"   href="#">Dashboard (แดชบอร์ด)</a>
+								</li> -->
+								<li class="nav-item active">
+									<a class="adminsidebarbtn text-center" style="background-color: #B4A882"  data-toggle="modal" data-target="#live" href="#live">Live view (เรียกดูหน้าเว็บ) </a>
+								</li>
+								<li class="nav-item" id="newslink">
+									<a class="adminsidebarbtn  " style="background-color: #B4A882"   href="#">News (ข่าว)</a>
+								</li>
+								<li class="nav-item" id="showslink">
+									<a class="adminsidebarbtn  " style="background-color: #B4A882"  href="#" >Shows (รอบการแสดง)</a>
+								</li>
+								<li class="nav-item" id="imginlink">
+									<a class="adminsidebarbtn  " style="background-color: #B4A882"   href="#">Image In (รูปขาเข้า)</a>
+								</li>
+								<li class="nav-item" id="imgoutlink">
+									<a class="adminsidebarbtn  " style="background-color: #B4A882"  href="#" >Image Out (รูปขาออก)</a>
+								</li>
+								<li class="nav-item">
+									<a class="adminsidebarbtn  " style="background-color: #B4A882" href="login">Loggout (ลงชื่อออก)</a>
+								</li>
+							</div>
+						</ul>
+					</div>
+				</div>	
+			</div>
+			<div class=" col-md-10 section"  >
+				<div id="admin_bg" style="padding-bottom: 100%;opacity: 10%" ></div>
+				<div id="news">
+					<div class="card card-body bg-light" style="margin-top: 1.5% ;">
+						<h1 >News(ข่าว)</h1>
+						<div class="row"  >
+							<div class=" col-md-4">
+								<div class="position-sticky">
+									<div class=" card card-body text-center pre-scrollable " >
+										<h2 style="background-color: #B4A882" class="card card-body text-center" >รายการข่าว</h2>
+										{% for i in range(news_index|length) %}
+
+										<ul>
+											<li class="nav-item" >
+												<a class="ibtn text-center" id="newslink{{news_index[i]}}">{{ news_title[i] }}</a>
+											</li>
+										</ul>
+										{% endfor %}
+									</div>
+									<div class="section2 row" style="margin: 1%">
+										{% for i in range(news_index|length) %}
+										<a id="news_edit{{news_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+											แก้ไข
+										</a>
+										<form method="POST" class="col-md-5"  id="news_edit_save{{news_index[i]}}" style="margin: 1;margin-right: 2%">
+											<div class="row section2">
+												<button class="btn col-md-12" data-toggle="modal" onclick="document.getElementById('net{{news_index[i]}}').innerHTML = document.getElementById('news_edit_title{{news_index[i]}}').value;document.getElementById('nes{{news_index[i]}}').innerHTML = document.getElementById('news_edit_subtitle{{news_index[i]}}').value;document.getElementById('ned{{news_index[i]}}').innerHTML = document.getElementById('news_edit_description{{news_index[i]}}').value;news_edit_encodehtml{{news_index[i]}}()" data-target="#news_edit_confirm{{news_index[i]}}" style="margin: 1%;background-color: white;border-color: black;">
+													<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+													บันทึก
+												</button>
+											</div>
+											<textarea name = "news_edit_id" id = "nei{{news_index[i]}}" style="display: none">{{news_index[i]}}</textarea>
+											<textarea name="news_edit_title" id="net{{news_index[i]}}" style="display:none;"></textarea>
+											<div name="news_edit_image"></div>
+											<textarea name="news_edit_subtitle"id="nes{{news_index[i]}}" style="display:none;"></textarea>
+											<textarea name="news_edit_description"id="ned{{news_index[i]}}"  style="display:none;"></textarea>
+
+											<div class="modal fade" id="news_edit_confirm{{news_index[i]}}">
+												<div class="modal-dialog modal-news" >
+													<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
+
+														<!-- Modal Header -->
+														<div class="modal-header">
+															<h1 class="modal-title">Confirmation</h1>
+															<button type="button" class="close" data-dismiss="modal">&times;</button>
+														</div>
+
+														<!-- Modal body -->
+														<div class="modal-body">
+															<div class="row justify-content-center">
+																<h2>Are you sure to edit this news?</h2>
+															</div>  
+														</div>
+
+														<!-- Modal footer -->
+														<div class="modal-footer">
+															<h3 class="row">
+																<div class="form-inline">
+																	<button type="submit" class="adminsidebarbtn transition btn-save"  style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
+																	<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
+																</div>    
+															</h3>
+														</div>
+
+													</div>
+												</div>
+											</div>
+
+										</form>
+										
+
+										<a id="news_edit_cancel{{news_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+											<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span>
+											ยกเลิก
+										</a>
+
+										
+										<a id="news_close{{news_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											ปิด
+										</a>
+										<form method="POST" class="col-md-5"  id="news_delete{{news_index[i]}}">
+											<div class="row">
+												<button type="submit" name="news_delete" class="col-md-12 btn btn-danger" value="{{news_index[i]}}" style="margin: 2%;color: white">
+													<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+													ลบ
+												</button>
+											</div>
+										</form>
+										
+
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 card card-body text-center section2">
+								<h2 style="background-color: #B4A882;max-height: 75px" class="card card-body text-center">รายละเอียด<br></h2>
+								{% for i in range(news_index|length) %}
+								<div id="news{{news_index[i]}}" >
+
+									<div class="card">
+										<div class="card-header">
+											<h1>{{ news_title[i] }}</h1>
+										</div>
+										<div class="card-body">
+											<img src="../static/images/news/{{ news_img_list[i][0]}}" style="width: 50%;height: auto">
+										</div>
+										<div class="card-footer">
+											<h3 class="text-secondary" style="font-size: 14px;font-family: 'Ekkamai';font-style:italic">{{ news_subtitle[i] }}</h3>
+										</div>
+										<p style="font-family: 'Ekkamai';">{{ news_desc[i]}}</p>
+
+										
+									</div>
+									
+								</div>
+								{% endfor %}
+
+								{% for i in range(news_index|length) %}
+								<div id="news_edit_panel{{news_index[i]}}">
+									<div class="card">
+										<span><h1>Title</h1></span>
+										<textarea id="news_edit_title{{news_index[i]}}" style="width: 100%;height: 100%;background-color: white">{{ news_title[i] }}</textarea>
+										<div  id="news_edit_image{{news_index[i]}}" class="card-body">
+											<div class="news_edit_image">
+												<img src="../static/images/news/{{ news_img_list[i][0]}}" style="width: 50%;height: auto">
+											</div>
+										</div>
+										<span><h1>Subtitle</h1></span>
+										<textarea id="news_edit_subtitle{{news_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ news_subtitle[i] }}</textarea>
+										<span><h1>Description</h1></span>
+										<textarea id="news_edit_description{{news_index[i]}}" style="font-family: 'Ekkamai';width: 100%;height: 500px;background-color: white">{{ news_desc[i]}}</textarea>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div >
+						
+						<form enctype="multipart/form-data" method="POST" accept-charset="utf-8" novalidate>
+							<div class="row section2 ">
+								<div class="col-md-2 section2 " style="width: 100%">
+									<div class="card" style="min-width: auto;margin-top: 5%;background-color: #eee">
+										<a class="btn transition" id="createnews" style=";margin: 3%;background-color: #fff">
+											<span class="transition glyphicon glyphicon-plus" aria-hidden="true"></span>
+											Add News(เพิ่มข่าว)
+										</a>
+										<div class="row">	
+											<div class="col-md-12 no-gutters" style="margin-left: 10%">
+												<div class="row section2">	
+													<a class="adminsidebarbtn transition btn-save" onclick="encodehtml()" data-toggle="modal" id="confirmation1"  data-target="#newsconfirm"  style="width: 80%;height: auto;margin-top: 1%;color:#fff;font-family: charm"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>Save(บันทึก)</a>
+
+
+
+													<div class="modal fade" id="newsconfirm">
+														<div class="modal-dialog modal-news" >
+															<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
+
+																<!-- Modal Header -->
+																<div class="modal-header">
+																	<h1 class="modal-title">Confirmation</h1>
+																	<button type="button" class="close" data-dismiss="modal">&times;</button>
+																</div>
+
+																<!-- Modal body -->
+
+																<div class="modal-body">
+																	<div class="row justify-content-center">
+																		<h2>Are you sure to add this news?</h2>
+																	</div>  
+																</div>
+
+																<!-- Modal footer -->
+																<div class="modal-footer">
+																	<h3 class="row">
+																		<div class="form-inline">
+																			<button type="submit" class="adminsidebarbtn transition btn-save" id="newssave" style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
+																			<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
+																		</div>    
+																	</h3>
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row section2">	
+													<a class="adminsidebarbtn transition btn-cancel" id="newscancel"  style="width: 80%;height: auto;margin-top: 1%;color:#fff"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>Cancel(ยกเลิก)</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-8 section2" id=createnewsdiv style="margin-bottom: 10%" >
+									<div class="card card-body" style="margin-top: 0.5%">
+										<h1 class="card" style="background-color: #eee;padding:3%">Create News</h1>
+									</div>
+									<textarea id="news_title" name = "news_title"  class="form-control" placeholder="(ชื่อเรื่อง)"></textarea>
+									<textarea id="news_subtitle" name = "news_subtitle" class="form-control" placeholder="(คำอธิบาย)"></textarea>
+									<textarea id="news_description" name = "news_description" class="form-control"  placeholder="(รายละเอียด)" style="min-height: 300px"></textarea>
+									<div class="form-control btn-group-vertical">
+										<label for="news_image">(เลือกรูปภาพ)</label>
+										<input  name = "news_image" type="file" class="btn" multiple>
+									</div>
+
+
+								</div>
+							</div>	
+						</form>
+						
+
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div id="shows">
+					<div class="card card-body bg-light" style="margin-top: 1.5% ;">
+						<h1 >Shows(รอบการแสดง)</h1>
+						<div class="row"  >
+							<div class=" col-md-4">
+								<div class="position-sticky">
+									<div class=" card card-body text-center pre-scrollable " >
+										<h2 style="background-color: #B4A882" class="card card-body text-center" >รายการที่แสดง</h2>
+										{% for i in range(shows_index|length) %}
+
+										<ul>
+											<li class="nav-item" >
+												<a class="ibtn text-center" id="showslink{{shows_index[i]}}" >{{ shows_title[i] }}</a>
+											</li>
+										</ul>
+										{% endfor %}
+									</div>
+									<div class="section3 row" style="margin: 1%">
+										{% for i in range(shows_index|length) %}
+										<a id="shows_edit{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+											แก้ไข
+										</a>
+										<form method="POST" class="col-md-5"  id="shows_edit_save{{shows_index[i]}}" style="margin: 1;margin-right: 2%">
+											<div class="row section3">
+												<button class="btn col-md-12" data-toggle="modal" onclick="
+												document.getElementById('set{{shows_index[i]}}').innerHTML = document.getElementById('shows_edit_title{{shows_index[i]}}').value;
+												document.getElementById('ses{{shows_index[i]}}').innerHTML = document.getElementById('shows_edit_link{{shows_index[i]}}').value;
+												document.getElementById('sed{{shows_index[i]}}').innerHTML = document.getElementById('shows_edit_description{{shows_index[i]}}').value;
+
+												document.getElementById('seda{{shows_index[i]}}').innerHTML = document.getElementById('shows_edit_date{{shows_index[i]}}').value;
+												document.getElementById('seti{{shows_index[i]}}').innerHTML = document.getElementById('shows_edit_time{{shows_index[i]}}').value;
+												document.getElementById('sel{{shows_index[i]}}').innerHTML = document.getElementById('shows_edit_location{{shows_index[i]}}').value;
+
+
+												shows_edit_encodehtml{{shows_index[i]}}();" data-target="#shows_edit_confirm{{shows_index[i]}}" style="margin: 1%;background-color: white;border-color: black;">
+													<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+													บันทึก
+												</button>
+											</div>
+											<textarea name = "shows_edit_id" id = "sei{{shows_index[i]}}" style="display: none">{{shows_index[i]}}</textarea>
+											<textarea name="shows_edit_title" id="set{{shows_index[i]}}" style="display:none;"></textarea>
+											<div name="shows_edit_image"></div>
+											<textarea name="shows_edit_link"id="ses{{shows_index[i]}}" style="display:none;"></textarea>
+											<textarea name="shows_edit_date"id="seda{{shows_index[i]}}" style="display:none;"></textarea>
+											<textarea name="shows_edit_time"id="seti{{shows_index[i]}}" style="display:none;"></textarea>
+											<textarea name="shows_edit_location"id="sel{{shows_index[i]}}" style="display:none;"></textarea>
+											<textarea name="shows_edit_description"id="sed{{shows_index[i]}}"  style="display:none;"></textarea>
+
+											<div class="modal fade" id="shows_edit_confirm{{shows_index[i]}}">
+												<div class="modal-dialog modal-news" >
+													<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
+
+														<!-- Modal Header -->
+														<div class="modal-header">
+															<h1 class="modal-title">Confirmation</h1>
+															<button type="button" class="close" data-dismiss="modal">&times;</button>
+														</div>
+
+														<!-- Modal body -->
+														<div class="modal-body">
+															<div class="row justify-content-center">
+																<h2>Are you sure to edit this show?</h2>
+															</div>  
+														</div>
+
+														<!-- Modal footer -->
+														<div class="modal-footer">
+															<h3 class="row">
+																<div class="form-inline">
+																	<button type="submit" class="adminsidebarbtn transition btn-save"  style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
+																	<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
+																</div>    
+															</h3>
+														</div>
+
+													</div>
+												</div>
+											</div>
+
+										</form>
+										
+
+										<a id="shows_edit_cancel{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+											<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span>
+											ยกเลิก
+										</a>
+
+										
+										<a id="shows_close{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											ปิด
+										</a>
+										<form method="POST" class="col-md-5"  id="shows_delete{{shows_index[i]}}">
+											<div class="row">
+												<button type="submit" name="shows_delete" class="col-md-12 btn btn-danger" value="{{shows_index[i]}}" style="margin: 2%;color: white">
+													<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+													ลบ
+												</button>
+											</div>
+										</form>
+										
+
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 card card-body text-center section3">
+								<h2 style="background-color: #B4A882;max-height: 75px" class="card card-body text-center">รายละเอียด<br></h2>
+								{% for i in range(shows_index|length) %}
+								<div id="shows{{shows_index[i]}}" >
+
+									<div class="card">
+										<div class="card-header">
+											<h1>{{ shows_title[i] }}</h1>
+										</div>
+										<div class="card-body">
+											<img src="../static/images/shows/{{ shows_img_list[i][0]}}" style="width: 50%;height: auto">
+										</div>
+										<div class="card-footer">
+											<h3 class="text-secondary text-md-left" style=";font-size: 14px;font-family: arial;font-style:italic"><b>วันที่:</b> {{shows_data[i][3].strftime('%d-%m-%Y')}}<br><b>เวลา:</b> {{shows_data[i][4]}}<br><b>สถานที่:</b> {{shows_location[i]}}<br><b>ซื้อตั๋วได้ที่:</b> {{ shows_link[i] }}</h3>
+										</div>
+										<p style="font-family: 'Ekkamai';">{{ shows_desc[i]}}</p>
+
+										
+									</div>
+									
+								</div>
+								{% endfor %}
+
+								{% for i in range(shows_index|length) %}
+								<div id="shows_edit_panel{{shows_index[i]}}">
+									<div class="card">
+										<span><h1>Title</h1></span>
+										<textarea id="shows_edit_title{{shows_index[i]}}" style="width: 100%;height: 100%;background-color: white">{{ shows_title[i] }}</textarea>
+										<div  id="shows_edit_image{{shows_index[i]}}" class="card-body">
+											<div class="shows_edit_image">
+												<img src="../static/images/shows/{{ shows_img_list[i][0]}}" style="width: 50%;height: auto">
+											</div>
+										</div>
+										
+										<span><h1>Links</h1></span>
+										<textarea id="shows_edit_link{{shows_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ shows_link[i] }}</textarea>
+										
+										<div class="row">
+											<div class="col-md-6">
+												<span><h1>Date</h1></span>
+												<input type="date" id="shows_edit_date{{shows_index[i]}}" value="{{shows_data[i][3]}}" style="width: 100%;height: 50px;background-color: white">
+											</div>
+											<div class="col-md-6">
+												<span><h1>Time</h1></span>
+												<input type="time" id="shows_edit_time{{shows_index[i]}}" value="{{shows_data[i][4]}}" style="width: 100%;height: 50px;background-color: white">
+											</div>
+										</div>
+
+										<span><h1>Location</h1></span>
+										<textarea id="shows_edit_location{{shows_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ shows_location[i] }}</textarea>
+
+										<span><h1>Description</h1></span>
+										<textarea id="shows_edit_description{{shows_index[i]}}" style="font-family: 'Ekkamai';width: 100%;height: 500px;background-color: white">{{ shows_desc[i]}}</textarea>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div >
+						
+						<form enctype="multipart/form-data" method="POST" accept-charset="utf-8" novalidate>
+							<div class="row section3 ">
+								<div class="col-md-2 section3 " style="width: 100%">
+									<div class="card" style="min-width: auto;margin-top: 5%;background-color: #eee">
+										<a class="btn transition" id="createshows" style=";margin: 3%;background-color: #fff">
+											<span class="transition glyphicon glyphicon-plus" aria-hidden="true"></span>
+											Add Shows(เพิ่มการแสดง)
+										</a>
+										<div class="row">	
+											<div class="col-md-12 no-gutters" style="margin-left: 10%">
+												<div class="row section3">	
+													<a class="adminsidebarbtn transition btn-save" onclick="encodehtml2()" data-toggle="modal" id="confirmation2"  data-target="#showsconfirm"  style="width: 80%;height: auto;margin-top: 1%;color:#fff;font-family: charm"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>Save(บันทึก)</a>
+
+
+
+													<div class="modal fade" id="showsconfirm">
+														<div class="modal-dialog modal-news" >
+															<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
+
+																<!-- Modal Header -->
+																<div class="modal-header">
+																	<h1 class="modal-title">Confirmation</h1>
+																	<button type="button" class="close" data-dismiss="modal">&times;</button>
+																</div>
+
+																<!-- Modal body -->
+
+																<div class="modal-body">
+																	<div class="row justify-content-center">
+																		<h2>Are you sure to add this show?</h2>
+																	</div>  
+																</div>
+
+																<!-- Modal footer -->
+																<div class="modal-footer">
+																	<h3 class="row">
+																		<div class="form-inline">
+																			<button type="submit" class="adminsidebarbtn transition btn-save" id="showssave" style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
+																			<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
+																		</div>    
+																	</h3>
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row section3">	
+													<a class="adminsidebarbtn transition btn-cancel" id="showscancel"  style="width: 80%;height: auto;margin-top: 1%;color:#fff"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>Cancel(ยกเลิก)</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-8 section3" id=createshowsdiv style="margin-bottom: 10%" >
+									<div class="card card-body" style="margin-top: 0.5%">
+										<h1 class="card" style="background-color: #eee;padding:3%">Create Shows</h1>
+									</div>
+									<textarea id="shows_title" name = "shows_title"  class="form-control" placeholder="(ชื่อเรื่อง)"></textarea>
+									<textarea id="shows_link" name = "shows_link" class="form-control" placeholder="(คำอธิบาย)"></textarea>
+									<input type="date" id="shows_date" name = "shows_date" class="form-control" placeholder="(วันที่)">
+									<input type="time" id="shows_time" name = "shows_time" class="form-control" placeholder="(เวลา)">
+									<textarea id="shows_location" name = "shows_location" class="form-control" placeholder="(สถานที่)"></textarea>
+									<textarea id="shows_description" name = "shows_description" class="form-control"  placeholder="(รายละเอียด)" style="min-height: 300px"></textarea>
+									<div class="form-control btn-group-vertical">
+										<label for="shows_image">(เลือกรูปภาพ)</label>
+										<input  name = "shows_image" type="file" class="btn" multiple>
+									</div>
+
+								</div>
+							</div>	
+						</form>
+						
+
+					</div>
+				</div>
+
+				<div id="dashboard" class="container-fluid" >
+					<div class="row no-gutters" style="margin-top: 1.5% ">
+						<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Dashboard</h1>
+					</div>
+					<div class="row">
+						<div class="col-md-6 card card-body text-center " style="margin-top:2% ;">
+							<div class="row card card-body text-center" style="background-color: #eee">
+								<h3>Performance<br>(Average accuracy for each class)</h3>
+							</div>
+							<div class="row">
+								<div id="chart_div" class="chart"></div>
+							</div>
+
+						</div>
+						<div class="col-md-6" style="margin-top:2%; ">
+							<div class="row card card-body text-center nav-item" id="imginlink2">
+								<h3 class="row card card-body text-center" style="background-color: #eee">Number of image input<br></h3>
+								<h1 class="display-1" style="font-family: impact">{{imgin_data|length}}</h1>
+								<a href="#" class="ibtn "  style="color: #331A00 ;font-size: 25px;background-color: #B4A882">Check</a>
+							</div>
+							<div class="row card card-body text-center nav-item" id="imgoutlink2">
+								<h3  class="row card card-body text-center" style="background-color: #eee">Number of image output<br></h3>
+								<h1 class="display-1"  style="font-family: impact">{{imgout_data|length}}</h1>
+								<a href="#" class="ibtn"  style="color: #331A00 ;font-size: 25px;background-color: #B4A882">Check</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="imgin" class="container-fluid" >
+					<div class="row no-gutters" style="margin-top: 1.5% ">
+						<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Image Input From User<br>(รูปขาเข้า)</h1>
+					</div>
+					<div class="col-md-12 card card-body text-center " style="margin-top:2% ;">
+						<div class="row card card-body text-center" style="background-color: #eee;margin-bottom: 2%">
+							<h3>Total {{imgin_data|length}} images</h3>
+						</div>
+						<div class="row">
+							{% for i in range(imgin_data|length) %}
+							<div class="col-md-3 card text-center">
+								<div class="card-body">
+									<img src="{{imgin_data[i][2]}}" style="width: 100%;height: auto">
+									<div class="card-footer">Code: {{imgin_data[i][1]}}</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+
+					</div>
+				</div>
+				<div id="imgout" class="container-fluid" >
+					<div class="row no-gutters" style="margin-top: 1.5% ">
+						<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Image Output From User<br>(รูปขาออก)</h1>
+					</div>
+					<div class="col-md-12 card card-body text-center " style="margin-top:2% ;">
+						<div class="row card card-body text-center" style="background-color: #eee ;margin-bottom: 2%">
+							<h3 >Total {{imgout_data|length}} images</h3>
+						</div>
+						<div class="row">
+							{% for i in range(imgout_data|length) %}
+							<div class="col-md-3 card text-center" style="">
+								<div class="card-header">Class: {{imgout_data[i][3]}}</div>
+								<div class="card-body">
+									<img src="{{imgout_data[i][2]}}" style="width: 100%;height: auto">
+								</div>
+								<div class="card-footer">Score: {{imgout_data[i][4]}}</div>
+							</div>
+							{% endfor %}
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="live">
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Live View</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<iframe src="..//index2.html" frameBorder="0" style="width: 1900px;height: 1080px"></iframe>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<script>
+
+
+
+
+		{% for i in range(news_index|length) %}
+		$('#news_edit_confirm{{news_index[i]}}').appendTo("body");
+		{% endfor %}
+
+		{%for i in range(news_index|length)%}
+		function news_edit_encodehtml{{news_index[i]}}() {
+			let news_title = document.getElementById('net{{news_index[i]}}').value;
+			let en_news_title = news_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('net{{news_index[i]}}').value = en_news_title;
+			alert(document.getElementById('net{{news_index[i]}}').value)
+
+			let news_subtitle = document.getElementById('nes{{news_index[i]}}').value;
+			let en_news_subtitle = news_subtitle.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('nes{{news_index[i]}}').value = en_news_subtitle;
+			alert(document.getElementById('nes{{news_index[i]}}').value)	
+
+			let news_description = document.getElementById('ned{{news_index[i]}}').value;
+			let en_news_description = news_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('ned{{news_index[i]}}').value = en_news_description;
+			alert(document.getElementById('ned{{news_index[i]}}').value)
+		}
+		{% endfor %}
+
+		{% for i in range(shows_index|length) %}
+		$('#shows_edit_confirm{{shows_index[i]}}').appendTo("body");
+		{% endfor %}
+
+		{%for i in range(shows_index|length)%}
+		function shows_edit_encodehtml{{shows_index[i]}}() {
+			let shows_title = document.getElementById('net{{shows_index[i]}}').value;
+			let en_shows_title = shows_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('net{{shows_index[i]}}').value = en_shows_title;
+			alert(document.getElementById('net{{shows_index[i]}}').value)
+
+			let shows_link = document.getElementById('nes{{shows_index[i]}}').value;
+			let en_shows_link = shows_link.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('nes{{shows_index[i]}}').value = en_shows_link;
+			alert(document.getElementById('nes{{shows_index[i]}}').value)	
+
+			let shows_description = document.getElementById('ned{{shows_index[i]}}').value;
+			let en_shows_description = shows_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('ned{{shows_index[i]}}').value = en_shows_description;
+			alert(document.getElementById('ned{{shows_index[i]}}').value)
+		}
+		{% endfor %}
+
+		function encodehtml() {
+			var news_title = document.getElementById('news_title').value;
+			var en_news_title = news_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('news_title').value = en_news_title;
+			alert(document.getElementById('news_title').value)
+
+			var news_subtitle = document.getElementById('news_subtitle').value;
+			var en_news_subtitle = news_subtitle.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('news_subtitle').value = en_news_subtitle;
+			alert(document.getElementById('news_subtitle').value)	
+
+			var news_description = document.getElementById('news_description').value;
+			var en_news_description = news_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('news_description').value = en_news_description;
+			alert(document.getElementById('news_description').value)
+		}
+		function encodehtml2() {
+			var shows_title = document.getElementById('shows_title').value;
+			var en_shows_title = shows_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('shows_title').value = en_shows_title;
+			alert(document.getElementById('shows_title').value)
+
+			var shows_link = document.getElementById('shows_link').value;
+			var en_shows_link = shows_link.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('shows_link').value = en_shows_link;
+			alert(document.getElementById('shows_link').value)	
+
+			var shows_description = document.getElementById('shows_description').value;
+			var en_shows_description = shows_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+			document.getElementById('shows_description').value = en_shows_description;
+			alert(document.getElementById('shows_description').value)
+		}
+
+
+
+		$(window).resize(function(){
+			drawTrendlines();
+		});
+		google.charts.load('current', {packages: ['corechart', 'line']});
+		google.charts.setOnLoadCallback(drawTrendlines);
+
+		function drawTrendlines() {
+			var data = new google.visualization.DataTable();
+			data.addColumn('number', 'X');
+			data.addColumn('number', 'Dogs');
+			data.addColumn('number', 'Cats');
+
+			data.addRows([
+				[0, 0, 0],    [1, 10, 5],   [2, 23, 15],  [3, 17, 9],   [4, 18, 10],  [5, 9, 5],
+				[6, 11, 3],   [7, 27, 19],  [8, 33, 25],  [9, 40, 32],  [10, 32, 24], [11, 35, 27],
+				[12, 30, 22], [13, 40, 32], [14, 42, 34], [15, 47, 39], [16, 44, 36], [17, 48, 40],
+				[18, 52, 44], [19, 54, 46], [20, 42, 34], [21, 55, 47], [22, 56, 48], [23, 57, 49],
+				[24, 60, 52], [25, 50, 42], [26, 52, 44], [27, 51, 43], [28, 49, 41], [29, 53, 45],
+				[30, 55, 47], [31, 60, 52], [32, 61, 53], [33, 59, 51], [34, 62, 54], [35, 65, 57],
+				[36, 62, 54], [37, 58, 50], [38, 55, 47], [39, 61, 53], [40, 64, 56], [41, 65, 57],
+				[42, 63, 55], [43, 66, 58], [44, 67, 59], [45, 69, 61], [46, 69, 61], [47, 70, 62],
+				[48, 72, 64], [49, 68, 60], [50, 66, 58], [51, 65, 57], [52, 67, 59], [53, 70, 62],
+				[54, 71, 63], [55, 72, 64], [56, 73, 65], [57, 75, 67], [58, 70, 62], [59, 68, 60],
+				[60, 64, 56], [61, 60, 52], [62, 65, 57], [63, 67, 59], [64, 68, 60], [65, 69, 61],
+				[66, 70, 62], [67, 72, 64], [68, 75, 67], [69, 80, 72]
+				]);
+
+			var options = {
+				hAxis: {
+					title: 'Iterations'
+				},
+				vAxis: {
+					title: 'Popularity'
+				},
+				backgroundColor: '#FFF',
+				colors: ['#AB0D06', '#007329'],
+				trendlines: {
+					0: {type: 'exponential', color: '#333', opacity: 1},
+					1: {type: 'linear', color: '#111', opacity: .3}
+				}
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+
+		}
+
+		$(document).ready(function () {
+			$('.section').each(function () {
+				var newsDiv = $(this).children('#news');
+				var showsDiv = $(this).children('#shows');
+				var dashDiv = $(this).children('#dashboard');
+				var inDiv = $(this).children('#imgin');
+				var outDiv = $(this).children('#imgout');
+
+
+            	newsDiv.hide(); // Sets initial translation to hide. You can alternatively do this via css such that all .english { display: none; }.
+            	showsDiv.hide();
+            	dashDiv.hide();
+            	inDiv.hide();
+            	outDiv.hide();
+            	var bgDiv = $(this).children('#admin_bg'); // Remove if you do not want to hide original text upon toggling
+            	$('#newslink').click(function (e) {
+            		newsDiv.show();
+            		showsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.hide();
+                	inDiv.hide();
+                	outDiv.hide();
+                });
+            	$('#showslink').click(function (e) {
+            		showsDiv.show();
+            		newsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.hide();
+                	inDiv.hide();
+                	outDiv.hide();
+                });
+            	$('#dashboardlink').click(function (e) {
+            		newsDiv.hide();
+            		showsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.show();
+                	inDiv.hide();
+                	outDiv.hide();
+                });
+            	$('#imginlink').click(function (e) {
+            		showsDiv.hide();
+            		newsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.hide();
+                	inDiv.show();
+                	outDiv.hide();
+                });
+            	$('#imgoutlink').click(function (e) {
+            		showsDiv.hide();
+            		newsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.hide();
+                	inDiv.hide();
+                	outDiv.show();
+                });
+            	$('#imginlink2').click(function (e) {
+            		showsDiv.hide();
+            		newsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.hide();
+                	inDiv.show();
+                	outDiv.hide();
+                });
+            	$('#imgoutlink2').click(function (e) {
+            		showsDiv.hide();
+            		newsDiv.hide();
+                	bgDiv.hide(); // Remove if you do not want to hide original text upon toggling
+                	dashDiv.hide();
+                	inDiv.hide();
+                	outDiv.show();
+                });
+
+
+            });
+		});
+		$(document).ready(function () {
+
+			$('.summernote').summernote({
+				placeholder: "(เนื้อหา)",
+				tabsize: 4,
+				height: 600,
+				hide: true
+			});
+		});
+
+		$(document).ready(function () {
+
+
+			$('.section2').each(function () {
+				var addnews = $(this).children('.summernews');
+				var cancelnews = $(this).children('#newscancel');
+				var savenews = $(this).children('#newssave');
+				var createnewsdiv = $(this).children('#createnewsdiv');
+				var confirmation1 = $(this).children('#confirmation1');
+
+				addnews.hide();
+				cancelnews.hide();
+				savenews.hide();
+				createnewsdiv.hide();
+				confirmation1.hide();
+				$('#createnews').click(function (e){
+					addnews.summernote({
+						placeholder: "(เนื้อหา)",
+						tabsize: 4,
+						height: 600,
+						hide: true
+					});
+					addnews.show();
+					confirmation1.show();
+					cancelnews.show();
+					createnewsdiv.show();
+				});
+				$('#newscancel').click(function (e){
+					addnews.hide();
+					cancelnews.hide();
+					createnewsdiv.hide();
+					confirmation1.hide();
+				});
+
+				$('#newssave').click(function (e){
+					addnews.hide();
+					cancelnews.hide();
+					createnewsdiv.hide();
+					savenews.hide();
+					confirmation1.hide();
+				});
+
+
+				{% for i in range(news_index|length) %}
+				$(this).children('#news{{news_index[i]}}').hide();
+				$(this).children('#news_edit{{news_index[i]}}').hide();	
+				$(this).children('#news_delete{{news_index[i]}}').hide();
+				$(this).children('#news_edit_save{{news_index[i]}}').hide();
+				$(this).children('#news_close{{news_index[i]}}').hide();
+				$(this).children('#news_edit_panel{{news_index[i]}}').hide();	
+				$(this).children('#news_edit_cancel{{news_index[i]}}').hide();		
+				{% endfor %}
+
+
+				{% for i in range(news_index|length) %}
+				$('#newslink{{ news_index[i] }}').click(function (e) {
+					{% for j in range(news_index|length) %}
+					$('#news{{news_index[j]}}').hide();
+					$('#news_edit{{news_index[j]}}').hide();
+					$('#news_edit_save{{news_index[j]}}').hide();
+					$('#news_edit_cancel{{news_index[j]}}').hide();	
+					$('#news_delete{{news_index[j]}}').hide();	
+					$('#news_close{{news_index[j]}}').hide();
+					$('#news_edit_panel{{news_index[j]}}').hide();
+					{% endfor %}
+					$('#news{{news_index[i]}}').toggle();	
+					$('#news_edit{{news_index[i]}}').toggle();	
+					$('#news_close{{news_index[i]}}').toggle();
+					$('#news_delete{{news_index[i]}}').toggle();		
+				});	
+				{% endfor %}
+
+
+
+				{% for i in range(news_index|length) %}
+				$('#news_close{{ news_index[i] }}').click(function (e) {
+					{% for j in range(news_index|length) %}
+					$('#news_close{{news_index[j]}}').hide();
+					$('#news{{news_index[j]}}').hide();
+					$('#news_edit_save{{news_index[i]}}').hide();
+					$('#news_edit{{news_index[j]}}').hide();
+					$('#news_edit_panel{{news_index[j]}}').hide();	
+					$('#news_delete{{news_index[j]}}').hide();	
+					{% endfor %}
+
+				});	
+				{% endfor %}
+
+
+				{% for i in range(news_index|length) %}
+				$('#news_edit{{ news_index[i] }}').click(function (e) {
+					$('#news{{news_index[i]}}').hide();
+					$('#news_edit_cancel{{news_index[i]}}').show();
+					$('#news_close{{news_index[i]}}').hide();
+					$('#news_edit{{news_index[i]}}').hide();
+					$('#news_edit_save{{news_index[i]}}').show();
+					$('#news_edit_panel{{news_index[i]}}').show();	
+				});	
+				{% endfor %}
+
+
+				{% for i in range(news_index|length) %}
+				$('#news_edit_cancel{{ news_index[i] }}').click(function (e) {
+					$('#news{{news_index[i]}}').show();
+					$('#news_edit_cancel{{news_index[i]}}').hide();
+					$('#news_close{{news_index[i]}}').show();
+					$('#news_edit{{news_index[i]}}').show();
+					$('#news_edit_save{{news_index[i]}}').hide();
+					$('#news_edit_panel{{news_index[i]}}').hide();	
+				});	
+				{% endfor %}
+			});
+
+
+			$('.section3').each(function () {
+				var addshows = $(this).children('.summershows');
+				var cancelshows = $(this).children('#showscancel');
+				var saveshows = $(this).children('#showssave');
+				var createshowsdiv = $(this).children('#createshowsdiv');
+				var confirmation2 = $(this).children('#confirmation2');
+
+				addshows.hide();
+				cancelshows.hide();
+				saveshows.hide();
+				createshowsdiv.hide();
+				confirmation2.hide();
+				$('#createshows').click(function (e){
+					addshows.summernote({
+						placeholder: "(เนื้อหา)",
+						tabsize: 4,
+						height: 600,
+						hide: true
+					});
+					addshows.show();
+					confirmation2.show();
+					cancelshows.show();
+					createshowsdiv.show();
+				});
+				$('#showscancel').click(function (e){
+					addshows.hide();
+					cancelshows.hide();
+					createshowsdiv.hide();
+					confirmation2.hide();
+				});
+
+				$('#showssave').click(function (e){
+					addshows.hide();
+					cancelshows.hide();
+					createshowsdiv.hide();
+					saveshows.hide();
+					confirmation2.hide();
+				});
+
+
+				{% for i in range(shows_index|length) %}
+				$(this).children('#shows{{shows_index[i]}}').hide();
+				$(this).children('#shows_edit{{shows_index[i]}}').hide();	
+				$(this).children('#shows_delete{{shows_index[i]}}').hide();
+				$(this).children('#shows_edit_save{{shows_index[i]}}').hide();
+				$(this).children('#shows_close{{shows_index[i]}}').hide();
+				$(this).children('#shows_edit_panel{{shows_index[i]}}').hide();	
+				$(this).children('#shows_edit_cancel{{shows_index[i]}}').hide();		
+				{% endfor %}
+
+
+				{% for i in range(shows_index|length) %}
+				$('#showslink{{ shows_index[i] }}').click(function (e) {
+					{% for j in range(shows_index|length) %}
+					$('#shows{{shows_index[j]}}').hide();
+					$('#shows_edit{{shows_index[j]}}').hide();
+					$('#shows_edit_save{{shows_index[j]}}').hide();
+					$('#shows_edit_cancel{{shows_index[j]}}').hide();	
+					$('#shows_delete{{shows_index[j]}}').hide();	
+					$('#shows_close{{shows_index[j]}}').hide();
+					$('#shows_edit_panel{{shows_index[j]}}').hide();
+					{% endfor %}
+					$('#shows{{shows_index[i]}}').toggle();	
+					$('#shows_edit{{shows_index[i]}}').toggle();	
+					$('#shows_close{{shows_index[i]}}').toggle();
+					$('#shows_delete{{shows_index[i]}}').toggle();		
+				});	
+				{% endfor %}
+
+
+
+				{% for i in range(shows_index|length) %}
+				$('#shows_close{{ shows_index[i] }}').click(function (e) {
+					{% for j in range(shows_index|length) %}
+					$('#shows_close{{shows_index[j]}}').hide();
+					$('#shows{{shows_index[j]}}').hide();
+					$('#shows_edit_save{{shows_index[i]}}').hide();
+					$('#shows_edit{{shows_index[j]}}').hide();
+					$('#shows_edit_panel{{shows_index[j]}}').hide();	
+					$('#shows_delete{{shows_index[j]}}').hide();	
+					{% endfor %}
+
+				});	
+				{% endfor %}
+
+
+				{% for i in range(shows_index|length) %}
+				$('#shows_edit{{ shows_index[i] }}').click(function (e) {
+					$('#shows{{shows_index[i]}}').hide();
+					$('#shows_edit_cancel{{shows_index[i]}}').show();
+					$('#shows_close{{shows_index[i]}}').hide();
+					$('#shows_edit{{shows_index[i]}}').hide();
+					$('#shows_edit_save{{shows_index[i]}}').show();
+					$('#shows_edit_panel{{shows_index[i]}}').show();	
+				});	
+				{% endfor %}
+
+
+				{% for i in range(shows_index|length) %}
+				$('#shows_edit_cancel{{ shows_index[i] }}').click(function (e) {
+					$('#shows{{shows_index[i]}}').show();
+					$('#shows_edit_cancel{{shows_index[i]}}').hide();
+					$('#shows_close{{shows_index[i]}}').show();
+					$('#shows_edit{{shows_index[i]}}').show();
+					$('#shows_edit_save{{shows_index[i]}}').hide();
+					$('#shows_edit_panel{{shows_index[i]}}').hide();	
+				});	
+				{% endfor %}
+			});
+		});
+
+
+	</script>
+
+</body>
+
+
+<div class="col-md-12" style="position: relative">
+	<footer class="ftco-footer ftco-section section card " style="border:none;background-color: #7e7558;margin-top:0%">
+
+		<div class="container-fluid ">
+			<div class="row justify-content-center" style="padding-top: 0.5%">
+				<div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 23rem">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2 " style="color: #000;border-bottom: 1px solid rgb(117, 117, 117);">เกี่ยวกับ</h2>
+						<p style="color: #222;font-family: 'TH sarabun new'">จุดประสงค์ของเว็บไซต์นี้เพื่อนำเสนอผลงานและข้อมูลเท่านั้น <br>ไม่มีจุดประสงค์ในการใช้เพื่อการค้า<br>ด้วยความเคารพ</p>
+
+					</div>
+				</div>
+				<div class="col-md-3 card shadow"  style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 20rem">
+					<div class="ftco-footer-widget mb-4 ml-md-4">
+						<h2 class="ftco-heading-2" style="color: #000;border-bottom: 1px solid rgb(117, 117, 117);">ลิงก์</h2>
+						<ul class="list-unstyled" >
+							<li><a href="https://www.itar.site/#home-section" style="color: #222;font-family: 'TH sarabun new'"><span class=" icon-long-arrow-right mr-2"></span>หน้าหลัก</a></li>
+							<li><a href="https://www.itar.site/#about-section" style="color: #222;font-family: 'TH sarabun new'"><span class=" icon-long-arrow-right mr-2"></span>เกี่ยวกับ</a></li>
+							<li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'TH sarabun new'"><span class=" icon-long-arrow-right mr-2"></span>งานถนัด</a>
+							</li>
+							<li><a href="https://www.itar.site/#projects-section" style="color: #222;font-family: 'TH sarabun new'"><span class=" icon-long-arrow-right mr-2"></span>ประกาศนียบัตร</a>
+							</li>
+							<li><a href="https://www.itar.site/#contact-section" style="color: #222;font-family: 'TH sarabun new'"><span class=" icon-long-arrow-right mr-2"></span>ติดต่อ</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 20rem">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2" style="color: #000;border-bottom: 1px solid rgb(117, 117, 117);">หน้าที่</h2>
+						<ul class="list-unstyled">
+							<li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'TH sarabun new'"><span class="icon-long-arrow-right mr-2"></span>หน้าเว็บ(หน้าบ้าน)</a>
+							</li>
+							<li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'TH sarabun new'"><span class="icon-long-arrow-right mr-2"></span>ระบบเว็บ(หลังบ้าน)</a>
+							</li>
+							<li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'TH sarabun new'"><span class="icon-long-arrow-right mr-2"></span>ดูแลและจัดการฐานข้อมูล
+							</a></li>
+							<li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'TH sarabun new'"><span class="icon-long-arrow-right mr-2"></span>วิเคราะห์ข้อมูล
+							</a></li>
+							<li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'TH sarabun new'"><span class="icon-long-arrow-right mr-2"></span>แอพพลิเคชันมือถือ</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 25rem">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2" style="color: #000;border-bottom: 1px solid rgb(117, 117, 117);">สอบถามเพิ่มเติม</h2>
+						<div class="block-23 mb-3">
+							<ul class="list-unstyled">
+								<li><span class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'TH sarabun new';">Floor'6 building'72 Faculty of Applied Science<br>King Mongkut's University of Technology North Bangkok</span>
+								</li>
+								<li><a href="tel:025552000"><span
+									class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'TH sarabun new'">02-555-2000</span></a></li>
+									<li><a href="mailto:s5904062663123@email.kmutnb.ac.th"><span class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'TH sarabun new'"> s5904062663123@<br>email.kmutnb.ac.th</span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>

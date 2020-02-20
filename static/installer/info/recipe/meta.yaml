@@ -1,0 +1,47 @@
+# This file created by conda-build 3.15.1
+# meta.yaml template originally from:
+# C:\projects\absl-py-feedstock\recipe, last modified Sat Nov 10 21:05:36 2018
+# ------------------------------------------------
+
+package:
+    name: absl-py
+    version: 0.6.1
+source:
+    fn: absl-py-0.6.1.tar.gz
+    sha256: 87519e3b91a3d573664c6e2ee33df582bb68dca6642ae3cf3a4361b1c0a4e9d6
+    url: https://pypi.io/packages/source/a/absl-py/absl-py-0.6.1.tar.gz
+build:
+    number: '1000'
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+    string: py36_1000
+requirements:
+    host:
+        - certifi 2018.10.15 py36_1000
+        - python 3.6.6 he025d50_0
+        - setuptools 40.5.0 py36_0
+        - six 1.11.0 py36_1001
+        - vc 14 0
+        - vs2015_runtime 14.0.25420 0
+        - wincertstore 0.2 py36_1002
+    run:
+        - python >=3.6,<3.7.0a0
+        - six
+test:
+    imports:
+        - absl
+        - absl.flags
+        - absl.logging
+        - absl.testing
+about:
+    dev_url: https://github.com/abseil/abseil-py
+    doc_url: https://abseil.io/docs/
+    home: https://abseil.io/
+    license: Apache 2.0
+    license_family: Apache
+    license_file: C:\projects\absl-py-feedstock\recipe/LICENSE
+    summary: Abseil Python Common Libraries, see https://github.com/abseil/abseil-py.
+extra:
+    copy_test_source_files: true
+    final: true
+    recipe-maintainers:
+        - jjhelmus

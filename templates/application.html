@@ -1,0 +1,167 @@
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>KHON Project</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="../static/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Style Import-->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <script src ="../static/js/clock.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../static/js/jquery.min.js"></script>
+  <script src="../static/js/lucid.js"></script>
+  <script>
+    $(window).on('load', function() {
+      $(this).impulse();
+    });
+  </script>
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+
+
+
+<body onload="startTime()">
+  <div id="overlay"  style="background-color: rgba(0,0,0, 0.3);z-index: 5000">
+    <div class="circle"></div>
+    <div class="circle1"></div>
+    <h1 style="margin-top: -13%;color: #eae0c2">กรุณารอ<br>Please wait</h1>
+  </div>
+  <div class = "container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="sidebar text-center">
+          <div class="sticky-top" style="top:5%">
+            <img src="../static/images/icon/kmutnb.png" class="rounded " style="width: 80%;height: auto;" alt="University Icon">
+            <ul class="navbar-nav mr-auto card card-body text-center" style="background-color: #7E7558;border-color: #7E7558">
+              <li class="nav-item ">
+                <a class="sidebarbtn shadow" href="/" style="background-color: #B4A882">หน้าหลัก </a>
+              </li>
+              <li class="nav-item">
+                <a class="sidebarbtn shadow" href="application" style="background-color: #B4A882">ประมวลผลท่ารำ</a>
+              </li>
+              <li class="nav-item">
+                <a class="sidebarbtn shadow" href="show" style="background-color: #B4A882">รอบการแสดง</a>
+              </li>
+              <li class="nav-item">
+                <a class="sidebarbtn shadow" href="gesture" style="background-color: #B4A882">ท่าทางการรำโขน</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="">
+            <img src="../static/images/etc/head.png" class="img-fluid" style="margin-bottom: -31%">
+          </div>
+        </div>
+        {% block form %}
+        <div class="row justify-content-center card shadow-lg" style="margin-left: 3%;margin-right: 3%;margin-top: 3%" >
+          <div class="card card-body shadow-md"style="background-color: #eee; margin: 2%">
+            <h1 style="margin-top: 1%; color:#331A00 ">ประมวลผลท่ารำ</h1>
+          </div>
+        </div>
+        <div class="row justify-content-center card shadow-lg" style="margin-top:4%;padding-top:4%;color:#331A00;margin-left: 3%;margin-right: 3%;margin-bottom: 3%;padding-bottom: 10%">
+          <div class="col-md-12">
+            <h1 style="padding-top:0.5%">Upload รูปภาพเพื่อบอกความหมาย(รองรับไฟล์นามสกุล .jpg,.jpeg)</h1>
+          </div>
+          <div class="row justify-content-center" >
+            <div class="col-md-7">
+              <form class="card" enctype="multipart/form-data" method="post" style="padding: 3%;margin:3%; background-color: #eee">
+
+                <label  for="file_input" style="font-family:'Ekkamai';font-size: 170%"> Image input(อัพโหลดรูปภาพ)</label>
+                <input  class="btn" style="font-family:'Ekkamai';" type="file" name="file_input">
+
+                <input type="submit" class="sidebarbtn" id="load" style="margin-top:2%;background-color: #B4A882;color: #331A00; font-family: Charm" name="button" value="Detect!"></input>
+              </form>
+            </div>
+            <div class="col-md-5">
+              <img src="../static/images/etc/artboard2.png" style="width: 60%;height: auto;margin-left: 20%;border-radius: 50px;border: 5px solid #7E7558;padding:2%;margin:3%;">
+            </div>
+          </div>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<div class="col-md-12">
+  <footer class="ftco-footer ftco-section section card " style="border:none;background-color: #7e7558;margin-top:0%">
+
+    <div class="container-fluid ">
+      <div class="row justify-content-center" style="padding-top: 0.5%">
+        <div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 23rem">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2 " style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">เกี่ยวกับ</h2>
+            <p style="color: #222;font-family: 'Ekkamai';font-size: 95%">จุดประสงค์ของเว็บไซต์นี้เพื่อนำเสนอผลงานและข้อมูลเท่านั้น <br>ไม่มีจุดประสงค์ในการใช้เพื่อการค้า<br>ด้วยความเคารพ</p>
+
+          </div>
+        </div>
+        <div class="col-md-3 card shadow"  style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 20rem">
+          <div class="ftco-footer-widget mb-4 ml-md-4">
+            <h2 class="ftco-heading-2" style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">ลิงก์</h2>
+            <ul class="list-unstyled" >
+              <li><a href="https://www.itar.site/#home-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>หน้าหลัก</a></li>
+              <li><a href="https://www.itar.site/#about-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>เกี่ยวกับ</a></li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>งานถนัด</a>
+              </li>
+              <li><a href="https://www.itar.site/#projects-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>ประกาศนียบัตร</a>
+              </li>
+              <li><a href="https://www.itar.site/#contact-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class=" icon-long-arrow-right mr-2"></span>ติดต่อ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 20rem">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2" style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">หน้าที่</h2>
+            <ul class="list-unstyled">
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>หน้าเว็บ(หน้าบ้าน)</a>
+              </li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>ระบบเว็บ(หลังบ้าน)</a>
+              </li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>ดูแลและจัดการฐานข้อมูล
+              </a></li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>วิเคราะห์ข้อมูล
+              </a></li>
+              <li><a href="https://www.itar.site/#services-section" style="color: #222;font-family: 'Ekkamai';font-size: 90%"><span class="icon-long-arrow-right mr-2"></span>แอพพลิเคชันมือถือ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 card shadow" style="margin: 1%;padding-top: 2%;background-color: #eee;max-width: 25rem">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2" style="color: #331A00;border-bottom: 1px solid rgb(117, 117, 117);">สอบถามเพิ่มเติม</h2>
+            <div class="block-23 mb-3">
+              <ul class="list-unstyled">
+                <li><span class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'Ekkamai';font-size: 90%">Floor'6 building'72 Faculty of Applied Science<br>King Mongkut's University of Technology North Bangkok</span>
+                </li>
+                <li><a href="tel:025552000"><span
+                  class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'Ekkamai';font-size: 90%">02-555-2000</span></a></li>
+                  <li><a href="mailto:s5904062663123@email.kmutnb.ac.th"><span class="icon-long-arrow-right mr-2" style="color: #222;font-family: 'Ekkamai';font-size: 90%"> s5904062663123@<br>email.kmutnb.ac.th</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    $('#overlay').hide();
+
+    $('#load').on('click',function (){
+        $('#overlay').show();
+    });
+    </script>
