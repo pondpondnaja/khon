@@ -7,7 +7,7 @@ import base64
 import cv2
 import numpy as np
 import keras.backend as K
-import MySQLdb as mysql
+import pymysql as mysql
 import random
 import string
 def randomString(stringLength=10):
