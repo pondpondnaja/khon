@@ -5,3 +5,7 @@ Jinja2==2.8
 MarkupSafe==1.1.1
 Werkzeug==1.0.0
 wheel==0.24.0
+numpy==1.18.1
+tensorflow==2.1.0
+keras==2.3.1
+PyMySQL==0.9.3
