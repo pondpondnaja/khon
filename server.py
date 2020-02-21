@@ -14,7 +14,6 @@ def randomString(stringLength=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
-mysql.connect_timeout(31536000)
 conn = mysql.connect('us-cdbr-iron-east-04.cleardb.net','bcae93b3a6e1e8','b774845d','heroku_2e0871149dd7778')
 up_loc = os.path.join('/static/inputdata/')
 UPLOAD_FOLDER = os.path.join(os.getcwd().replace('\\','/'), up_loc)
