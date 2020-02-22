@@ -45,7 +45,7 @@ def init():
             text = cur.fetchall()
             cur.execute("select * from news order by id desc")
             news = cur.fetchall()
-        except pymysql.Error as e:
+        except mysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))     
         cur.close()
         i=0
