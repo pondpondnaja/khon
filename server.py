@@ -40,10 +40,13 @@ app.jinja_env.filters['datetime'] = format_datetime
 def init():
     with conn:  
         cur = conn.cursor()
-        cur.execute("select info_desc from process where info_num = 1")
-        text = cur.fetchall()
-        cur.execute("select * from news order by id desc")
+        try:
+            cur.execute("select info_desc from process where info_num = 1")
+            text = cur.fetchall()
+            cur.execute("select * from news order by id desc")
         news = cur.fetchall()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))     
         cur.close()
         i=0
         news_title=[]
