@@ -1,4 +1,8 @@
 INSTALL APT BUILDPACK WHEN STARTING NEW BUILDPACKS
-heroku buildpacks:add --index 1 heroku-community/apt
+heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
 THEN, 
 git push heroku master
+--------------------------------------------------------------------------------------------------------------------
+CLEAR BUILDPACKS
+heroku buildpacks:clear
+--------------------------------------------------------------------------------------------------------------------
