@@ -123,7 +123,7 @@ class YOLO(object):
         
         date = datetime.datetime.now()
         image_temp = Image.open(path)
-        image_temp.save(("static/inputdata/"+code+".jpg"))
+        image_temp.save(("/app/static/inputdata/"+code+".jpg"))
         if self.model_image_size != (None, None):
             assert self.model_image_size[0]%32 == 0, 'Multiples of 32 required'
             assert self.model_image_size[1]%32 == 0, 'Multiples of 32 required'
@@ -205,10 +205,10 @@ class YOLO(object):
             draw.text(text_origin, label, fill=(0, 0, 0), font=font)
             
             
-            img_list.append("/static/outputdata/"+code+str(top)+str(left)+str(bottom)+str(right)+".jpg")
+            img_list.append("/app/static/outputdata/"+code+str(top)+str(left)+str(bottom)+str(right)+".jpg")
             name_list.append(predicted_class)
             score_list.append(score)
-            image_temp_list[count].save(os.path.join(os.getcwd().replace('\\','/'), ("static/outputdata/"+code+str(top)+str(left)+str(bottom)+str(right)+".jpg")))
+            image_temp_list[count].save("/app/static/outputdata/"+code+str(top)+str(left)+str(bottom)+str(right)+".jpg")
             del draw
             count+=1
             print(predicted_class)

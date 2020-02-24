@@ -14,7 +14,7 @@ import psycopg2
 app = Flask(__name__,static_url_path=('/static'))
 app.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLAlCHEMY_DATABASE_URI'] = 'postgres://jlbzqjdoaixcjn:550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba28451006ec@ec2-54-197-34-207.compute-1.amazonaws.com:5432/d2ce06aa7se8s1'
-app.config['SECRET_KEY'] = 'hkbvubvVGYUhivbusavihbOIBAHdaihdbIOHBS'
+app.config['SECRET_KEY'] = '550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba284515140'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_ECHO']=True
 
@@ -37,16 +37,14 @@ def randomString(stringLength=10):
     """Generate a random string of fixed length"""
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
-up_loc = os.path.join('/static/inputdata/')
-UPLOAD_FOLDER = os.path.join(os.getcwd().replace('\\','/'), up_loc)
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','mp4'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 conn = psycopg2.connect(host='ec2-54-197-34-207.compute-1.amazonaws.com',user='jlbzqjdoaixcjn',password='550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba28451006ec',database='d2ce06aa7se8s1')
-
+UPLOAD_FOLDER = '/app/static/inputdata/'
 app.secret_key= os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
+print("\n\n\n\n\n\n\n\n",os.path.join(os.path.abspath(os.getcwd()), '/static/inputdata/'))
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -188,9 +186,10 @@ def admin():
                     shows_location=request.form['shows_location']
                     shows_desc = request.form['shows_description']
                     shows_image = request.files.getlist("shows_image")
-                    shows_folder = os.path.join(os.getcwd().replace('\\','/'), '/KHON/OnWeb/yolo-server/static/images/shows/')
+                    shows_folder = '/app/static/images/shows/'
                     name_list=['NA']*len(shows_image)
                     
+
                     try:
                         i=0
                         
@@ -271,7 +270,7 @@ def admin():
                     news_subtitle = request.form['news_subtitle']
                     news_desc = request.form['news_description']
                     news_image = request.files.getlist("news_image")
-                    news_folder = os.path.join(os.getcwd().replace('\\','/'), '/KHON/OnWeb/yolo-server/static/images/news/')
+                    news_folder ='/app/static/images/news/'
                     name_list=['NA']*len(news_image)
                     
                     try:
@@ -396,6 +395,7 @@ def hello():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+        
         
         print(file.filename)
         if file and allowed_file(file.filename): 
