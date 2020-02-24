@@ -1,3 +1,4 @@
+psycopg2==2.8.4
 wheel==0.26
 setuptools==41.0.0
 Jinja2==2.10.1
@@ -12,4 +13,3 @@ Werkzeug==1.0.0
 numpy==1.18.1
 tensorflow==1.14.0
 keras==2.3.1
-PyMySQL==0.9.3

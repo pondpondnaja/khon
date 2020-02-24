@@ -7,19 +7,42 @@ import base64
 import cv2
 import numpy as np
 import keras.backend as K
-import pymysql as mysql
 import random
 import string
+import psycopg2
+
+app = Flask(__name__,static_url_path=('/static'))
+app.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLAlCHEMY_DATABASE_URI'] = 'postgres://jlbzqjdoaixcjn:550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba28451006ec@ec2-54-197-34-207.compute-1.amazonaws.com:5432/d2ce06aa7se8s1'
+app.config['SECRET_KEY'] = 'hkbvubvVGYUhivbusavihbOIBAHdaihdbIOHBS'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_ECHO']=True
+
+
+'''
+class admin_data(db.Model):
+    username = db.Column(db.String(20),primary_key = True)
+    password = db.Column(db.String(200),unique=False,primary_key = False)
+    name = db.Column(db.String(100),unique=False,primary_key = False)
+    email = db.Column(db.String(100),unique=False,primary_key = False)
+    mobile = db.Column(db.String(20),unique=False,primary_key = False)
+    modify_date = db.Column(db.DateTime,unique=False,primary_key = False)
+    def __repr__(self):
+        return '<admin_data %r>' % self.username
+query = admin_data.query.filter_by(username="admin_t").first()
+print("\n\n\n\n\n\n\n Heloo",query.username,"\n\n\n\n\n\n\n")
+'''
+
 def randomString(stringLength=10):
-    """Generate a random string of fixed length """
+    """Generate a random string of fixed length"""
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
-conn = mysql.connect('us-cdbr-iron-east-04.cleardb.net','bcae93b3a6e1e8','b774845d','heroku_2e0871149dd7778')
 up_loc = os.path.join('/static/inputdata/')
 UPLOAD_FOLDER = os.path.join(os.getcwd().replace('\\','/'), up_loc)
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','mp4'])
 
-app = Flask(__name__,static_url_path=('/static'))
+conn = psycopg2.connect(host='ec2-54-197-34-207.compute-1.amazonaws.com',user='jlbzqjdoaixcjn',password='550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba28451006ec',database='d2ce06aa7se8s1')
+
 app.secret_key= os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
