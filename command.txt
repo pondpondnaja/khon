@@ -1,6 +1,14 @@
 INSTALL APT BUILDPACK WHEN STARTING NEW BUILDPACKS
 heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
-THEN, 
+CREATE FILE NAMED Aptfile AND WRITE DOWN:
+libsm6
+libxrender1
+libfontconfig1
+libice6
+
+THEN,
+git add .
+git commit -m "set new Aptfile" 
 git push heroku master
 --------------------------------------------------------------------------------------------------------------------
 CLEAR BUILDPACKS
