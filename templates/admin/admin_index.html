@@ -8,7 +8,13 @@
 	<title>KHON Project</title>
 	<!-- Bootstrap core CSS -->
 	<link rel="icon" href="static/images/icon/k_icon_new.png" type="image/icon type">
-	<link rel="apple-touch-icon" href="static/images/icon/k_icon_new.png">
+	<link rel="shortcut icon" href="static/images/icon/k_icon_new.png" >
+	<link rel="apple-touch-icon" href="static/images/icon/k_icon_new.png" >
+	<link rel="apple-touch-icon" sizes="72x72" href="static/images/icon/k_icon_new.png" >
+	<link rel="apple-touch-icon" sizes="114x114" href="static/images/icon/k_icon_new.png" >
+	<link rel="apple-touch-icon" sizes="144x144" href="static/images/icon/k_icon_new.png" >
+
+
 	<link href="../static/css/bootstrap.css" rel="stylesheet">
 	<link href="../static/css/animate.css" rel="stylesheet">
 	<link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -395,317 +401,317 @@
 
 
 												shows_edit_encodehtml{{shows_index[i]}}();" data-target="#shows_edit_confirm{{shows_index[i]}}" style="margin: 1%;background-color: white;border-color: black;">
-													<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
-													บันทึก
-												</button>
-											</div>
-											<textarea name = "shows_edit_id" id = "sei{{shows_index[i]}}" style="display: none">{{shows_index[i]}}</textarea>
-											<textarea name="shows_edit_title" id="set{{shows_index[i]}}" style="display:none;"></textarea>
-											<div name="shows_edit_image"></div>
-											<textarea name="shows_edit_link"id="ses{{shows_index[i]}}" style="display:none;"></textarea>
-											<textarea name="shows_edit_date"id="seda{{shows_index[i]}}" style="display:none;"></textarea>
-											<textarea name="shows_edit_time"id="seti{{shows_index[i]}}" style="display:none;"></textarea>
-											<textarea name="shows_edit_location"id="sel{{shows_index[i]}}" style="display:none;"></textarea>
-											<textarea name="shows_edit_description"id="sed{{shows_index[i]}}"  style="display:none;"></textarea>
+												<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+												บันทึก
+											</button>
+										</div>
+										<textarea name = "shows_edit_id" id = "sei{{shows_index[i]}}" style="display: none">{{shows_index[i]}}</textarea>
+										<textarea name="shows_edit_title" id="set{{shows_index[i]}}" style="display:none;"></textarea>
+										<div name="shows_edit_image"></div>
+										<textarea name="shows_edit_link"id="ses{{shows_index[i]}}" style="display:none;"></textarea>
+										<textarea name="shows_edit_date"id="seda{{shows_index[i]}}" style="display:none;"></textarea>
+										<textarea name="shows_edit_time"id="seti{{shows_index[i]}}" style="display:none;"></textarea>
+										<textarea name="shows_edit_location"id="sel{{shows_index[i]}}" style="display:none;"></textarea>
+										<textarea name="shows_edit_description"id="sed{{shows_index[i]}}"  style="display:none;"></textarea>
 
-											<div class="modal fade" id="shows_edit_confirm{{shows_index[i]}}">
-												<div class="modal-dialog modal-news" >
-													<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
+										<div class="modal fade" id="shows_edit_confirm{{shows_index[i]}}">
+											<div class="modal-dialog modal-news" >
+												<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
 
-														<!-- Modal Header -->
-														<div class="modal-header">
-															<h1 class="modal-title">Confirmation</h1>
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-														</div>
-
-														<!-- Modal body -->
-														<div class="modal-body">
-															<div class="row justify-content-center">
-																<h2>Are you sure to edit this show?</h2>
-															</div>  
-														</div>
-
-														<!-- Modal footer -->
-														<div class="modal-footer">
-															<h3 class="row">
-																<div class="form-inline">
-																	<button type="submit" class="adminsidebarbtn transition btn-save"  style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
-																	<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
-																</div>    
-															</h3>
-														</div>
-
+													<!-- Modal Header -->
+													<div class="modal-header">
+														<h1 class="modal-title">Confirmation</h1>
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
 													</div>
+
+													<!-- Modal body -->
+													<div class="modal-body">
+														<div class="row justify-content-center">
+															<h2>Are you sure to edit this show?</h2>
+														</div>  
+													</div>
+
+													<!-- Modal footer -->
+													<div class="modal-footer">
+														<h3 class="row">
+															<div class="form-inline">
+																<button type="submit" class="adminsidebarbtn transition btn-save"  style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
+																<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
+															</div>    
+														</h3>
+													</div>
+
 												</div>
 											</div>
+										</div>
 
-										</form>
-										
+									</form>
 
-										<a id="shows_edit_cancel{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
-											<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span>
-											ยกเลิก
-										</a>
 
-										
-										<a id="shows_close{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-											ปิด
-										</a>
-										<form method="POST" class="col-md-5"  id="shows_delete{{shows_index[i]}}">
-											<div class="row">
-												<button type="submit" name="shows_delete" class="col-md-12 btn btn-danger" value="{{shows_index[i]}}" style="margin: 2%;color: white">
-													<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-													ลบ
-												</button>
-											</div>
-										</form>
-										
+									<a id="shows_edit_cancel{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+										<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span>
+										ยกเลิก
+									</a>
 
-										{% endfor %}
-									</div>
+
+									<a id="shows_close{{shows_index[i]}}" class="btn col-md-5" style="margin: 1%;background-color: white;border-color: black">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+										ปิด
+									</a>
+									<form method="POST" class="col-md-5"  id="shows_delete{{shows_index[i]}}">
+										<div class="row">
+											<button type="submit" name="shows_delete" class="col-md-12 btn btn-danger" value="{{shows_index[i]}}" style="margin: 2%;color: white">
+												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+												ลบ
+											</button>
+										</div>
+									</form>
+
+
+									{% endfor %}
 								</div>
 							</div>
-							<div class="col-md-8 card card-body text-center section3">
-								<h2 style="background-color: #B4A882;max-height: 75px" class="card card-body text-center">รายละเอียด<br></h2>
-								{% for i in range(shows_index|length) %}
-								<div id="shows{{shows_index[i]}}" >
+						</div>
+						<div class="col-md-8 card card-body text-center section3">
+							<h2 style="background-color: #B4A882;max-height: 75px" class="card card-body text-center">รายละเอียด<br></h2>
+							{% for i in range(shows_index|length) %}
+							<div id="shows{{shows_index[i]}}" >
 
-									<div class="card">
-										<div class="card-header">
-											<h1>{{ shows_title[i] }}</h1>
-										</div>
-										<div class="card-body">
+								<div class="card">
+									<div class="card-header">
+										<h1>{{ shows_title[i] }}</h1>
+									</div>
+									<div class="card-body">
+										<img src="../static/images/shows/{{ shows_img_list[i][0]}}" style="width: 50%;height: auto">
+									</div>
+									<div class="card-footer">
+										<h3 class="text-secondary text-md-left" style=";font-size: 14px;font-family: arial;font-style:italic"><b>วันที่:</b> {{shows_data[i][3].strftime('%d-%m-%Y')}}<br><b>เวลา:</b> {{shows_data[i][4]}}<br><b>สถานที่:</b> {{shows_location[i]}}<br><b>ซื้อตั๋วได้ที่:</b> {{ shows_link[i] }}</h3>
+									</div>
+									<p style="font-family: 'Ekkamai';">{{ shows_desc[i]}}</p>
+
+
+								</div>
+
+							</div>
+							{% endfor %}
+
+							{% for i in range(shows_index|length) %}
+							<div id="shows_edit_panel{{shows_index[i]}}">
+								<div class="card">
+									<span><h1>Title</h1></span>
+									<textarea id="shows_edit_title{{shows_index[i]}}" style="width: 100%;height: 100%;background-color: white">{{ shows_title[i] }}</textarea>
+									<div  id="shows_edit_image{{shows_index[i]}}" class="card-body">
+										<div class="shows_edit_image">
 											<img src="../static/images/shows/{{ shows_img_list[i][0]}}" style="width: 50%;height: auto">
 										</div>
-										<div class="card-footer">
-											<h3 class="text-secondary text-md-left" style=";font-size: 14px;font-family: arial;font-style:italic"><b>วันที่:</b> {{shows_data[i][3].strftime('%d-%m-%Y')}}<br><b>เวลา:</b> {{shows_data[i][4]}}<br><b>สถานที่:</b> {{shows_location[i]}}<br><b>ซื้อตั๋วได้ที่:</b> {{ shows_link[i] }}</h3>
-										</div>
-										<p style="font-family: 'Ekkamai';">{{ shows_desc[i]}}</p>
-
-										
 									</div>
-									
-								</div>
-								{% endfor %}
 
-								{% for i in range(shows_index|length) %}
-								<div id="shows_edit_panel{{shows_index[i]}}">
-									<div class="card">
-										<span><h1>Title</h1></span>
-										<textarea id="shows_edit_title{{shows_index[i]}}" style="width: 100%;height: 100%;background-color: white">{{ shows_title[i] }}</textarea>
-										<div  id="shows_edit_image{{shows_index[i]}}" class="card-body">
-											<div class="shows_edit_image">
-												<img src="../static/images/shows/{{ shows_img_list[i][0]}}" style="width: 50%;height: auto">
-											</div>
+									<span><h1>Links</h1></span>
+									<textarea id="shows_edit_link{{shows_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ shows_link[i] }}</textarea>
+
+									<div class="row">
+										<div class="col-md-6">
+											<span><h1>Date</h1></span>
+											<input type="date" id="shows_edit_date{{shows_index[i]}}" value="{{shows_data[i][3]}}" style="width: 100%;height: 50px;background-color: white">
 										</div>
-										
-										<span><h1>Links</h1></span>
-										<textarea id="shows_edit_link{{shows_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ shows_link[i] }}</textarea>
-										
-										<div class="row">
-											<div class="col-md-6">
-												<span><h1>Date</h1></span>
-												<input type="date" id="shows_edit_date{{shows_index[i]}}" value="{{shows_data[i][3]}}" style="width: 100%;height: 50px;background-color: white">
-											</div>
-											<div class="col-md-6">
-												<span><h1>Time</h1></span>
-												<input type="time" id="shows_edit_time{{shows_index[i]}}" value="{{shows_data[i][4]}}" style="width: 100%;height: 50px;background-color: white">
-											</div>
+										<div class="col-md-6">
+											<span><h1>Time</h1></span>
+											<input type="time" id="shows_edit_time{{shows_index[i]}}" value="{{shows_data[i][4]}}" style="width: 100%;height: 50px;background-color: white">
 										</div>
-
-										<span><h1>Location</h1></span>
-										<textarea id="shows_edit_location{{shows_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ shows_location[i] }}</textarea>
-
-										<span><h1>Description</h1></span>
-										<textarea id="shows_edit_description{{shows_index[i]}}" style="font-family: 'Ekkamai';width: 100%;height: 500px;background-color: white">{{ shows_desc[i]}}</textarea>
 									</div>
+
+									<span><h1>Location</h1></span>
+									<textarea id="shows_edit_location{{shows_index[i]}}" style="width: 100%;height: 50px;background-color: white">{{ shows_location[i] }}</textarea>
+
+									<span><h1>Description</h1></span>
+									<textarea id="shows_edit_description{{shows_index[i]}}" style="font-family: 'Ekkamai';width: 100%;height: 500px;background-color: white">{{ shows_desc[i]}}</textarea>
 								</div>
-								{% endfor %}
 							</div>
+							{% endfor %}
 						</div>
 					</div>
-					<div >
-						
-						<form enctype="multipart/form-data" method="POST" accept-charset="utf-8" novalidate>
-							<div class="row section3 ">
-								<div class="col-md-2 section3 " style="width: 100%">
-									<div class="card" style="min-width: auto;margin-top: 5%;background-color: #eee">
-										<a class="btn transition" id="createshows" style=";margin: 3%;background-color: #fff">
-											<span class="transition glyphicon glyphicon-plus" aria-hidden="true"></span>
-											Add Shows(เพิ่มการแสดง)
-										</a>
-										<div class="row">	
-											<div class="col-md-12 no-gutters" style="margin-left: 10%">
-												<div class="row section3">	
-													<a class="adminsidebarbtn transition btn-save" onclick="encodehtml2()" data-toggle="modal" id="confirmation2"  data-target="#showsconfirm"  style="width: 80%;height: auto;margin-top: 1%;color:#fff;font-family: charm"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>Save(บันทึก)</a>
+				</div>
+				<div >
+
+					<form enctype="multipart/form-data" method="POST" accept-charset="utf-8" novalidate>
+						<div class="row section3 ">
+							<div class="col-md-2 section3 " style="width: 100%">
+								<div class="card" style="min-width: auto;margin-top: 5%;background-color: #eee">
+									<a class="btn transition" id="createshows" style=";margin: 3%;background-color: #fff">
+										<span class="transition glyphicon glyphicon-plus" aria-hidden="true"></span>
+										Add Shows(เพิ่มการแสดง)
+									</a>
+									<div class="row">	
+										<div class="col-md-12 no-gutters" style="margin-left: 10%">
+											<div class="row section3">	
+												<a class="adminsidebarbtn transition btn-save" onclick="encodehtml2()" data-toggle="modal" id="confirmation2"  data-target="#showsconfirm"  style="width: 80%;height: auto;margin-top: 1%;color:#fff;font-family: charm"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>Save(บันทึก)</a>
 
 
 
-													<div class="modal fade" id="showsconfirm">
-														<div class="modal-dialog modal-news" >
-															<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
+												<div class="modal fade" id="showsconfirm">
+													<div class="modal-dialog modal-news" >
+														<div class="modal-content" style="margin: auto;justify-content: center;width:400px;height: auto">
 
-																<!-- Modal Header -->
-																<div class="modal-header">
-																	<h1 class="modal-title">Confirmation</h1>
-																	<button type="button" class="close" data-dismiss="modal">&times;</button>
-																</div>
-
-																<!-- Modal body -->
-
-																<div class="modal-body">
-																	<div class="row justify-content-center">
-																		<h2>Are you sure to add this show?</h2>
-																	</div>  
-																</div>
-
-																<!-- Modal footer -->
-																<div class="modal-footer">
-																	<h3 class="row">
-																		<div class="form-inline">
-																			<button type="submit" class="adminsidebarbtn transition btn-save" id="showssave" style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
-																			<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
-																		</div>    
-																	</h3>
-																</div>
-
+															<!-- Modal Header -->
+															<div class="modal-header">
+																<h1 class="modal-title">Confirmation</h1>
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
 															</div>
+
+															<!-- Modal body -->
+
+															<div class="modal-body">
+																<div class="row justify-content-center">
+																	<h2>Are you sure to add this show?</h2>
+																</div>  
+															</div>
+
+															<!-- Modal footer -->
+															<div class="modal-footer">
+																<h3 class="row">
+																	<div class="form-inline">
+																		<button type="submit" class="adminsidebarbtn transition btn-save" id="showssave" style="width: 80%;height: auto;margin-top: 1%;">Yes</button>      
+																		<button data-dismiss="modal" class="adminsidebarbtn transition btn-cancel" style="width: 80%;height: auto;margin-top: 1%;color:#fff">No</button>      
+																	</div>    
+																</h3>
+															</div>
+
 														</div>
 													</div>
 												</div>
-												<div class="row section3">	
-													<a class="adminsidebarbtn transition btn-cancel" id="showscancel"  style="width: 80%;height: auto;margin-top: 1%;color:#fff"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>Cancel(ยกเลิก)</a>
-												</div>
+											</div>
+											<div class="row section3">	
+												<a class="adminsidebarbtn transition btn-cancel" id="showscancel"  style="width: 80%;height: auto;margin-top: 1%;color:#fff"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>Cancel(ยกเลิก)</a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-1"></div>
-								<div class="col-md-8 section3" id=createshowsdiv style="margin-bottom: 10%" >
-									<div class="card card-body" style="margin-top: 0.5%">
-										<h1 class="card" style="background-color: #eee;padding:3%">Create Shows</h1>
-									</div>
-									<textarea id="shows_title" name = "shows_title"  class="form-control" placeholder="(ชื่อเรื่อง)"></textarea>
-									<textarea id="shows_link" name = "shows_link" class="form-control" placeholder="(คำอธิบาย)"></textarea>
-									<input type="date" id="shows_date" name = "shows_date" class="form-control" placeholder="(วันที่)">
-									<input type="time" id="shows_time" name = "shows_time" class="form-control" placeholder="(เวลา)">
-									<textarea id="shows_location" name = "shows_location" class="form-control" placeholder="(สถานที่)"></textarea>
-									<textarea id="shows_description" name = "shows_description" class="form-control"  placeholder="(รายละเอียด)" style="min-height: 300px"></textarea>
-									<div class="form-control btn-group-vertical">
-										<label for="shows_image">(เลือกรูปภาพ)</label>
-										<input  name = "shows_image" type="file" class="btn" multiple>
-									</div>
-
+							</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-8 section3" id=createshowsdiv style="margin-bottom: 10%" >
+								<div class="card card-body" style="margin-top: 0.5%">
+									<h1 class="card" style="background-color: #eee;padding:3%">Create Shows</h1>
 								</div>
-							</div>	
-						</form>
-						
+								<textarea id="shows_title" name = "shows_title"  class="form-control" placeholder="(ชื่อเรื่อง)"></textarea>
+								<textarea id="shows_link" name = "shows_link" class="form-control" placeholder="(คำอธิบาย)"></textarea>
+								<input type="date" id="shows_date" name = "shows_date" class="form-control" placeholder="(วันที่)">
+								<input type="time" id="shows_time" name = "shows_time" class="form-control" placeholder="(เวลา)">
+								<textarea id="shows_location" name = "shows_location" class="form-control" placeholder="(สถานที่)"></textarea>
+								<textarea id="shows_description" name = "shows_description" class="form-control"  placeholder="(รายละเอียด)" style="min-height: 300px"></textarea>
+								<div class="form-control btn-group-vertical">
+									<label for="shows_image">(เลือกรูปภาพ)</label>
+									<input  name = "shows_image" type="file" class="btn" multiple>
+								</div>
+
+							</div>
+						</div>	
+					</form>
+
+
+				</div>
+			</div>
+
+			<div id="dashboard" class="container-fluid" >
+				<div class="row no-gutters" style="margin-top: 1.5% ">
+					<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Dashboard</h1>
+				</div>
+				<div class="row">
+					<div class="col-md-6 card card-body text-center " style="margin-top:2% ;">
+						<div class="row card card-body text-center" style="background-color: #eee">
+							<h3>Performance<br>(Average accuracy for each class)</h3>
+						</div>
+						<div class="row">
+							<div id="chart_div" class="chart"></div>
+						</div>
 
 					</div>
+					<div class="col-md-6" style="margin-top:2%; ">
+						<div class="row card card-body text-center nav-item" id="imginlink2">
+							<h3 class="row card card-body text-center" style="background-color: #eee">Number of image input<br></h3>
+							<h1 class="display-1" style="font-family: impact">{{imgin_data|length}}</h1>
+							<a href="#" class="ibtn "  style="color: #331A00 ;font-size: 25px;background-color: #B4A882">Check</a>
+						</div>
+						<div class="row card card-body text-center nav-item" id="imgoutlink2">
+							<h3  class="row card card-body text-center" style="background-color: #eee">Number of image output<br></h3>
+							<h1 class="display-1"  style="font-family: impact">{{imgout_data|length}}</h1>
+							<a href="#" class="ibtn"  style="color: #331A00 ;font-size: 25px;background-color: #B4A882">Check</a>
+						</div>
+					</div>
 				</div>
+			</div>
 
-				<div id="dashboard" class="container-fluid" >
-					<div class="row no-gutters" style="margin-top: 1.5% ">
-						<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Dashboard</h1>
+			<div id="imgin" class="container-fluid" >
+				<div class="row no-gutters" style="margin-top: 1.5% ">
+					<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Image Input From User<br>(รูปขาเข้า)</h1>
+				</div>
+				<div class="col-md-12 card card-body text-center " style="margin-top:2% ;">
+					<div class="row card card-body text-center" style="background-color: #eee;margin-bottom: 2%">
+						<h3>Total {{imgin_data|length}} images</h3>
 					</div>
 					<div class="row">
-						<div class="col-md-6 card card-body text-center " style="margin-top:2% ;">
-							<div class="row card card-body text-center" style="background-color: #eee">
-								<h3>Performance<br>(Average accuracy for each class)</h3>
-							</div>
-							<div class="row">
-								<div id="chart_div" class="chart"></div>
-							</div>
-
-						</div>
-						<div class="col-md-6" style="margin-top:2%; ">
-							<div class="row card card-body text-center nav-item" id="imginlink2">
-								<h3 class="row card card-body text-center" style="background-color: #eee">Number of image input<br></h3>
-								<h1 class="display-1" style="font-family: impact">{{imgin_data|length}}</h1>
-								<a href="#" class="ibtn "  style="color: #331A00 ;font-size: 25px;background-color: #B4A882">Check</a>
-							</div>
-							<div class="row card card-body text-center nav-item" id="imgoutlink2">
-								<h3  class="row card card-body text-center" style="background-color: #eee">Number of image output<br></h3>
-								<h1 class="display-1"  style="font-family: impact">{{imgout_data|length}}</h1>
-								<a href="#" class="ibtn"  style="color: #331A00 ;font-size: 25px;background-color: #B4A882">Check</a>
+						{% for i in range(imgin_data|length) %}
+						<div class="col-md-3 card text-center">
+							<div class="card-body">
+								<img src="{{imgin_data[i][2]}}" style="width: 100%;height: auto">
+								<div class="card-footer">Code: {{imgin_data[i][1]}}</div>
 							</div>
 						</div>
+						{% endfor %}
 					</div>
+
 				</div>
-
-				<div id="imgin" class="container-fluid" >
-					<div class="row no-gutters" style="margin-top: 1.5% ">
-						<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Image Input From User<br>(รูปขาเข้า)</h1>
-					</div>
-					<div class="col-md-12 card card-body text-center " style="margin-top:2% ;">
-						<div class="row card card-body text-center" style="background-color: #eee;margin-bottom: 2%">
-							<h3>Total {{imgin_data|length}} images</h3>
-						</div>
-						<div class="row">
-							{% for i in range(imgin_data|length) %}
-							<div class="col-md-3 card text-center">
-								<div class="card-body">
-									<img src="{{imgin_data[i][2]}}" style="width: 100%;height: auto">
-									<div class="card-footer">Code: {{imgin_data[i][1]}}</div>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-
-					</div>
+			</div>
+			<div id="imgout" class="container-fluid" >
+				<div class="row no-gutters" style="margin-top: 1.5% ">
+					<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Image Output From User<br>(รูปขาออก)</h1>
 				</div>
-				<div id="imgout" class="container-fluid" >
-					<div class="row no-gutters" style="margin-top: 1.5% ">
-						<h1 class="col-md-12 card card-body text-center" style="margin:0 !important;margin-top: 0.5%">Image Output From User<br>(รูปขาออก)</h1>
+				<div class="col-md-12 card card-body text-center " style="margin-top:2% ;">
+					<div class="row card card-body text-center" style="background-color: #eee ;margin-bottom: 2%">
+						<h3 >Total {{imgout_data|length}} images</h3>
 					</div>
-					<div class="col-md-12 card card-body text-center " style="margin-top:2% ;">
-						<div class="row card card-body text-center" style="background-color: #eee ;margin-bottom: 2%">
-							<h3 >Total {{imgout_data|length}} images</h3>
-						</div>
-						<div class="row">
-							{% for i in range(imgout_data|length) %}
-							<div class="col-md-3 card text-center" style="">
-								<div class="card-header">Class: {{imgout_data[i][3]}}</div>
-								<div class="card-body">
-									<img src="{{imgout_data[i][2]}}" style="width: 100%;height: auto">
-								</div>
-								<div class="card-footer">Score: {{imgout_data[i][4]}}</div>
+					<div class="row">
+						{% for i in range(imgout_data|length) %}
+						<div class="col-md-3 card text-center" style="">
+							<div class="card-header">Class: {{imgout_data[i][3]}}</div>
+							<div class="card-body">
+								<img src="{{imgout_data[i][2]}}" style="width: 100%;height: auto">
 							</div>
-							{% endfor %}
+							<div class="card-footer">Score: {{imgout_data[i][4]}}</div>
 						</div>
-
+						{% endfor %}
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 
 
-	<div class="modal fade" id="live">
-		<div class="modal-dialog modal-lg" >
-			<div class="modal-content">
+<div class="modal fade" id="live">
+	<div class="modal-dialog modal-lg" >
+		<div class="modal-content">
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">Live View</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<!-- Modal body -->
-				<div class="modal-body">
-					<iframe src="..//index2.html" frameBorder="0" style="width: 1900px;height: 1080px"></iframe>
-				</div>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Live View</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<iframe src="..//index2.html" frameBorder="0" style="width: 1900px;height: 1080px"></iframe>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+
 		</div>
 	</div>
+</div>
 
 
 
@@ -714,146 +720,146 @@
 
 
 
-	<script>
+<script>
 
 
 
 
-		{% for i in range(news_index|length) %}
-		$('#news_edit_confirm{{news_index[i]}}').appendTo("body");
-		{% endfor %}
+	{% for i in range(news_index|length) %}
+	$('#news_edit_confirm{{news_index[i]}}').appendTo("body");
+	{% endfor %}
 
-		{%for i in range(news_index|length)%}
-		function news_edit_encodehtml{{news_index[i]}}() {
-			let news_title = document.getElementById('net{{news_index[i]}}').value;
-			let en_news_title = news_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('net{{news_index[i]}}').value = en_news_title;
-			alert(document.getElementById('net{{news_index[i]}}').value)
+	{%for i in range(news_index|length)%}
+	function news_edit_encodehtml{{news_index[i]}}() {
+		let news_title = document.getElementById('net{{news_index[i]}}').value;
+		let en_news_title = news_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('net{{news_index[i]}}').value = en_news_title;
+		alert(document.getElementById('net{{news_index[i]}}').value)
 
-			let news_subtitle = document.getElementById('nes{{news_index[i]}}').value;
-			let en_news_subtitle = news_subtitle.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('nes{{news_index[i]}}').value = en_news_subtitle;
-			alert(document.getElementById('nes{{news_index[i]}}').value)	
+		let news_subtitle = document.getElementById('nes{{news_index[i]}}').value;
+		let en_news_subtitle = news_subtitle.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('nes{{news_index[i]}}').value = en_news_subtitle;
+		alert(document.getElementById('nes{{news_index[i]}}').value)	
 
-			let news_description = document.getElementById('ned{{news_index[i]}}').value;
-			let en_news_description = news_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('ned{{news_index[i]}}').value = en_news_description;
-			alert(document.getElementById('ned{{news_index[i]}}').value)
-		}
-		{% endfor %}
+		let news_description = document.getElementById('ned{{news_index[i]}}').value;
+		let en_news_description = news_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('ned{{news_index[i]}}').value = en_news_description;
+		alert(document.getElementById('ned{{news_index[i]}}').value)
+	}
+	{% endfor %}
 
-		{% for i in range(shows_index|length) %}
-		$('#shows_edit_confirm{{shows_index[i]}}').appendTo("body");
-		{% endfor %}
+	{% for i in range(shows_index|length) %}
+	$('#shows_edit_confirm{{shows_index[i]}}').appendTo("body");
+	{% endfor %}
 
-		{%for i in range(shows_index|length)%}
-		function shows_edit_encodehtml{{shows_index[i]}}() {
-			let shows_title = document.getElementById('net{{shows_index[i]}}').value;
-			let en_shows_title = shows_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('net{{shows_index[i]}}').value = en_shows_title;
-			alert(document.getElementById('net{{shows_index[i]}}').value)
+	{%for i in range(shows_index|length)%}
+	function shows_edit_encodehtml{{shows_index[i]}}() {
+		let shows_title = document.getElementById('net{{shows_index[i]}}').value;
+		let en_shows_title = shows_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('net{{shows_index[i]}}').value = en_shows_title;
+		alert(document.getElementById('net{{shows_index[i]}}').value)
 
-			let shows_link = document.getElementById('nes{{shows_index[i]}}').value;
-			let en_shows_link = shows_link.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('nes{{shows_index[i]}}').value = en_shows_link;
-			alert(document.getElementById('nes{{shows_index[i]}}').value)	
+		let shows_link = document.getElementById('nes{{shows_index[i]}}').value;
+		let en_shows_link = shows_link.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('nes{{shows_index[i]}}').value = en_shows_link;
+		alert(document.getElementById('nes{{shows_index[i]}}').value)	
 
-			let shows_description = document.getElementById('ned{{shows_index[i]}}').value;
-			let en_shows_description = shows_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('ned{{shows_index[i]}}').value = en_shows_description;
-			alert(document.getElementById('ned{{shows_index[i]}}').value)
-		}
-		{% endfor %}
+		let shows_description = document.getElementById('ned{{shows_index[i]}}').value;
+		let en_shows_description = shows_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('ned{{shows_index[i]}}').value = en_shows_description;
+		alert(document.getElementById('ned{{shows_index[i]}}').value)
+	}
+	{% endfor %}
 
-		function encodehtml() {
-			var news_title = document.getElementById('news_title').value;
-			var en_news_title = news_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('news_title').value = en_news_title;
-			alert(document.getElementById('news_title').value)
+	function encodehtml() {
+		var news_title = document.getElementById('news_title').value;
+		var en_news_title = news_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('news_title').value = en_news_title;
+		alert(document.getElementById('news_title').value)
 
-			var news_subtitle = document.getElementById('news_subtitle').value;
-			var en_news_subtitle = news_subtitle.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('news_subtitle').value = en_news_subtitle;
-			alert(document.getElementById('news_subtitle').value)	
+		var news_subtitle = document.getElementById('news_subtitle').value;
+		var en_news_subtitle = news_subtitle.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('news_subtitle').value = en_news_subtitle;
+		alert(document.getElementById('news_subtitle').value)	
 
-			var news_description = document.getElementById('news_description').value;
-			var en_news_description = news_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('news_description').value = en_news_description;
-			alert(document.getElementById('news_description').value)
-		}
-		function encodehtml2() {
-			var shows_title = document.getElementById('shows_title').value;
-			var en_shows_title = shows_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('shows_title').value = en_shows_title;
-			alert(document.getElementById('shows_title').value)
+		var news_description = document.getElementById('news_description').value;
+		var en_news_description = news_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('news_description').value = en_news_description;
+		alert(document.getElementById('news_description').value)
+	}
+	function encodehtml2() {
+		var shows_title = document.getElementById('shows_title').value;
+		var en_shows_title = shows_title.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('shows_title').value = en_shows_title;
+		alert(document.getElementById('shows_title').value)
 
-			var shows_link = document.getElementById('shows_link').value;
-			var en_shows_link = shows_link.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('shows_link').value = en_shows_link;
-			alert(document.getElementById('shows_link').value)	
+		var shows_link = document.getElementById('shows_link').value;
+		var en_shows_link = shows_link.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('shows_link').value = en_shows_link;
+		alert(document.getElementById('shows_link').value)	
 
-			var shows_description = document.getElementById('shows_description').value;
-			var en_shows_description = shows_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
-			document.getElementById('shows_description').value = en_shows_description;
-			alert(document.getElementById('shows_description').value)
-		}
+		var shows_description = document.getElementById('shows_description').value;
+		var en_shows_description = shows_description.replace(/ /g,'&nbsp;').replace(/\n/g,'<br>');
+		document.getElementById('shows_description').value = en_shows_description;
+		alert(document.getElementById('shows_description').value)
+	}
 
 
 
-		$(window).resize(function(){
-			drawTrendlines();
-		});
-		google.charts.load('current', {packages: ['corechart', 'line']});
-		google.charts.setOnLoadCallback(drawTrendlines);
+	$(window).resize(function(){
+		drawTrendlines();
+	});
+	google.charts.load('current', {packages: ['corechart', 'line']});
+	google.charts.setOnLoadCallback(drawTrendlines);
 
-		function drawTrendlines() {
-			var data = new google.visualization.DataTable();
-			data.addColumn('number', 'X');
-			data.addColumn('number', 'Dogs');
-			data.addColumn('number', 'Cats');
+	function drawTrendlines() {
+		var data = new google.visualization.DataTable();
+		data.addColumn('number', 'X');
+		data.addColumn('number', 'Dogs');
+		data.addColumn('number', 'Cats');
 
-			data.addRows([
-				[0, 0, 0],    [1, 10, 5],   [2, 23, 15],  [3, 17, 9],   [4, 18, 10],  [5, 9, 5],
-				[6, 11, 3],   [7, 27, 19],  [8, 33, 25],  [9, 40, 32],  [10, 32, 24], [11, 35, 27],
-				[12, 30, 22], [13, 40, 32], [14, 42, 34], [15, 47, 39], [16, 44, 36], [17, 48, 40],
-				[18, 52, 44], [19, 54, 46], [20, 42, 34], [21, 55, 47], [22, 56, 48], [23, 57, 49],
-				[24, 60, 52], [25, 50, 42], [26, 52, 44], [27, 51, 43], [28, 49, 41], [29, 53, 45],
-				[30, 55, 47], [31, 60, 52], [32, 61, 53], [33, 59, 51], [34, 62, 54], [35, 65, 57],
-				[36, 62, 54], [37, 58, 50], [38, 55, 47], [39, 61, 53], [40, 64, 56], [41, 65, 57],
-				[42, 63, 55], [43, 66, 58], [44, 67, 59], [45, 69, 61], [46, 69, 61], [47, 70, 62],
-				[48, 72, 64], [49, 68, 60], [50, 66, 58], [51, 65, 57], [52, 67, 59], [53, 70, 62],
-				[54, 71, 63], [55, 72, 64], [56, 73, 65], [57, 75, 67], [58, 70, 62], [59, 68, 60],
-				[60, 64, 56], [61, 60, 52], [62, 65, 57], [63, 67, 59], [64, 68, 60], [65, 69, 61],
-				[66, 70, 62], [67, 72, 64], [68, 75, 67], [69, 80, 72]
-				]);
+		data.addRows([
+			[0, 0, 0],    [1, 10, 5],   [2, 23, 15],  [3, 17, 9],   [4, 18, 10],  [5, 9, 5],
+			[6, 11, 3],   [7, 27, 19],  [8, 33, 25],  [9, 40, 32],  [10, 32, 24], [11, 35, 27],
+			[12, 30, 22], [13, 40, 32], [14, 42, 34], [15, 47, 39], [16, 44, 36], [17, 48, 40],
+			[18, 52, 44], [19, 54, 46], [20, 42, 34], [21, 55, 47], [22, 56, 48], [23, 57, 49],
+			[24, 60, 52], [25, 50, 42], [26, 52, 44], [27, 51, 43], [28, 49, 41], [29, 53, 45],
+			[30, 55, 47], [31, 60, 52], [32, 61, 53], [33, 59, 51], [34, 62, 54], [35, 65, 57],
+			[36, 62, 54], [37, 58, 50], [38, 55, 47], [39, 61, 53], [40, 64, 56], [41, 65, 57],
+			[42, 63, 55], [43, 66, 58], [44, 67, 59], [45, 69, 61], [46, 69, 61], [47, 70, 62],
+			[48, 72, 64], [49, 68, 60], [50, 66, 58], [51, 65, 57], [52, 67, 59], [53, 70, 62],
+			[54, 71, 63], [55, 72, 64], [56, 73, 65], [57, 75, 67], [58, 70, 62], [59, 68, 60],
+			[60, 64, 56], [61, 60, 52], [62, 65, 57], [63, 67, 59], [64, 68, 60], [65, 69, 61],
+			[66, 70, 62], [67, 72, 64], [68, 75, 67], [69, 80, 72]
+			]);
 
-			var options = {
-				hAxis: {
-					title: 'Iterations'
-				},
-				vAxis: {
-					title: 'Popularity'
-				},
-				backgroundColor: '#FFF',
-				colors: ['#AB0D06', '#007329'],
-				trendlines: {
-					0: {type: 'exponential', color: '#333', opacity: 1},
-					1: {type: 'linear', color: '#111', opacity: .3}
-				}
-			};
+		var options = {
+			hAxis: {
+				title: 'Iterations'
+			},
+			vAxis: {
+				title: 'Popularity'
+			},
+			backgroundColor: '#FFF',
+			colors: ['#AB0D06', '#007329'],
+			trendlines: {
+				0: {type: 'exponential', color: '#333', opacity: 1},
+				1: {type: 'linear', color: '#111', opacity: .3}
+			}
+		};
 
-			var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-			chart.draw(data, options);
+		var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+		chart.draw(data, options);
 
-		}
+	}
 
-		$(document).ready(function () {
-			$('.section').each(function () {
-				var newsDiv = $(this).children('#news');
-				var showsDiv = $(this).children('#shows');
-				var dashDiv = $(this).children('#dashboard');
-				var inDiv = $(this).children('#imgin');
-				var outDiv = $(this).children('#imgout');
+	$(document).ready(function () {
+		$('.section').each(function () {
+			var newsDiv = $(this).children('#news');
+			var showsDiv = $(this).children('#shows');
+			var dashDiv = $(this).children('#dashboard');
+			var inDiv = $(this).children('#imgin');
+			var outDiv = $(this).children('#imgout');
 
 
             	newsDiv.hide(); // Sets initial translation to hide. You can alternatively do this via css such that all .english { display: none; }.
@@ -921,244 +927,244 @@
 
 
             });
-		});
-		$(document).ready(function () {
+	});
+	$(document).ready(function () {
 
-			$('.summernote').summernote({
-				placeholder: "(เนื้อหา)",
-				tabsize: 4,
-				height: 600,
-				hide: true
+		$('.summernote').summernote({
+			placeholder: "(เนื้อหา)",
+			tabsize: 4,
+			height: 600,
+			hide: true
+		});
+	});
+
+	$(document).ready(function () {
+
+
+		$('.section2').each(function () {
+			var addnews = $(this).children('.summernews');
+			var cancelnews = $(this).children('#newscancel');
+			var savenews = $(this).children('#newssave');
+			var createnewsdiv = $(this).children('#createnewsdiv');
+			var confirmation1 = $(this).children('#confirmation1');
+
+			addnews.hide();
+			cancelnews.hide();
+			savenews.hide();
+			createnewsdiv.hide();
+			confirmation1.hide();
+			$('#createnews').click(function (e){
+				addnews.summernote({
+					placeholder: "(เนื้อหา)",
+					tabsize: 4,
+					height: 600,
+					hide: true
+				});
+				addnews.show();
+				confirmation1.show();
+				cancelnews.show();
+				createnewsdiv.show();
 			});
-		});
-
-		$(document).ready(function () {
-
-
-			$('.section2').each(function () {
-				var addnews = $(this).children('.summernews');
-				var cancelnews = $(this).children('#newscancel');
-				var savenews = $(this).children('#newssave');
-				var createnewsdiv = $(this).children('#createnewsdiv');
-				var confirmation1 = $(this).children('#confirmation1');
-
+			$('#newscancel').click(function (e){
 				addnews.hide();
 				cancelnews.hide();
-				savenews.hide();
 				createnewsdiv.hide();
 				confirmation1.hide();
-				$('#createnews').click(function (e){
-					addnews.summernote({
-						placeholder: "(เนื้อหา)",
-						tabsize: 4,
-						height: 600,
-						hide: true
-					});
-					addnews.show();
-					confirmation1.show();
-					cancelnews.show();
-					createnewsdiv.show();
-				});
-				$('#newscancel').click(function (e){
-					addnews.hide();
-					cancelnews.hide();
-					createnewsdiv.hide();
-					confirmation1.hide();
-				});
+			});
 
-				$('#newssave').click(function (e){
-					addnews.hide();
-					cancelnews.hide();
-					createnewsdiv.hide();
-					savenews.hide();
-					confirmation1.hide();
-				});
-
-
-				{% for i in range(news_index|length) %}
-				$(this).children('#news{{news_index[i]}}').hide();
-				$(this).children('#news_edit{{news_index[i]}}').hide();	
-				$(this).children('#news_delete{{news_index[i]}}').hide();
-				$(this).children('#news_edit_save{{news_index[i]}}').hide();
-				$(this).children('#news_close{{news_index[i]}}').hide();
-				$(this).children('#news_edit_panel{{news_index[i]}}').hide();	
-				$(this).children('#news_edit_cancel{{news_index[i]}}').hide();		
-				{% endfor %}
-
-
-				{% for i in range(news_index|length) %}
-				$('#newslink{{ news_index[i] }}').click(function (e) {
-					{% for j in range(news_index|length) %}
-					$('#news{{news_index[j]}}').hide();
-					$('#news_edit{{news_index[j]}}').hide();
-					$('#news_edit_save{{news_index[j]}}').hide();
-					$('#news_edit_cancel{{news_index[j]}}').hide();	
-					$('#news_delete{{news_index[j]}}').hide();	
-					$('#news_close{{news_index[j]}}').hide();
-					$('#news_edit_panel{{news_index[j]}}').hide();
-					{% endfor %}
-					$('#news{{news_index[i]}}').toggle();	
-					$('#news_edit{{news_index[i]}}').toggle();	
-					$('#news_close{{news_index[i]}}').toggle();
-					$('#news_delete{{news_index[i]}}').toggle();		
-				});	
-				{% endfor %}
-
-
-
-				{% for i in range(news_index|length) %}
-				$('#news_close{{ news_index[i] }}').click(function (e) {
-					{% for j in range(news_index|length) %}
-					$('#news_close{{news_index[j]}}').hide();
-					$('#news{{news_index[j]}}').hide();
-					$('#news_edit_save{{news_index[i]}}').hide();
-					$('#news_edit{{news_index[j]}}').hide();
-					$('#news_edit_panel{{news_index[j]}}').hide();	
-					$('#news_delete{{news_index[j]}}').hide();	
-					{% endfor %}
-
-				});	
-				{% endfor %}
-
-
-				{% for i in range(news_index|length) %}
-				$('#news_edit{{ news_index[i] }}').click(function (e) {
-					$('#news{{news_index[i]}}').hide();
-					$('#news_edit_cancel{{news_index[i]}}').show();
-					$('#news_close{{news_index[i]}}').hide();
-					$('#news_edit{{news_index[i]}}').hide();
-					$('#news_edit_save{{news_index[i]}}').show();
-					$('#news_edit_panel{{news_index[i]}}').show();	
-				});	
-				{% endfor %}
-
-
-				{% for i in range(news_index|length) %}
-				$('#news_edit_cancel{{ news_index[i] }}').click(function (e) {
-					$('#news{{news_index[i]}}').show();
-					$('#news_edit_cancel{{news_index[i]}}').hide();
-					$('#news_close{{news_index[i]}}').show();
-					$('#news_edit{{news_index[i]}}').show();
-					$('#news_edit_save{{news_index[i]}}').hide();
-					$('#news_edit_panel{{news_index[i]}}').hide();	
-				});	
-				{% endfor %}
+			$('#newssave').click(function (e){
+				addnews.hide();
+				cancelnews.hide();
+				createnewsdiv.hide();
+				savenews.hide();
+				confirmation1.hide();
 			});
 
 
-			$('.section3').each(function () {
-				var addshows = $(this).children('.summershows');
-				var cancelshows = $(this).children('#showscancel');
-				var saveshows = $(this).children('#showssave');
-				var createshowsdiv = $(this).children('#createshowsdiv');
-				var confirmation2 = $(this).children('#confirmation2');
-
-				addshows.hide();
-				cancelshows.hide();
-				saveshows.hide();
-				createshowsdiv.hide();
-				confirmation2.hide();
-				$('#createshows').click(function (e){
-					addshows.summernote({
-						placeholder: "(เนื้อหา)",
-						tabsize: 4,
-						height: 600,
-						hide: true
-					});
-					addshows.show();
-					confirmation2.show();
-					cancelshows.show();
-					createshowsdiv.show();
-				});
-				$('#showscancel').click(function (e){
-					addshows.hide();
-					cancelshows.hide();
-					createshowsdiv.hide();
-					confirmation2.hide();
-				});
-
-				$('#showssave').click(function (e){
-					addshows.hide();
-					cancelshows.hide();
-					createshowsdiv.hide();
-					saveshows.hide();
-					confirmation2.hide();
-				});
+			{% for i in range(news_index|length) %}
+			$(this).children('#news{{news_index[i]}}').hide();
+			$(this).children('#news_edit{{news_index[i]}}').hide();	
+			$(this).children('#news_delete{{news_index[i]}}').hide();
+			$(this).children('#news_edit_save{{news_index[i]}}').hide();
+			$(this).children('#news_close{{news_index[i]}}').hide();
+			$(this).children('#news_edit_panel{{news_index[i]}}').hide();	
+			$(this).children('#news_edit_cancel{{news_index[i]}}').hide();		
+			{% endfor %}
 
 
-				{% for i in range(shows_index|length) %}
-				$(this).children('#shows{{shows_index[i]}}').hide();
-				$(this).children('#shows_edit{{shows_index[i]}}').hide();	
-				$(this).children('#shows_delete{{shows_index[i]}}').hide();
-				$(this).children('#shows_edit_save{{shows_index[i]}}').hide();
-				$(this).children('#shows_close{{shows_index[i]}}').hide();
-				$(this).children('#shows_edit_panel{{shows_index[i]}}').hide();	
-				$(this).children('#shows_edit_cancel{{shows_index[i]}}').hide();		
+			{% for i in range(news_index|length) %}
+			$('#newslink{{ news_index[i] }}').click(function (e) {
+				{% for j in range(news_index|length) %}
+				$('#news{{news_index[j]}}').hide();
+				$('#news_edit{{news_index[j]}}').hide();
+				$('#news_edit_save{{news_index[j]}}').hide();
+				$('#news_edit_cancel{{news_index[j]}}').hide();	
+				$('#news_delete{{news_index[j]}}').hide();	
+				$('#news_close{{news_index[j]}}').hide();
+				$('#news_edit_panel{{news_index[j]}}').hide();
+				{% endfor %}
+				$('#news{{news_index[i]}}').toggle();	
+				$('#news_edit{{news_index[i]}}').toggle();	
+				$('#news_close{{news_index[i]}}').toggle();
+				$('#news_delete{{news_index[i]}}').toggle();		
+			});	
+			{% endfor %}
+
+
+
+			{% for i in range(news_index|length) %}
+			$('#news_close{{ news_index[i] }}').click(function (e) {
+				{% for j in range(news_index|length) %}
+				$('#news_close{{news_index[j]}}').hide();
+				$('#news{{news_index[j]}}').hide();
+				$('#news_edit_save{{news_index[i]}}').hide();
+				$('#news_edit{{news_index[j]}}').hide();
+				$('#news_edit_panel{{news_index[j]}}').hide();	
+				$('#news_delete{{news_index[j]}}').hide();	
 				{% endfor %}
 
-
-				{% for i in range(shows_index|length) %}
-				$('#showslink{{ shows_index[i] }}').click(function (e) {
-					{% for j in range(shows_index|length) %}
-					$('#shows{{shows_index[j]}}').hide();
-					$('#shows_edit{{shows_index[j]}}').hide();
-					$('#shows_edit_save{{shows_index[j]}}').hide();
-					$('#shows_edit_cancel{{shows_index[j]}}').hide();	
-					$('#shows_delete{{shows_index[j]}}').hide();	
-					$('#shows_close{{shows_index[j]}}').hide();
-					$('#shows_edit_panel{{shows_index[j]}}').hide();
-					{% endfor %}
-					$('#shows{{shows_index[i]}}').toggle();	
-					$('#shows_edit{{shows_index[i]}}').toggle();	
-					$('#shows_close{{shows_index[i]}}').toggle();
-					$('#shows_delete{{shows_index[i]}}').toggle();		
-				});	
-				{% endfor %}
+			});	
+			{% endfor %}
 
 
-
-				{% for i in range(shows_index|length) %}
-				$('#shows_close{{ shows_index[i] }}').click(function (e) {
-					{% for j in range(shows_index|length) %}
-					$('#shows_close{{shows_index[j]}}').hide();
-					$('#shows{{shows_index[j]}}').hide();
-					$('#shows_edit_save{{shows_index[i]}}').hide();
-					$('#shows_edit{{shows_index[j]}}').hide();
-					$('#shows_edit_panel{{shows_index[j]}}').hide();	
-					$('#shows_delete{{shows_index[j]}}').hide();	
-					{% endfor %}
-
-				});	
-				{% endfor %}
+			{% for i in range(news_index|length) %}
+			$('#news_edit{{ news_index[i] }}').click(function (e) {
+				$('#news{{news_index[i]}}').hide();
+				$('#news_edit_cancel{{news_index[i]}}').show();
+				$('#news_close{{news_index[i]}}').hide();
+				$('#news_edit{{news_index[i]}}').hide();
+				$('#news_edit_save{{news_index[i]}}').show();
+				$('#news_edit_panel{{news_index[i]}}').show();	
+			});	
+			{% endfor %}
 
 
-				{% for i in range(shows_index|length) %}
-				$('#shows_edit{{ shows_index[i] }}').click(function (e) {
-					$('#shows{{shows_index[i]}}').hide();
-					$('#shows_edit_cancel{{shows_index[i]}}').show();
-					$('#shows_close{{shows_index[i]}}').hide();
-					$('#shows_edit{{shows_index[i]}}').hide();
-					$('#shows_edit_save{{shows_index[i]}}').show();
-					$('#shows_edit_panel{{shows_index[i]}}').show();	
-				});	
-				{% endfor %}
-
-
-				{% for i in range(shows_index|length) %}
-				$('#shows_edit_cancel{{ shows_index[i] }}').click(function (e) {
-					$('#shows{{shows_index[i]}}').show();
-					$('#shows_edit_cancel{{shows_index[i]}}').hide();
-					$('#shows_close{{shows_index[i]}}').show();
-					$('#shows_edit{{shows_index[i]}}').show();
-					$('#shows_edit_save{{shows_index[i]}}').hide();
-					$('#shows_edit_panel{{shows_index[i]}}').hide();	
-				});	
-				{% endfor %}
-			});
+			{% for i in range(news_index|length) %}
+			$('#news_edit_cancel{{ news_index[i] }}').click(function (e) {
+				$('#news{{news_index[i]}}').show();
+				$('#news_edit_cancel{{news_index[i]}}').hide();
+				$('#news_close{{news_index[i]}}').show();
+				$('#news_edit{{news_index[i]}}').show();
+				$('#news_edit_save{{news_index[i]}}').hide();
+				$('#news_edit_panel{{news_index[i]}}').hide();	
+			});	
+			{% endfor %}
 		});
 
 
-	</script>
+		$('.section3').each(function () {
+			var addshows = $(this).children('.summershows');
+			var cancelshows = $(this).children('#showscancel');
+			var saveshows = $(this).children('#showssave');
+			var createshowsdiv = $(this).children('#createshowsdiv');
+			var confirmation2 = $(this).children('#confirmation2');
+
+			addshows.hide();
+			cancelshows.hide();
+			saveshows.hide();
+			createshowsdiv.hide();
+			confirmation2.hide();
+			$('#createshows').click(function (e){
+				addshows.summernote({
+					placeholder: "(เนื้อหา)",
+					tabsize: 4,
+					height: 600,
+					hide: true
+				});
+				addshows.show();
+				confirmation2.show();
+				cancelshows.show();
+				createshowsdiv.show();
+			});
+			$('#showscancel').click(function (e){
+				addshows.hide();
+				cancelshows.hide();
+				createshowsdiv.hide();
+				confirmation2.hide();
+			});
+
+			$('#showssave').click(function (e){
+				addshows.hide();
+				cancelshows.hide();
+				createshowsdiv.hide();
+				saveshows.hide();
+				confirmation2.hide();
+			});
+
+
+			{% for i in range(shows_index|length) %}
+			$(this).children('#shows{{shows_index[i]}}').hide();
+			$(this).children('#shows_edit{{shows_index[i]}}').hide();	
+			$(this).children('#shows_delete{{shows_index[i]}}').hide();
+			$(this).children('#shows_edit_save{{shows_index[i]}}').hide();
+			$(this).children('#shows_close{{shows_index[i]}}').hide();
+			$(this).children('#shows_edit_panel{{shows_index[i]}}').hide();	
+			$(this).children('#shows_edit_cancel{{shows_index[i]}}').hide();		
+			{% endfor %}
+
+
+			{% for i in range(shows_index|length) %}
+			$('#showslink{{ shows_index[i] }}').click(function (e) {
+				{% for j in range(shows_index|length) %}
+				$('#shows{{shows_index[j]}}').hide();
+				$('#shows_edit{{shows_index[j]}}').hide();
+				$('#shows_edit_save{{shows_index[j]}}').hide();
+				$('#shows_edit_cancel{{shows_index[j]}}').hide();	
+				$('#shows_delete{{shows_index[j]}}').hide();	
+				$('#shows_close{{shows_index[j]}}').hide();
+				$('#shows_edit_panel{{shows_index[j]}}').hide();
+				{% endfor %}
+				$('#shows{{shows_index[i]}}').toggle();	
+				$('#shows_edit{{shows_index[i]}}').toggle();	
+				$('#shows_close{{shows_index[i]}}').toggle();
+				$('#shows_delete{{shows_index[i]}}').toggle();		
+			});	
+			{% endfor %}
+
+
+
+			{% for i in range(shows_index|length) %}
+			$('#shows_close{{ shows_index[i] }}').click(function (e) {
+				{% for j in range(shows_index|length) %}
+				$('#shows_close{{shows_index[j]}}').hide();
+				$('#shows{{shows_index[j]}}').hide();
+				$('#shows_edit_save{{shows_index[i]}}').hide();
+				$('#shows_edit{{shows_index[j]}}').hide();
+				$('#shows_edit_panel{{shows_index[j]}}').hide();	
+				$('#shows_delete{{shows_index[j]}}').hide();	
+				{% endfor %}
+
+			});	
+			{% endfor %}
+
+
+			{% for i in range(shows_index|length) %}
+			$('#shows_edit{{ shows_index[i] }}').click(function (e) {
+				$('#shows{{shows_index[i]}}').hide();
+				$('#shows_edit_cancel{{shows_index[i]}}').show();
+				$('#shows_close{{shows_index[i]}}').hide();
+				$('#shows_edit{{shows_index[i]}}').hide();
+				$('#shows_edit_save{{shows_index[i]}}').show();
+				$('#shows_edit_panel{{shows_index[i]}}').show();	
+			});	
+			{% endfor %}
+
+
+			{% for i in range(shows_index|length) %}
+			$('#shows_edit_cancel{{ shows_index[i] }}').click(function (e) {
+				$('#shows{{shows_index[i]}}').show();
+				$('#shows_edit_cancel{{shows_index[i]}}').hide();
+				$('#shows_close{{shows_index[i]}}').show();
+				$('#shows_edit{{shows_index[i]}}').show();
+				$('#shows_edit_save{{shows_index[i]}}').hide();
+				$('#shows_edit_panel{{shows_index[i]}}').hide();	
+			});	
+			{% endfor %}
+		});
+	});
+
+
+</script>
 
 </body>
 
