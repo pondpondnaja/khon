@@ -1,5 +1,6 @@
 INSTALL APT BUILDPACK WHEN STARTING NEW BUILDPACKS
 heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
+heroku buildpacks:set heroku/python
 CREATE FILE NAMED Aptfile AND WRITE DOWN:
 libsm6
 libxrender1
@@ -10,6 +11,7 @@ THEN,
 git add .
 git commit -m "set new Aptfile" 
 git push heroku master
+
 --------------------------------------------------------------------------------------------------------------------
 CLEAR BUILDPACKS
 heroku buildpacks:clear
