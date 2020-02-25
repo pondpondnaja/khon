@@ -1,4 +1,5 @@
-INSTALL APT BUILDPACK WHEN STARTING NEW BUILDPACKS
+REINSTALL APT BUILDPACK WHEN STARTING NEW BUILDPACKS
+heroku buildpack:clear
 heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
 heroku buildpacks:set heroku/python
 CREATE FILE NAMED Aptfile AND WRITE DOWN:
@@ -16,3 +17,5 @@ git push heroku master
 CLEAR BUILDPACKS
 heroku buildpacks:clear
 --------------------------------------------------------------------------------------------------------------------
+BASH
+heroku run bash
