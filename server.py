@@ -11,6 +11,7 @@ import random
 import string
 import psycopg2
 
+
 app = Flask(__name__,static_url_path=('/static'))
 app.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLAlCHEMY_DATABASE_URI'] = 'postgres://jlbzqjdoaixcjn:550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba28451006ec@ec2-54-197-34-207.compute-1.amazonaws.com:5432/d2ce06aa7se8s1'
@@ -44,7 +45,6 @@ UPLOAD_FOLDER = '/app/static/inputdata/'
 app.secret_key= os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-print("\n\n\n\n\n\n\n\n",os.path.join(os.path.abspath(os.getcwd()), '/static/inputdata/'))
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
