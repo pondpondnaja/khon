@@ -447,7 +447,7 @@ def hello():
                 cur = conn.cursor()
                 i=0
                 while i<len(path_img):
-                    cur.execute("insert into image_out(img_out_id,path,class,score) values('"+code+"','"+str(path_img[i])+"','"+str(out_class[i])+"','"+str(score_list[i])+"')")
+                    cur.execute("insert into image_out(img_out_id,path,class,score) values('"+code+"','"+str(path_img[i].replace("/app",""))+"','"+str(out_class[i])+"','"+str(score_list[i])+"')")
                     i+=1
                 cur.execute("select path,class,score from image_out where img_out_id='"+code+"'")
                 temp_path=cur.fetchall()
@@ -457,8 +457,8 @@ def hello():
                 gID=[]
                 model=[]
                 while i<len(gesture):
-                    print("select gID,name,desc,model from description where gID='"+str(gesture[i])+"'")
-                    cur.execute("select name,desc,model,gID from description where gID='"+str(gesture[i])+"'")
+                    print("select gid_,name_,desc_,model_ from description where gID='"+str(gesture[i])+"'")
+                    cur.execute("select name_,desc_,model_,gid_ from description where gid_='"+str(gesture[i])+"'")
                     temp = cur.fetchall()
                     gesture_name.append(temp[0][0])
                     desc.append(temp[0][1])
