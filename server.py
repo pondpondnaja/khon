@@ -436,7 +436,7 @@ def hello():
             code= randomString()
             with conn:
                 cur = conn.cursor()
-                cur.execute("insert into `image_in`(img_in_id,path) values('"+code+"',+'"+os.path.join("/static/inputdata/", code,".jpg")+"')")
+                cur.execute("insert into image_in(img_in_id,path) values('"+code+"',+'"+os.path.join("/static/inputdata/", code,".jpg")+"')")
                 path=str(path)
                 cur.close()
             path_img,out_class,score_list,gesture,gesture_score = start(path, file_extension, code)
@@ -458,7 +458,7 @@ def hello():
                 model=[]
                 while i<len(gesture):
                     print("select gID,name,desc,model from description where gID='"+str(gesture[i])+"'")
-                    cur.execute("select `name`,`desc`,`model`,`gID` from description where gID='"+str(gesture[i])+"'")
+                    cur.execute("select name,desc,model,gID from description where gID='"+str(gesture[i])+"'")
                     temp = cur.fetchall()
                     gesture_name.append(temp[0][0])
                     desc.append(temp[0][1])
@@ -481,7 +481,7 @@ def hello():
                 character_eng=[] 
                 character_desc = []
                 while i<len(gesture):
-                    cur.execute("select `name_eng`,`name_thai`,`description` from khon_character where name_eng='"+str(out_class[i])+"'")
+                    cur.execute("select name_eng,name_thai,description from khon_character where name_eng='"+str(out_class[i])+"'")
                     temp = cur.fetchall()
                     character_eng.append(temp[0][0])
                     character_thai.append(temp[0][1])
