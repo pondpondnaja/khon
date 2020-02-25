@@ -20,19 +20,6 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_ECHO']=True
 
 
-'''
-class admin_data(db.Model):
-    username = db.Column(db.String(20),primary_key = True)
-    password = db.Column(db.String(200),unique=False,primary_key = False)
-    name = db.Column(db.String(100),unique=False,primary_key = False)
-    email = db.Column(db.String(100),unique=False,primary_key = False)
-    mobile = db.Column(db.String(20),unique=False,primary_key = False)
-    modify_date = db.Column(db.DateTime,unique=False,primary_key = False)
-    def __repr__(self):
-        return '<admin_data %r>' % self.username
-query = admin_data.query.filter_by(username="admin_t").first()
-print("\n\n\n\n\n\n\n Heloo",query.username,"\n\n\n\n\n\n\n")
-'''
 
 def randomString(stringLength=10):
     """Generate a random string of fixed length"""
@@ -244,20 +231,6 @@ def admin():
                         cur.close()
                 except:
                     print("not shows delete")
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             
             
             
