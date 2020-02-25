@@ -436,7 +436,7 @@ def hello():
             code= randomString()
             with conn:
                 cur = conn.cursor()
-                cur.execute("insert into image_in(img_in_id,path) values('"+code+"',+'"+os.path.join("/static/inputdata/", code,".jpg")+"')")
+                cur.execute("insert into image_in(img_in_id,path) values('"+code+"','"+os.path.join("/static/inputdata/", code,".jpg")+"')")
                 path=str(path)
                 cur.close()
             path_img,out_class,score_list,gesture,gesture_score = start(path, file_extension, code)
