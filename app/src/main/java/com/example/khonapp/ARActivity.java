@@ -305,7 +305,7 @@ public class ARActivity extends AppCompatActivity implements View.OnClickListene
                         .build()
                 ).setRegistryId(ASSET_3D)
                 .build()
-                .thenAccept(modelRenderable -> addNodeToScene(modelRenderable, anchor))
+                .thenAccept(modelRenderAble -> addNodeToScene(modelRenderAble, anchor))
                 .exceptionally(throwable -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(throwable.getMessage()).show();

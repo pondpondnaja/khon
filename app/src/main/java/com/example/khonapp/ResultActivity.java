@@ -40,7 +40,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final String TAG = "cameraResult";
-    private static final String URL = "http://192.168.1.43:5000/connectFromAndroid";
+    private static final String URL = "http://10.70.1.61:5000/connectFromAndroid";
     private String img_path, img_real_path, previewPath;
 
     private TextView mTItle, mDescription;

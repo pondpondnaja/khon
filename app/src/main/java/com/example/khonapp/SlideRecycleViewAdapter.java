@@ -89,7 +89,6 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
                             Log.d(TAG, "onLoadFailed: Message : " + e);
                             return false;
                         }
-
                         @Override
                         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                             holder.progressBar.setVisibility(View.GONE);
