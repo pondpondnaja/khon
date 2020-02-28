@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,6 +24,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,8 +44,10 @@ public class ResultActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final String TAG = "cameraResult";
-    private static final String URL = "http://10.70.1.61:5000/connectFromAndroid";
-    private String img_path, img_real_path, previewPath;
+    //private static final String URL = "http://10.70.1.61:5000/connectFromAndroid";
+    private static final String URL = "http://192.168.64.2/3D/testscript.php";
+    //private static final String URL = "http://khon.itar.site/application";
+    private String img_path, img_real_path, previewPath, name, desc, score;
 
     private TextView mTItle, mDescription;
     private ImageView mImage;
@@ -54,11 +60,16 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         if (Build.VERSION.SDK_INT >= 23) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
         }
 
         progressBar = findViewById(R.id.progressBar);
+        mTItle = findViewById(R.id.result_title);
+        mDescription = findViewById(R.id.result_description);
         mImage = findViewById(R.id.preview_img);
 
         if (savedInstanceState == null) {
@@ -70,9 +81,9 @@ public class ResultActivity extends AppCompatActivity {
                 img_address = Uri.parse(img_path);
                 img_real_path = getPath(ResultActivity.this, img_address);
                 progressBar.setVisibility(View.GONE);
-                setData();
+                //setData();
 
-                //connectServer();
+                connectServer();
             }
         }
     }
@@ -95,7 +106,8 @@ public class ResultActivity extends AppCompatActivity {
 
         RequestBody postBodyImage = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("image", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
+                .addFormDataPart("file_input", "androidFlask.jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray))
+                .addFormDataPart("app_check", "android")
                 .build();
 
         postRequest(URL, postBodyImage);
@@ -104,13 +116,18 @@ public class ResultActivity extends AppCompatActivity {
     private void postRequest(String postUrl, RequestBody postBody) {
 
         OkHttpClient client = new OkHttpClient();
+        OkHttpClient cus_client = client.newBuilder()
+                //.connectTimeout(1, TimeUnit.MINUTES)
+                //.readTimeout(1, TimeUnit.MINUTES)
+                .build();
+
         AppCompatActivity appCompatActivity = new AppCompatActivity();
         Request request = new Request.Builder()
                 .url(postUrl)
                 .post(postBody)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        cus_client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 // Cancel the post on failure.
@@ -118,7 +135,7 @@ public class ResultActivity extends AppCompatActivity {
                 appCompatActivity.runOnUiThread(() -> {
                     try {
                         Toast.makeText(getApplicationContext(), "Fail to connect server", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
+                        //progressBar.setVisibility(View.GONE);
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -131,10 +148,13 @@ public class ResultActivity extends AppCompatActivity {
                 appCompatActivity.runOnUiThread(() -> {
                     try {
                         assert response.body() != null;
-                        Toast.makeText(getApplicationContext(), "Result = " + response.body().string(), Toast.LENGTH_LONG).show();
+                        String res = response.body().string().trim();
+                        //Toast.makeText(getApplicationContext(), "Result = " + res, Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "onResponse: " + res.trim());
                         progressBar.setVisibility(View.GONE);
                         Log.d(TAG, "onResponse: PATH : " + img_address);
-                        setData();
+                        //setData();
+                        initData(res);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -143,7 +163,31 @@ public class ResultActivity extends AppCompatActivity {
         });
     }
 
+    public void initData(String response) {
+        //Log.d(TAG, "initData: Response JSON : "+response.toString());
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+
+            name = jsonObject.getString("character_thai").replace("[", "").replace("]", "").replace("\"", "");
+            desc = jsonObject.getString("desc").replace("[", "").replace("]", "").replace("\"", "");
+            score = jsonObject.getString("score").replace("[", "").replace("]", "");
+
+            Log.d(TAG, "initData: Character : " + name + " Score : " + score + " %");
+            Log.d(TAG, "initData: Description : " + desc);
+
+            setData();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setData() {
+        //Text
+        String string_builder = name + " " + score + " %";
+        mTItle.setText(string_builder);
+        mDescription.setText(desc);
+        //Image
         Log.d(TAG, "setPreviewImage: Image Path : " + img_real_path);
         Bitmap bMap = BitmapFactory.decodeFile(img_real_path);
         Log.d(TAG, "setData: Orientation : " + getOrientation(img_address));

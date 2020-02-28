@@ -81,9 +81,11 @@ public class NewFragment extends Fragment {
     }
 
     private void setData() {
+
+        String URL_Builder = "http://192.168.1.43:5000/static/images/news/" + new_img;
         Glide.with(context)
                 .asBitmap()
-                .load(new_img)
+                .load(URL_Builder)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -98,7 +100,7 @@ public class NewFragment extends Fragment {
                     }
                 })
                 .into(news_img);
-        news_title.setText(new_title);
-        news_detail.setText(news_des);
+        news_title.setText(new_title.replace("&nbsp;", "").replace("<br>", ""));
+        news_detail.setText(news_des.replace("&nbsp;", "").replace("<br>", ""));
     }
 }

@@ -48,12 +48,13 @@ public class Full_NewViewAdapter extends RecyclerView.Adapter<Full_NewViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.new_title.setText(mName.get(position).trim());
+        holder.new_title.setText(mName.get(position).trim().replace("&nbsp;", "").replace("<br>", ""));
         holder.new_title.setSelected(true);
 
+        String URL_Builder = "http://192.168.1.43:5000/static/images/news/" + mImageURL.get(position);
         Glide.with(mcontext)
                 .asBitmap()
-                .load(mImageURL.get(position))
+                .load(URL_Builder)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {

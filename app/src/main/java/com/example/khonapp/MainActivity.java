@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private static final int GALLERY_REQUEST_CODE = 1002;
     private static final int Limit = 4;
-    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
     //private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.1.43:5000/androidNews";
 
     //private DrawerLayout drawer;
     private Toast backToast;
@@ -242,12 +243,15 @@ public class MainActivity extends AppCompatActivity {//implements NavigationView
                             JSONObject obj = response.getJSONObject(i);
                             String title = obj.getString("title");
                             String description = obj.getString("description");
-                            String image_url = obj.getString("img_url");
-                            Log.d(TAG, "onResponse: Title : " + title + " Image url : " + image_url);
+                            String image_url = obj.getString("img_name");
+
+                            String[] split = image_url.split(",");
+                            String real_img_url = split[0];
+                            //Log.d(TAG, "onResponse: Title : " + title + " Image url : " + image_url);
 
                             mName.add(title);
                             mDescription.add(description);
-                            mImageURL.add(image_url);
+                            mImageURL.add(real_img_url);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

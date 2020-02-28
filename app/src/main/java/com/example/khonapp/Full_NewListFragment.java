@@ -27,8 +27,9 @@ import java.util.Objects;
 
 public class Full_NewListFragment extends Fragment {
     private static final String TAG = "FN";
-    private static final String URL = "http://192.168.64.2/3D/news.php";
+    //private static final String URL = "http://192.168.64.2/3D/news.php";
     //private static final String URL = "https://utg-fansub.me/3D/news.php";
+    private static final String URL = "http://192.168.1.43:5000/androidNews";
 
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mImageURL = new ArrayList<>();
@@ -94,12 +95,15 @@ public class Full_NewListFragment extends Fragment {
                             JSONObject obj = response.getJSONObject(i);
                             String title = obj.getString("title");
                             String description = obj.getString("description");
-                            String image_url = obj.getString("img_url");
+                            String image_url = obj.getString("img_name");
                             //Log.d(TAG, "onResponse: Title : " + title + " Image url : " + image_url);
+
+                            String[] split = image_url.split(",");
+                            String real_img_url = split[0];
 
                             mName.add(title);
                             mDescription.add(description);
-                            mImageURL.add(image_url);
+                            mImageURL.add(real_img_url);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

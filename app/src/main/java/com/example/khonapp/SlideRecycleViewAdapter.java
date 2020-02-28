@@ -79,9 +79,10 @@ public class SlideRecycleViewAdapter extends RecyclerView.Adapter<SlideRecycleVi
                     .load(R.drawable.ic_play_circle_outline_black_24dp)
                     .into(holder.img);
         } else {
+            String URL_Builder = "http://192.168.1.43:5000/static/images/news/" + mImageURL.get(position);
             Glide.with(mcontext)
                     .asBitmap()
-                    .load(mImageURL.get(position))
+                    .load(URL_Builder)
                     .listener(new RequestListener<Bitmap>() {
                         @Override
                         public boolean onLoadFailed(GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
