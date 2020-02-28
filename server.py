@@ -14,7 +14,7 @@ import psycopg2
 
 app = Flask(__name__,static_url_path=('/static'))
 app.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLAlCHEMY_DATABASE_URI'] = 'postgres://jlbzqjdoaixcjn:550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba28451006ec@ec2-54-197-34-207.compute-1.amazonaws.com:5432/d2ce06aa7se8s1'
+app.config['SQLAlCHEMY_DATABASE_URI'] = 'postgres://dnwkfysviulwfr:b7ff4cba4311b443b6d03aac812cd48b15f480be87c56ecd3d84edb8004e21e0@ec2-50-17-178-87.compute-1.amazonaws.com:5432/dcqru8jc0u03g0'
 app.config['SECRET_KEY'] = '550ecbc824bc536e282ef94ed45d3a61e1a8ac0f1ae6b99b8822ba284515140'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_ECHO']=True
