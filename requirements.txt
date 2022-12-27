@@ -1,6 +1,6 @@
 psycopg2==2.8.4
 wheel==0.26
-setuptools==41.0.0
+setuptools==65.5.1
 Jinja2==2.10.1
 opencv-python==4.2.0.32
 matplotlib==3.1.1
